@@ -10,17 +10,10 @@ export default {
     movie = movie.join("+")
     return axios.get(BASEURL + movie + APIKEY);
   },
-  getArticles: function() {
-    return axios.get("/api/saved");
+  postResults: function(data) {
+    return axios.put("api/results/", data);
   },
-  saveArticle: function(data){
-    return axios.post("api/saved/", data)
-  },
-  deleteArticle: function(id){
-    return axios.delete("api/saved/" + id)
+  findUser: function(id) {
+    return axios.get("api/user/" + id);
   }
 };
-
-// date examples:
-//  'begin_date': "20000112",
-  // 'end_date': "20100112"
