@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 import {Questions, QuestionsBtn, Stars} from "../../components/Questions"
 import API from "../../utils/API";
+import { push } from 'react-router-redux';
 
 
 
@@ -41,7 +42,7 @@ class Survey extends Component {
     console.log(surveyArr);
     API.postResults({
       survey: surveyArr
-    }).then( () => console.log("posted"))
+    }).then( () => this.props.history.push(`/home`))
     
   }
 
