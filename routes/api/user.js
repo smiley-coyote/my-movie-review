@@ -6,5 +6,8 @@ router.route("/results/")
 
 router.route("/user/:id").get(usersController.findUser);
 
+router.route("/user/")
+.get(usersController.findAll);
+
 
 module.exports = router;
