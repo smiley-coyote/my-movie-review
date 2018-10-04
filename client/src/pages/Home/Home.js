@@ -27,21 +27,38 @@ class Home extends Component {
 
   runScore = () => {
     const userSurvey = this.state.currentuser.survey;
+    let percentageResult = 0;
     for (let i = 0; i < userScores.length; i++ ){
       let score = 0;
       let thisUser = userScores[i]
       for(let x = 0; x < thisUser.survey.length; x++) {
+        const length = thisUser.survey.length
         if(userSurvey[x] > 2 && thisUser.survey[x] > 2) {
           score += 1
+          percentageResult = (score / length) * 100
+          percentageResult = Math.round(percentageResult)
           userScores[i].score = score
+          
+          userScores[i].percentage = percentageResult
+          
         }
         else if(userSurvey[x] < 3 && thisUser.survey[x] < 3) {
           score += 1
+          percentageResult = (score / length) * 100
+          percentageResult = Math.round(percentageResult)
           userScores[i].score = score
+          
+          userScores[i].percentage = percentageResult
+          
         }
         else {
-          score -= 1
+          score += 0
+          percentageResult = (score / length) * 100
+          percentageResult = Math.round(percentageResult)
           userScores[i].score = score
+          
+          userScores[i].percentage = percentageResult
+          
         }
       }
       
@@ -54,7 +71,7 @@ class Home extends Component {
     for(let i = 0; i<allusers.length; i++){
       
       if(allusers[i].userId !== 1){
-        userScores.push({user: allusers[i].username, survey: allusers[i].survey, score: 0})
+        userScores.push({user: allusers[i].username, survey: allusers[i].survey, score: 0, percentage: 0})
       }
       
     }
@@ -102,7 +119,7 @@ class Home extends Component {
       {this.state.topusers.map(res => 
         <ul key={res.username}>
         <li>{res.user}</li>
-        <li>{res.score}</li>
+        <li>{res.percentage}% match</li>
         </ul>
         
         )}
