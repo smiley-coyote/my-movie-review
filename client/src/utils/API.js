@@ -26,6 +26,6 @@ export default {
     let movie = query.trim();
     movie = movie.split(" ");
     movie = movie.join("+");
-    return axios.get(BASEURL + "?s=" + movie + "&y" + APIKEY)
+    return axios.get(BASEURL + "?s=" + movie + "&y&type=movie" + APIKEY)
   }
 };
