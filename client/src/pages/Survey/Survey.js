@@ -8,12 +8,11 @@ import { push } from 'react-router-redux';
 
 class Survey extends Component {
   state = {
-    question: "The Terminator",
+    question: "",
     number: -1,
     selectValue: "1",
-    image: "https://m.media-amazon.com/images/M/MV5BODE1MDczNTUxOV5BMl5BanBnXkFtZTcwMTA0NDQyNA@@._V1_SX300.jpg",
-    answers: [],
-    class: "fa-star"
+    image: "",
+    answers: []
   };
   handleInputChange = event => {
     // const { name, value } = event.target;
@@ -23,10 +22,10 @@ class Survey extends Component {
   };
 
   nextQuestion = () => {
-    const movies = ["Pulp Fiction", "Fifty Shades of Grey", "The Exorcist",
-  "2001: A Space Odyssey", "Grown Ups", "Jurassic World", "La La Land", "The Dark Knight",
-"Cabin In The Woods", "Twilight", "Transformers", "Avatar", "Gravity", "The Tree of Life",
-"Kick-Ass"];
+    const movies = ["Pulp Fiction", "Fifty Shades of Grey", "Lost In Translation",
+  "2001: A Space Odyssey", "The Witch", "Jurassic World", "La La Land", "Mad Max: Fury Road",
+"Cabin In The Woods", "Twilight", "Transformers", "Interstellar", "Gravity", "The Tree of Life",
+"Monty Python and the Holy Grail"];
     let x = this.state.number;
     API.search(movies[x]).then( res => {
       let poster = res.data.Poster
@@ -63,6 +62,20 @@ class Survey extends Component {
   }
   }
 
+  firstQuestion = () => {
+    API.search("Avatar").then( res => {
+      let poster = res.data.Poster
+      this.setState({
+        question: "Avatar",
+        image: poster
+      })
+    })
+  }
+
+  componentDidMount() {
+    this.firstQuestion();
+  }
+
   
   render() {
     
@@ -72,7 +85,8 @@ class Survey extends Component {
     <div>
        <Questions>
          <img src={this.state.image} alt={this.state.question} />
-      {this.state.question}
+         <br />
+      <h1>{this.state.question}</h1>
        </Questions>
        <select
        className="form-control"

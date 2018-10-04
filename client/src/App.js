@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Survey from "./pages/Survey";
+import Search from "./pages/Search"
 import Navbar from "./components/Navbar";
 import Wrapper from "./components/Wrapper"
 
@@ -15,6 +16,7 @@ const App = () => (
         <Route exact path="/" component={Login} />
         <Route exact path="/home" component={Home} />
         <Route exact path="/survey" component={Survey} />
+        <Route exact path="/search" component={Search} />
       </Switch>
       </Wrapper>
   </Router>

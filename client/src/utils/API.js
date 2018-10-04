@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const BASEURL = "http://www.omdbapi.com/?t=";
-const APIKEY = "&y=&plot=short&apikey=65d98e81";
+const BASEURL = "http://www.omdbapi.com/";
+const APIKEY = "&apikey=65d98e81";
 
 export default {
   // OMDB API call
@@ -9,7 +9,7 @@ export default {
     let movie = query;
     movie = movie.split(" ");
     movie = movie.join("+")
-    return axios.get(BASEURL + movie + APIKEY);
+    return axios.get(BASEURL + "?t=" + movie + "&y=&plot=short" + APIKEY);
   },
   // post initial survey results
   postResults: function(data) {
@@ -21,5 +21,11 @@ export default {
   },
   findAll: function(){
     return axios.get("api/user/")
+  },
+  movieSearch: function(query){
+    let movie = query.trim();
+    movie = movie.split(" ");
+    movie = movie.join("+");
+    return axios.get(BASEURL + "?s=" + movie + "&y" + APIKEY)
   }
 };

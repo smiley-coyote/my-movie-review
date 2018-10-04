@@ -117,7 +117,7 @@ class Home extends Component {
       </div>
       <h2>Top Users</h2>
       {this.state.topusers.map(res => 
-        <ul key={res.username}>
+        <ul key={res._id}>
         <li>{res.user}</li>
         <li>{res.percentage}% match</li>
         </ul>
