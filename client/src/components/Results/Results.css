@@ -6,3 +6,8 @@
   margin-top: 50px;
   margin-bottom: 50px;
 }
+
+.search-results {
+  float: left;
+  margin: 20px;
+}
