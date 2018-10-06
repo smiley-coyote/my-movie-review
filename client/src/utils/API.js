@@ -11,6 +11,10 @@ export default {
     movie = movie.join("+")
     return axios.get(BASEURL + "?t=" + movie + "&y=&plot=short" + APIKEY);
   },
+  byId: function(query) {
+    let movie = query;
+    return axios.get(BASEURL + "?i=" + movie + "&y=&plot=short" + APIKEY);
+  },
   // post initial survey results
   postResults: function(data) {
     return axios.put("api/results/", data);

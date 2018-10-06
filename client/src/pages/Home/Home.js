@@ -10,13 +10,15 @@ class Home extends Component {
     currentuser: {},
     allusers: [],
     topusers: [],
-    topmovies: []
+    topmovies: [],
+    currentRatings: []
   };
 
   runScoreResults = () => {
     userScores.sort(function(a, b){
       return b.score-a.score
   })
+  console.log(userScores);
   this.setState({
     topusers: userScores
   })
@@ -87,6 +89,26 @@ class Home extends Component {
     .then(() => this.runResults())
   }
 
+  loadRatings = () => {
+    API.findRating(1).then(res => {
+      const myratings = []
+      for(let i=0; i<res.data.length; i++){
+        API.byId(res.data[i].movie).then(res => myratings.push({
+          title: res.data.Title,
+          year: res.data.Year,
+          poster: res.data.Poster,
+          id: res.data.imdbID
+        })).then( () => {
+          this.setState({
+            currentRatings: myratings
+          })
+        })
+        
+        console.log(this.state.currentRatings)
+      }
+     
+    })
+  }
 
   loadUser = () => {
     API.findUser(1).then(res => this.setState({currentuser: res.data}))
@@ -97,6 +119,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.loadUser();
+    this.loadRatings();
   }
 
 
@@ -115,6 +138,7 @@ class Home extends Component {
         
         )}
       </div>
+      <div className="container">
       <h2>Top Users</h2>
       {this.state.topusers.map(res => 
         <ul key={res._id}>
@@ -123,6 +147,19 @@ class Home extends Component {
         </ul>
         
         )}
+        </div>
+
+        <div className="container">
+        <h2>Your Current Ratings:</h2>
+        {this.state.currentRatings.map(res => 
+          <ul key={res.id}> 
+          <li>{res.title}</li>
+          <li>{res.year}</li>
+          <li>{res.poster}</li>
+          </ul>
+          
+          )}
+        </div>
       </div>
     )
 

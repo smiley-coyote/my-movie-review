@@ -36,7 +36,7 @@ module.exports = {
   findRating: function(req, res) {
     db.Ratings
     .find({ userId: req.params.id})
-    .sort({ date: -1 })
+    // .sort({ date: -1 })
     .then(dbModel => res.json(dbModel))
     .catch(err => res.status(422).json(err));
   }
