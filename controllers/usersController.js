@@ -26,6 +26,20 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  postRating: function(req, res) {
+    db.Ratings
+    .create(req.body)
+    .then(dbModel => res.json(dbModel))
+    .catch(err => res.status(422)
+    .json(err));
+  },
+  findRating: function(req, res) {
+    db.Ratings
+    .find({ userId: req.params.id})
+    .sort({ date: -1 })
+    .then(dbModel => res.json(dbModel))
+    .catch(err => res.status(422).json(err));
+  }
 };
 
 

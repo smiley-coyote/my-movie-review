@@ -27,5 +27,11 @@ export default {
     movie = movie.split(" ");
     movie = movie.join("+");
     return axios.get(BASEURL + "?s=" + movie + "&y&type=movie" + APIKEY)
+  },
+  submitRating: function(data){
+    return axios.post("api/rating", data)
+  },
+  findRating: function(id){
+    return axios.get("api/rating/" + id)
   }
 };

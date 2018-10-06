@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import {Questions, QuestionsBtn, Stars} from "../../components/Questions"
 import API from "../../utils/API";
 import { push } from 'react-router-redux';

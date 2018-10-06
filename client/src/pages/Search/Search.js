@@ -1,7 +1,7 @@
-import React, { Component, PropTypes } from "react";
-import { Questions, QuestionsBtn, Stars } from "../../components/Questions"
+import React, { Component } from "react";
+// import { Questions, QuestionsBtn, Stars } from "../../components/Questions"
 import API from "../../utils/API";
-import { push } from 'react-router-redux';
+// import { push } from 'react-router-redux';
 import SearchForm from "../../components/SearchForm"
 import Wrapper from "../../components/Wrapper"
 import Results from "../../components/Results"
@@ -17,18 +17,36 @@ class Search extends Component {
     results: [],
     rating: 0,
     title: 0,
+    ratings: []
   };
+
+  getRatings = () => {
+    API.findRating(1).then( res =>{
+      console.log(res.data);
+      this.setState({
+        ratings: res.data
+      })
+    })
+  }
 
   handleRatingInputChange = event => {
     event.preventDefault();
     const thisid = event.currentTarget.name
     const value = event.target.htmlFor
-    console.log(thisid)
-    console.log(value);
+    const user = 1
+
+    API.submitRating({
+      movie: thisid,
+      rating: value,
+      userId: user
+    })
 
     this.setState({
-      title: thisid
+      title: thisid,
+      rating: value
     })
+
+    this.getRatings();
 
   };
 
@@ -38,7 +56,7 @@ class Search extends Component {
     this.setState({
       [name]: value
     });
-    console.log(this.state.movieSearch);
+
   };
 
   handleFormClear = event => {
@@ -50,7 +68,7 @@ class Search extends Component {
     event.preventDefault();
     API.movieSearch(this.state.movieSearch)
       .then(res => {
-        console.log(res.data.Search);
+        
         this.setState({ results: res.data.Search })
       })
   };
@@ -59,7 +77,7 @@ class Search extends Component {
   render() {
     return (
       <Wrapper>
-        <p>{this.state.title}</p>
+       
         <SearchForm
           value={this.state.movieSearch}
           handleInputChange={this.handleInputChange}
@@ -75,7 +93,6 @@ class Search extends Component {
               <br />
               <h2>{result.Title}</h2>
               <p>{result.Year}</p>
-              <p>{result.imdbID}</p>
               <fieldset className="rating" name={result.imdbID} onClick={this.handleRatingInputChange}>
                 <h3>Please rate:</h3>
                 <input type="radio" id="star4" name="rating" value="4" /><label htmlFor="4"></label>
