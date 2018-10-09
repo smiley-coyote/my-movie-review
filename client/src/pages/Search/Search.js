@@ -33,20 +33,20 @@ class Search extends Component {
     event.preventDefault();
     const thisid = event.currentTarget.name
     const value = event.target.htmlFor
-    const user = 1
+    const user = 10
 
     API.submitRating({
       movie: thisid,
       rating: value,
       userId: user
-    })
+    }).then(res => console.log(res.data))
 
     this.setState({
       title: thisid,
       rating: value
     })
 
-    this.getRatings();
+    // this.getRatings();
 
   };
 

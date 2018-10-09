@@ -60,6 +60,205 @@ const userSeed = [
   },
 ];
 
+const ratingSeed = [
+  {
+    movie: "tt1270797",
+    rating: 1,
+    userId: 2,
+  },
+  {
+    movie: "tt1270797",
+    rating: 3,
+    userId: 3,
+  },
+  {
+    movie: "tt1270797",
+    rating: 4,
+    userId: 4,
+  },
+  {
+    movie: "tt1270797",
+    rating: 1,
+    userId: 5,
+  },
+  {
+    movie: "tt1270797",
+    rating: 3,
+    userId: 6,
+  },
+  {
+    movie: "tt1270797",
+    rating: 2,
+    userId: 7,
+  },
+  {
+    movie: "tt1270797",
+    rating: 2,
+    userId: 8,
+  },
+  {
+    movie: "tt1270797",
+    rating: 3,
+    userId: 9,
+  },
+  {
+    movie: "tt1270797",
+    rating: 1,
+    userId: 10,
+  },
+  {
+    movie: "tt6781982",
+    rating: 1,
+    userId: 1,
+  },
+  {
+    movie: "tt6781982",
+    rating: 1,
+    userId: 2,
+  },
+  {
+    movie: "tt6781982",
+    rating: 3,
+    userId: 3,
+  },
+  {
+    movie: "tt6781982",
+    rating: 2,
+    userId: 4,
+  },
+  {
+    movie: "tt6781982",
+    rating: 2,
+    userId: 5,
+  },
+  {
+    movie: "tt6781982",
+    rating: 3,
+    userId: 6,
+  },
+  {
+    movie: "tt6781982",
+    rating: 1,
+    userId: 7,
+  },
+  {
+    movie: "tt6781982",
+    rating: 1,
+    userId: 8,
+  },
+  {
+    movie: "tt6781982",
+    rating: 2,
+    userId: 9,
+  },
+  {
+    movie: "tt6781982",
+    rating: 3,
+    userId: 10,
+  },
+  {
+    movie: "tt6182908",
+    rating: 3,
+    userId: 1,
+  },
+  {
+    movie: "tt6182908",
+    rating: 2,
+    userId: 2,
+  },
+  {
+    movie: "tt6182908",
+    rating: 3,
+    userId: 3,
+  },
+  {
+    movie: "tt6182908",
+    rating: 1,
+    userId: 4,
+  },
+  {
+    movie: "tt6182908",
+    rating: 3,
+    userId: 5,
+  },
+  {
+    movie: "tt6182908",
+    rating: 2,
+    userId: 6,
+  },
+  {
+    movie: "tt6182908",
+    rating: 2,
+    userId: 7,
+  },
+  {
+    movie: "tt6182908",
+    rating: 3,
+    userId: 8,
+  },
+  {
+    movie: "tt6182908",
+    rating: 1,
+    userId: 9,
+  },
+  {
+    movie: "tt6182908",
+    rating: 1,
+    userId: 10,
+  },
+  {
+    movie: "tt3104988",
+    rating: 13,
+    userId: 1,
+  },
+  {
+    movie: "tt3104988",
+    rating: 3,
+    userId: 2,
+  },
+  {
+    movie: "tt3104988",
+    rating: 2,
+    userId: 3,
+  },
+  {
+    movie: "tt3104988",
+    rating: 1,
+    userId: 4,
+  },
+  {
+    movie: "tt3104988",
+    rating: 2,
+    userId: 5,
+  },
+  {
+    movie: "tt3104988",
+    rating: 3,
+    userId: 6,
+  },
+  {
+    movie: "tt3104988",
+    rating: 4,
+    userId: 7,
+  },
+  {
+    movie: "tt3104988",
+    rating: 3,
+    userId: 8,
+  },
+  {
+    movie: "tt3104988",
+    rating: 2,
+    userId: 9,
+  },
+  {
+    movie: "tt3104988",
+    rating: 2,
+    userId: 10,
+  },
+  
+]
+
 db.User
   .remove({})
   .then(() => db.User.collection.insertMany(userSeed))
@@ -71,3 +270,15 @@ db.User
     console.error(err);
     process.exit(1);
   });
+
+  // db.Ratings
+  // .remove({})
+  // .then(() => db.Ratings.collection.insertMany(ratingSeed))
+  // .then(data => {
+  //   console.log(data.result.n + " records inserted!");
+  //   process.exit(0);
+  // })
+  // .catch(err => {
+  //   console.error(err);
+  //   process.exit(1);
+  // });

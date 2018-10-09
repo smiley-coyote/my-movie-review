@@ -5,7 +5,19 @@ const userSchema = new Schema({
   username: { type: String, required: true },
   userId: { type: Number, required: true },
   friends: { type: Array, required: false},
-  survey: { type: Array, of: Number}
+  survey: { type: Array, of: Number},
+  ratings: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Ratings"
+    }
+  ],
+  critics: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Critics"
+    }
+  ]
 });
 
 const User = mongoose.model("Users", userSchema);
