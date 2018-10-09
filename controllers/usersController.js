@@ -70,6 +70,13 @@ module.exports = {
       }).then(dbModel => res.json(dbModel))
       .catch(err => res.status(422)
         .json(err));
+  },
+  postReview: function(req, res){
+    db.Rating
+    .findOneAndUpdate({ userId: req.body.userId, movie: req.body.movie }, { "review" : req.body.review } )
+    .then(dbModel => res.json(dbModel))
+    .catch(err => res.status(422).json(err));
+
   }
 };
 

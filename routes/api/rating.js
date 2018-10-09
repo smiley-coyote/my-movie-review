@@ -3,6 +3,8 @@ const usersController = require("../../controllers/usersController");
 
 router.route("/").post(usersController.postRating);
 
+router.route("/").put(usersController.postReview);
+
 router.route("/").get(usersController.getRatings);
 
 router.route("/:id").get(usersController.findRating);

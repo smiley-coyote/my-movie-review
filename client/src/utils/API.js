@@ -45,5 +45,8 @@ export default {
   },
   addCritic: function(data){
     return axios.post("api/critic", data);
+  },
+  submitReview: function(data){
+    return axios.put("api/rating", data)
   }
 };

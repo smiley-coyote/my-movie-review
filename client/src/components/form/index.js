@@ -1,3 +1,3 @@
 export * from "./Registration";
-export * from "./RegisterBtn";
+export * from "./FormBtn";
 export * from "./LoginBtn";
