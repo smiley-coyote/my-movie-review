@@ -6,19 +6,23 @@ import Login from "./pages/Login";
 import Survey from "./pages/Survey";
 import Search from "./pages/Search"
 import Navbar from "./components/Navbar";
-import Wrapper from "./components/Wrapper"
+import Wrapper from "./components/Wrapper";
+import { Jumbotron, Button } from 'react-bootstrap';
 
 const App = () => (
   <Router>
+    <div>
+     <Navbar />
     <Wrapper>
-      <Navbar />
+     
       <Switch>
         <Route exact path="/" component={Login} />
         <Route exact path="/home" component={Home} />
         <Route exact path="/survey" component={Survey} />
         <Route exact path="/search" component={Search} />
       </Switch>
-      </Wrapper>
+    </Wrapper>
+    </div>
   </Router>
 );
 

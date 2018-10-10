@@ -1,0 +1,8 @@
+.sidebar {
+  background-color: rgb(206, 182, 252);
+  border: 1px solid black;
+  height: 300px;
+  width: auto;
+  border-radius: 3px;
+  margin-top: 0px;
+}

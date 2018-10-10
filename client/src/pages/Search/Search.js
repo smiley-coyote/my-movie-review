@@ -30,7 +30,10 @@ class Search extends Component {
       id: "",
       title: "",
       poster: "",
-      writeup: ""
+      writeup: "",
+      currentuser: {},
+      userratings: [],
+      usercritics: [],
     };
   }
   getRatings = () => {
@@ -82,16 +85,24 @@ class Search extends Component {
     event.preventDefault();
     API.movieSearch(this.state.movieSearch)
       .then(res => {
-
-        this.setState({ results: res.data.Search })
+let searchResults = res.data.Search;
+let yourRatings = this.state.userratings;
+console.log(searchResults);
+console.log(yourRatings)
+for(let i = 0; i<searchResults.length; i++){
+  for(let x = 0; x<yourRatings.length; x++){
+    if(searchResults[i].imdbID === yourRatings[x].movie){
+      searchResults[i].yourRating = yourRatings[x].rating
+    }
+  }
+}
+        this.setState({ results: searchResults })
       })
   };
 
   handleReviewSubmit = event => {
     event.preventDefault();
-    console.log(this.state.writeup)
-    console.log(this.state.id);
-    console.log(this.state.title);
+
     const userId = 1
     API.submitReview({
       userId: userId,
@@ -99,6 +110,24 @@ class Search extends Component {
       movie: this.state.id
     }).then( res => this.setState({ show: false }))
     
+  }
+
+  loadUser = () => {
+    API.findUser(1).then(res => {
+      
+      const userRatings = res.data.ratings;
+      const userCritics = res.data.critics;
+  
+      this.setState({ currentuser: res.data, userratings: userRatings, usercritics: userCritics })
+    })
+     
+  }
+
+  componentDidMount() {
+    this.loadUser();
+   
+
+
   }
 
   handleClose() {
@@ -131,6 +160,7 @@ class Search extends Component {
               <br />
               <h2>{result.Title}</h2>
               <p>{result.Year}</p>
+              <p>Your Rating: {result.yourRating}</p>
               <fieldset className="rating" name={result.imdbID} onClick={this.handleRatingInputChange}>
                 <h3>Please rate:</h3>
                 <input type="radio" id="star4" name="rating" value="4" /><label htmlFor="4"></label>

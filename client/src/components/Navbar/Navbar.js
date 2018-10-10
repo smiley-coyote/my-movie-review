@@ -3,27 +3,8 @@ import { Link } from "react-router-dom";
 import "./Navbar.css"
 
 const Navbar = props => (
-  <ul className="nav nav-tabs bg-primary">
-  <li className="nav-item">
-    <Link
-      to="/"
-      className={
-        window.location.pathname === "/" ? "nav-link active" : "nav-link"
-      }
-    >
-      LogIn
-    </Link>
-  </li>
-  <li className="nav-item">
-    <Link
-      to="/survey"
-      className={
-        window.location.pathname === "/survey" ? "nav-link active" : "nav-link"
-      }
-    >
-      Survey
-    </Link>
-  </li>
+  <nav className="navbar nav nav-tabs bg-primary">
+  <a className="navbar-brand" href="/home">MMRD</a>
   <li className="nav-item">
     <Link
       to="/home"
@@ -34,17 +15,28 @@ const Navbar = props => (
       Home
     </Link>
   </li>
+  
+  
   <li className="nav-item">
     <Link
-      to="/search"
+      to="/home"
       className={
-        window.location.pathname === "/search" ? "nav-link active" : "nav-link"
+        window.location.pathname === "/home" ? "nav-link active" : "nav-link"
       }
     >
-      Search
+      Profile
     </Link>
   </li>
-</ul>
+  <form className="form-inline">
+    <input className="form-control mr-sm-2" type="search" placeholder="Search Movie" aria-label="Search" />
+    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+  </nav>
 );
 
 export default Navbar;
+
+
+
+
+

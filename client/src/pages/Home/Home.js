@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 // import { Questions, QuestionsBtn, Stars } from "../../components/Questions"
 import API from "../../utils/API";
+import { Col, Row, Container } from "../../components/Grid";
+import Sidebar from "../../components/Sidebar"
+import Mainbody from "../../components/Mainbody"
 
 let userRatings = [];
 let allRatings = [];
@@ -259,76 +262,96 @@ class Home extends Component {
     )
   }
 
-
-
-  render() {
-    const thisButton = this.state.button;
-    if (!thisButton) {
-      return (
-        <div className="container">
-          <h1>Welcome {this.state.currentuser.username}</h1>
-          <button onClick={() => this.buttonClick()}>View Critics</button>
-          <div>
-            <h2>Top Matches</h2>
-            <div className="container">
-              {this.state.topusers.map(res =>
-                <fieldset onClick={this.addCritic} key={res._id} name={res.user} id={res.userId}>
-                  <ul>
-                    <li>{res.user}</li>
-                    <li>{res.percentage}% match</li>
-                    <button>Add New Critic</button>
-                  </ul>
-                </fieldset>
-
-              )}
-            </div>
-            <div className="container">
-              <h2>Top Movies</h2>
-              <ol>
-                {this.state.topmovies.map(res =>
-
-                  <li key={res.id}>{res.percentage}% {res.title}</li>
-
-                )}
-              </ol>
-            </div>
-            <div className="container">
-            <h2>All Users:</h2>
-            {this.state.allusers.map(res =>
-              <ul key={res.userId}>
-                <li>{res.username}</li>
-                <li>{res.survey}</li>
-              </ul>
-
-            )}
-          </div>
-
-          </div>
-        </div>
-      )
-    } else {
-      return (
-        <div className="container">
-          <h1>Welcome {this.state.currentuser.username}</h1>
-          <button onClick={() => this.buttonClick()}>View Top Matches</button>
-          <div className="container">
-            <h2>Critics:</h2>
-            {this.state.currentuser.critics.map(res =>
-              <ul key={res.criticId}>
-                <li>{res.username}</li>
-              </ul>
-
-            )}
-          </div>
-
-
-
-
-        </div>
-      )
-
-    }
+  render(){
+    return(
+    <Container>
+      <Row>
+        <Col size="md-3">
+          <Sidebar />
+        </Col>
+        <Col size="md-6">
+          <Mainbody />
+        </Col>
+        <Col size="md-3">
+          <Sidebar />
+        </Col>
+      </Row>
+    </Container>
+    )
   }
+
+
+  
 };
 
 export default Home;
+
+
+// render() {
+//   const thisButton = this.state.button;
+//   if (!thisButton) {
+//     return (
+//       <div className="container">
+//         <h1>Welcome {this.state.currentuser.username}</h1>
+//         <button onClick={() => this.buttonClick()}>View Critics</button>
+//         <div>
+//           <h2>Top Matches</h2>
+//           <div className="container">
+//             {this.state.topusers.map(res =>
+//               <fieldset onClick={this.addCritic} key={res._id} name={res.user} id={res.userId}>
+//                 <ul>
+//                   <li>{res.user}</li>
+//                   <li>{res.percentage}% match</li>
+//                   <button>Add New Critic</button>
+//                 </ul>
+//               </fieldset>
+
+//             )}
+//           </div>
+//           <div className="container">
+//             <h2>Top Movies</h2>
+//             <ol>
+//               {this.state.topmovies.map(res =>
+
+//                 <li key={res.id}>{res.percentage}% {res.title}</li>
+
+//               )}
+//             </ol>
+//           </div>
+//           <div className="container">
+//           <h2>All Users:</h2>
+//           {this.state.allusers.map(res =>
+//             <ul key={res.userId}>
+//               <li>{res.username}</li>
+//               <li>{res.survey}</li>
+//             </ul>
+
+//           )}
+//         </div>
+
+//         </div>
+//       </div>
+//     )
+//   } else {
+//     return (
+//       <div className="container">
+//         <h1>Welcome {this.state.currentuser.username}</h1>
+//         <button onClick={() => this.buttonClick()}>View Top Matches</button>
+//         <div className="container">
+//           <h2>Critics:</h2>
+//           {this.state.currentuser.critics.map(res =>
+//             <ul key={res.criticId}>
+//               <li>{res.username}</li>
+//             </ul>
+
+//           )}
+//         </div>
+
+
+
+
+//       </div>
+//     )
+
+//   }
+// }
