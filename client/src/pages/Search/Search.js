@@ -22,6 +22,7 @@ class Search extends Component {
 
     this.state = {
       movieSearch: "",
+      navsearch: "",
       results: [],
       rating: 0,
       title: 0,

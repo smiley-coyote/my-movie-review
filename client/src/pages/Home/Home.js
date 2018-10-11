@@ -2,8 +2,11 @@ import React, { Component } from "react";
 // import { Questions, QuestionsBtn, Stars } from "../../components/Questions"
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
-import Sidebar from "../../components/Sidebar"
-import Mainbody from "../../components/Mainbody"
+import Sidebar from "../../components/Sidebar";
+import Mainbody from "../../components/Mainbody";
+import TopMatches from "../../components/TopMatches";
+import MyCritics from "../../components/MyCritics"
+
 
 let userRatings = [];
 let allRatings = [];
@@ -42,6 +45,8 @@ const topMovies = [
 ];
 
 class Home extends Component {
+
+
   state = {
     currentuser: {},
     allusers: [],
@@ -50,8 +55,11 @@ class Home extends Component {
     currentratings: [],
     allRatings: [],
     topUserRatings: [],
-    button: false
+    button: false,
+    title: "Top Matches",
+    selection: "My Critics"
   };
+
 
   setMovieState = () => {
     this.setState({ topmovies: topMovies })
@@ -262,18 +270,54 @@ class Home extends Component {
     )
   }
 
+  handleSelection = event =>{
+    event.preventDefault();
+    if(this.state.title === "Top Matches"){
+      this.setState({
+        title: "My Critics",
+        selection: "Top Matches"
+      })
+    }
+    if(this.state.title === "My Critics"){
+      this.setState({
+        title: "Top Matches",
+        selection: "My Critics"
+      })
+    }
+  }
   render(){
     return(
     <Container>
       <Row>
         <Col size="md-3">
-          <Sidebar />
+          <Sidebar title={"Top Movies"}>
+           <ol>
+               {this.state.topmovies.map(res =>
+
+                <li key={res.id}>{res.percentage}% {res.title}</li>
+
+              )}
+            </ol>
+          </Sidebar>
         </Col>
         <Col size="md-6">
-          <Mainbody />
+          <Mainbody 
+          selection={this.state.selection} 
+          title={this.state.title}
+          handleSelection={this.handleSelection}
+          >
+          {this.state.title === "Top Matches"
+          ? <TopMatches 
+              topusers={this.state.topusers}
+              addCritic={this.addCritic}
+          />
+          : <MyCritics critics={this.state.currentuser.critics}/>
+        }
+          
+          </Mainbody>
         </Col>
         <Col size="md-3">
-          <Sidebar />
+          <Sidebar title={"Profile"}/>
         </Col>
       </Row>
     </Container>
