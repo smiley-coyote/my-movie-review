@@ -1,8 +1,26 @@
 .sidebar {
-  background-color: rgb(206, 182, 252);
+  background-color: rgb(238, 231, 252);
   border: 1px solid black;
-  height: 300px;
+  height: auto;
   width: auto;
   border-radius: 3px;
   margin-top: 0px;
 }
+
+.sidebar h3 {
+  text-align: center;
+}
+
+.panel-heading {
+  background-color: rgb(172,119,172);
+  color: white;
+}
+
+.panel-body {
+  padding-top: 15px;
+}
+
+.list-items {
+  padding: 0px;
+}
+

@@ -5,8 +5,9 @@ const ratingSchema = new Schema({
 
   movie: { type: String, required: true},
   rating: { type: Number, required: true },
+  date: {type: Date, default: Date.now },
   review: { type: String},
-  userId: {type: Number},
+  userId: {type: Number}
 });
 
 const Rating = mongoose.model("Ratings", ratingSchema);

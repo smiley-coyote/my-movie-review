@@ -10,9 +10,10 @@ const Navbar = props => (
     </div>
     <ul className="nav navbar-nav">
       <li className="dropdown">
-        <a className="dropdown-toggle" data-toggle="dropdown" href="/home">Home
+        <a className="dropdown-toggle" data-toggle="dropdown" href="/home">Menu
         <span className="caret"></span></a>
         <ul className="dropdown-menu">
+        <li><a href="/home">Home</a></li>
           <li><a href="#">Profile</a></li>
           <li><a href="/search">Browse</a></li>
         </ul>
@@ -24,7 +25,7 @@ const Navbar = props => (
     </ul>
     <form className="navbar-form navbar-left" action="/action_page.php">
       <div className="form-group">
-        <input type="text" className="form-control" placeholder="Search" />
+        <input type="text" className="form-control" placeholder="Search Movie" />
       </div>
       <button type="submit" className="btn btn-default">Submit</button>
     </form>

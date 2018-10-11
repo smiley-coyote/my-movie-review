@@ -25,7 +25,7 @@ module.exports = {
     db.User
       .find(req.query)
       .populate("ratings")
-      // .sort({ date: -1 })
+      .sort({ date: -1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -46,14 +46,14 @@ module.exports = {
   findRating: function (req, res) {
     db.Rating
       .find({ userId: req.params.id })
-      // .sort({ date: -1 })
+      .sort({ date: -1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   getRatings: function (req, res) {
     db.Rating
       .find(req.query)
-      // .sort({ date: -1 })
+      .sort({ date: -1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

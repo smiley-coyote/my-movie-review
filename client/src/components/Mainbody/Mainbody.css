@@ -5,3 +5,9 @@
   height: auto;
   margin: 0px;
 }
+
+.panel-heading {
+  background-color: rgb(172,119,172);
+}
+
+

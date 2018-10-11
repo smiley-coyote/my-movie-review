@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./Home.css"
 // import { Questions, QuestionsBtn, Stars } from "../../components/Questions"
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
@@ -6,6 +7,7 @@ import Sidebar from "../../components/Sidebar";
 import Mainbody from "../../components/Mainbody";
 import TopMatches from "../../components/TopMatches";
 import MyCritics from "../../components/MyCritics"
+import Placeholder from "../../images/profile-placeholder.png"
 
 
 let userRatings = [];
@@ -16,31 +18,43 @@ let topUsers = [];
 const topMovies = [
   {
     title: "",
+    id: "tt1213641",
+    viewers: 0,
+    score: 0,
+    percentage: 0,
+    metacritic: 0
+  },
+  {
+    title: "",
     id: "tt3104988",
     viewers: 0,
     score: 0,
-    percentage: 0
+    percentage: 0,
+    metacritic: 0
   },
   {
     title: "",
     id: "tt6182908",
     viewers: 0,
     score: 0,
-    percentage: 0
+    percentage: 0,
+    metacritic: 0
   },
   {
     title: "",
     id: "tt1270797",
     viewers: 0,
     score: 0,
-    percentage: 0
+    percentage: 0,
+    metacritic: 0
   },
   {
     title: "",
     id: "tt6781982",
     viewers: 0,
     score: 0,
-    percentage: 0
+    percentage: 0,
+    metacritic: 0
   }
 ];
 
@@ -68,6 +82,9 @@ class Home extends Component {
   runGetMovieTitles = () => {
     for (let i = 0; i < topMovies.length; i++) {
       API.byId(topMovies[i].id).then(res => {
+        if(topMovies[i].percentage === 0 && res.data.Metascore !== "N/A"){
+          topMovies[i].percentage = "*" + res.data.Metascore
+        }
         const title = res.data.Title;
         const year = res.data.Year;
         const imdbID = res.data.imdbID;
@@ -212,7 +229,7 @@ class Home extends Component {
   loadUser = () => {
     API.findUser(1).then(res => {
       userRatings = res.data.ratings;
-      console.log(userRatings);
+      console.log(res.data);
       this.setState({ currentuser: res.data })
     }
 
@@ -291,13 +308,20 @@ class Home extends Component {
       <Row>
         <Col size="md-3">
           <Sidebar title={"Top Movies"}>
-           <ol>
+           <ol className="top-movies">
                {this.state.topmovies.map(res =>
 
                 <li key={res.id}>{res.percentage}% {res.title}</li>
 
               )}
+             
+             <p className="asterisk">*Metacritic score</p>
+              <a href="/browse">view more</a>
+              
             </ol>
+           
+           
+            
           </Sidebar>
         </Col>
         <Col size="md-6">
@@ -310,6 +334,7 @@ class Home extends Component {
           ? <TopMatches 
               topusers={this.state.topusers}
               addCritic={this.addCritic}
+              placeholder={Placeholder}
           />
           : <MyCritics critics={this.state.currentuser.critics}/>
         }
@@ -317,7 +342,11 @@ class Home extends Component {
           </Mainbody>
         </Col>
         <Col size="md-3">
-          <Sidebar title={"Profile"}/>
+          <Sidebar title={"Profile"}>
+          <img src={Placeholder} />
+          <p>{this.state.currentuser.username}</p>
+            
+          </Sidebar>
         </Col>
       </Row>
     </Container>
