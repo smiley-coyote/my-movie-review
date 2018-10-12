@@ -8,9 +8,9 @@ const Mainbody = props => (
     <Dropdown handleSelection={props.handleSelection} selection={props.selection} title={props.title}/>
   </div>
   <div className="panel-body">
-  <ul className="list-group search-results">
+  <div className="body-contents">
 {props.children}
-</ul>
+</div>
   </div>
 </div>
 

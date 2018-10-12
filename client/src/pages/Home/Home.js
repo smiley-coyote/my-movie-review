@@ -18,7 +18,7 @@ let topUsers = [];
 const topMovies = [
   {
     title: "",
-    id: "tt1213641",
+    id: "tt0047522",
     viewers: 0,
     score: 0,
     percentage: 0,
@@ -85,11 +85,15 @@ class Home extends Component {
         if(topMovies[i].percentage === 0 && res.data.Metascore !== "N/A"){
           topMovies[i].percentage = "*" + res.data.Metascore
         }
+        let movie = res.data.Title;
         const title = res.data.Title;
+        movie = movie.split(" ");
+        movie = movie.join("+")
         const year = res.data.Year;
         const imdbID = res.data.imdbID;
         topMovies[i].title = title;
-        console.log(topMovies);
+        topMovies[i].movie = movie;
+       
 
       }).then(() => this.setMovieState())
 
@@ -100,12 +104,13 @@ class Home extends Component {
 
 
   getTopUserRatings = () => {
+    console.log(this.state.topusers)
     let topUsers = this.state.topusers
     for (let i = 0; i < topUsers.length; i++) {
       if (topUsers[i].ratings !== null) {
         let topUserRatings = topUsers[i].ratings
         for (let x = 0; x < topUserRatings.length; x++) {
-          let thisTitle = topUserRatings[x].movie
+          let thisTitle = topUserRatings[x].imdbID
           let thisRating = topUserRatings[x].rating
           for (let y = 0; y < topMovies.length; y++) {
             if (topMovies[y].id === thisTitle) {
@@ -129,7 +134,7 @@ class Home extends Component {
             }
           }
         }
-        console.log(topMovies)
+        
         this.setState({ topmovies: topMovies })
       }
 
@@ -138,6 +143,21 @@ class Home extends Component {
 
 
 
+  }
+
+  sortTopUserRatings = () =>{
+    for(let i = 0; i<userScores.length; i++){
+      if(userScores[i].ratings !== undefined){
+        userScores[i].ratings.sort(function compare(a, b) {
+          var dateA = new Date(a.date);
+          var dateB = new Date(b.date);
+          return dateB - dateA;
+        });
+       
+      }
+    }
+
+    this.getTopUserRatings();
   }
 
   runTopMatchResults = () => {
@@ -150,7 +170,9 @@ class Home extends Component {
     this.setState({
       topusers: topUsers
     })
-    this.getTopUserRatings();
+    this.sortTopUserRatings();
+   
+    
 
 
   }
@@ -229,7 +251,7 @@ class Home extends Component {
   loadUser = () => {
     API.findUser(1).then(res => {
       userRatings = res.data.ratings;
-      console.log(res.data);
+     
       this.setState({ currentuser: res.data })
     }
 
@@ -249,6 +271,7 @@ class Home extends Component {
   componentDidMount() {
     userScores = [];
     topUsers = [];
+    
     this.loadUser();
     this.runGetMovieTitles();
 
@@ -281,7 +304,7 @@ class Home extends Component {
     API.findUser(1).then(res => {
       userRatings = res.data.ratings;
       this.setState({ currentuser: res.data })
-      console.log(res.data);
+    
     })
   }
     )
@@ -311,7 +334,7 @@ class Home extends Component {
            <ol className="top-movies">
                {this.state.topmovies.map(res =>
 
-                <li key={res.id}>{res.percentage}% {res.title}</li>
+                <a href={"/movie/?q=" + res.movie}><li key={res.id}>{res.percentage}% {res.title}</li></a>
 
               )}
              

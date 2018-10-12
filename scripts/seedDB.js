@@ -12,52 +12,62 @@ const userSeed = [
   {
     username: "Nick",
     userId: 1,
-    image: "./images/profile-placeholder.png"
+    image: "./images/profile-placeholder.png",
+    topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Derry",
     userId: 2,
-    survey: [3, 4, 1, 4, 4, 1, 1, 2, 4, 4, 1, 1, 4, 3, 4]
+    survey: [3, 4, 1, 4, 4, 1, 1, 2, 4, 4, 1, 1, 4, 3, 4],
+    topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Freddie",
     userId: 3,
-    survey: [1, 2, 4, 2, 1, 3, 4, 4, 2, 1, 3, 3, 2, 2, 1]
+    survey: [1, 2, 4, 2, 1, 3, 4, 4, 2, 1, 3, 3, 2, 2, 1],
+    topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Eddie",
     userId: 4,
-    survey: [1, 2, 4, 2, 1, 3, 4, 4, 2, 1, 3, 3, 2, 2, 1]
+    survey: [1, 2, 4, 2, 1, 3, 4, 4, 2, 1, 3, 3, 2, 2, 1],
+    topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Donnie",
     userId: 5,
-    survey: [4, 3, 2, 3, 3, 2, 2, 3, 3, 3, 3, 2, 3, 3, 4]
+    survey: [4, 3, 2, 3, 3, 2, 2, 3, 3, 3, 3, 2, 3, 3, 4],
+    topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Fanny",
     userId: 6,
-    survey: [2, 1, 3, 3, 2, 4, 3, 4, 3, 1, 4, 4, 1, 1, 2]
+    survey: [2, 1, 3, 3, 2, 4, 3, 4, 3, 1, 4, 4, 1, 1, 2],
+    topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Eddie",
     userId: 7,
-    survey: [3, 3, 3, 1, 2, 2, 4, 3, 1, 4, 2, 3, 1, 2, 1]
+    survey: [3, 3, 3, 1, 2, 2, 4, 3, 1, 4, 2, 3, 1, 2, 1],
+    topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Dory",
     userId: 8,
-    survey: [3, 4, 3, 4, 4, 2, 1, 3, 2, 4, 3, 2, 3, 3, 4]
+    survey: [3, 4, 3, 4, 4, 2, 1, 3, 2, 4, 3, 2, 3, 3, 4],
+    topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Frank",
     userId: 9,
-    survey: [1, 2, 4, 3, 2, 3, 2, 4, 3, 1, 3, 4, 2, 3, 2]
+    survey: [1, 2, 4, 3, 2, 3, 2, 4, 3, 1, 3, 4, 2, 3, 2],
+    topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Earl",
     userId: 10,
-    survey: [4, 2, 3, 1, 1, 4, 3, 3, 3, 1, 3, 3, 1, 1, 1]
+    survey: [4, 2, 3, 1, 1, 4, 3, 3, 3, 1, 3, 3, 1, 1, 1],
+    topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
 ];
 

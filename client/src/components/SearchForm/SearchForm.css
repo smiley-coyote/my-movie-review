@@ -12,3 +12,16 @@ form.search button[type="submit"] {
 button {
   margin: 5px;
 }
+
+.search-btn {
+  background-color: #C59BF2;
+}
+
+.panel-heading {
+  background-color: rgb(173, 117, 173);
+}
+
+
+.panel {
+  border: 1px solid black;
+}

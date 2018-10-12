@@ -1,0 +1,29 @@
+.top-matches ul button {
+  float: right; 
+}
+
+.float-left {
+  float: left;
+  text-align: center;
+}
+
+
+
+.float-right button{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.content {
+  margin-left: 25%;
+}
+
+.heading {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+fieldset {
+  position: relative;
+}

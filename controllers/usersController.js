@@ -39,7 +39,7 @@ module.exports = {
           }
           console.log(doc);
         });
-      }).then(dbModel => res.json(dbModel))
+      }).sort({ date: -1 }).then(dbModel => res.json(dbModel))
       .catch(err => res.status(422)
         .json(err));
   },
@@ -73,7 +73,7 @@ module.exports = {
   },
   postReview: function(req, res){
     db.Rating
-    .findOneAndUpdate({ userId: req.body.userId, movie: req.body.movie }, { "review" : req.body.review } )
+    .findOneAndUpdate({ userId: req.body.userId, imdbID: req.body.imdbID }, { "review" : req.body.review } )
     .then(dbModel => res.json(dbModel))
     .catch(err => res.status(422).json(err));
 

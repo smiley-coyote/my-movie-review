@@ -1,0 +1,15 @@
+.movie-display {
+  background-color: rgb(238, 231, 252);
+}
+
+.movie-display img {
+  float: left;
+}
+
+.movie-display-body h2 {
+  text-align: center
+}
+
+.plot {
+  text-align: center;
+}

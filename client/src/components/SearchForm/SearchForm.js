@@ -5,7 +5,7 @@ const Form = props => (
   <div className="row">
     <div className="col-lg-12">
       <br />
-      <div className="panel panel-primary">
+      <div className="panel">
         <div className="panel-heading">
           <h3 className="panel-title"><strong> Movie Search</strong></h3>
         </div>
@@ -23,7 +23,7 @@ const Form = props => (
             <br />
             <button
               onClick={props.handleFormSubmit}
-              className="btn btn-primary"
+              className="btn search-btn"
             >
               Search
       </button>

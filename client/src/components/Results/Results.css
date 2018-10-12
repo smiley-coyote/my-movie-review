@@ -11,3 +11,7 @@
   float: left;
   margin: 20px;
 }
+
+.panel-heading {
+  background-color: rgb(173, 117, 173);
+}

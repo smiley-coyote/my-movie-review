@@ -5,3 +5,12 @@
 .top-movies {
   padding-top: -10px;
 }
+
+.top-movies a {
+  text-decoration: none;
+  color: black;
+}
+
+.top-movies a:hover {
+  color: blue;
+}

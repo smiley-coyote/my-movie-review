@@ -38,8 +38,8 @@ class Search extends Component {
     };
   }
   getRatings = () => {
-    API.findRating(1).then(res => {
-      console.log(res.data);
+    API.findRatingUser(4).then(res => {
+
       this.setState({
         ratings: res.data
       })
@@ -50,20 +50,29 @@ class Search extends Component {
     event.preventDefault();
     const thisid = event.currentTarget.name
     const value = event.target.htmlFor
-    const user = 1
+    const user = 6
+    let title;
 
-    API.submitRating({
-      movie: thisid,
-      rating: value,
-      userId: user
-    }).then(res => console.log(res.data))
+    API.byId(thisid).then(res => {
+      title = res.data.Title;
 
-    this.setState({
-      title: thisid,
-      rating: value
-    })
+      API.submitRating({
+        title: title,
+        imdbID: thisid,
+        rating: value,
+        userId: user
+      }).then(res => console.log(res.data))
 
-    // this.getRatings();
+      this.setState({
+        title: thisid,
+        rating: value
+      })
+
+      this.getRatings();
+    }
+    )
+
+
 
   };
 
@@ -73,7 +82,7 @@ class Search extends Component {
     this.setState({
       [name]: value
     });
-   
+
 
   };
 
@@ -86,47 +95,50 @@ class Search extends Component {
     event.preventDefault();
     API.movieSearch(this.state.movieSearch)
       .then(res => {
-let searchResults = res.data.Search;
-let yourRatings = this.state.userratings;
-console.log(searchResults);
-console.log(yourRatings)
-for(let i = 0; i<searchResults.length; i++){
-  for(let x = 0; x<yourRatings.length; x++){
-    if(searchResults[i].imdbID === yourRatings[x].movie){
-      searchResults[i].yourRating = yourRatings[x].rating
-    }
-  }
-}
+        let searchResults = res.data.Search;
+        let yourRatings = this.state.userratings;
+
+        for (let i = 0; i < searchResults.length; i++) {
+          for (let x = 0; x < yourRatings.length; x++) {
+            if (searchResults[i].imdbID === yourRatings[x].imdbID) {
+              searchResults[i].yourRating = yourRatings[x].rating
+            }
+          }
+        }
         this.setState({ results: searchResults })
       })
   };
 
   handleReviewSubmit = event => {
     event.preventDefault();
-
-    const userId = 1
+    console.log(this.state.writeup)
+    console.log(this.state.id)
+    const userId = 6
     API.submitReview({
       userId: userId,
       review: this.state.writeup,
-      movie: this.state.id
-    }).then( res => this.setState({ show: false }))
-    
+      imdbID: this.state.id
+    }).then(res => {
+      console.log(res)
+      this.setState({ show: false })
+    })
+
   }
 
   loadUser = () => {
-    API.findUser(1).then(res => {
-      
+    API.findUser(6).then(res => {
+
       const userRatings = res.data.ratings;
       const userCritics = res.data.critics;
-  
+
       this.setState({ currentuser: res.data, userratings: userRatings, usercritics: userCritics })
     })
-     
+
   }
 
   componentDidMount() {
     this.loadUser();
-   
+
 
 
   }
@@ -161,6 +173,7 @@ for(let i = 0; i<searchResults.length; i++){
               <br />
               <h2>{result.Title}</h2>
               <p>{result.Year}</p>
+              {}
               <p>Your Rating: {result.yourRating}</p>
               <fieldset className="rating" name={result.imdbID} onClick={this.handleRatingInputChange}>
                 <h3>Please rate:</h3>
@@ -179,8 +192,8 @@ for(let i = 0; i<searchResults.length; i++){
                   <Modal.Title>Review {this.state.title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                <img src={this.state.poster} alt={this.state.title} />
-              <br />
+                  <img src={this.state.poster} alt={this.state.title} />
+                  <br />
                   <div className="form-group">
                     <label htmlFor="comment">Review:</label>
                     <textarea name="writeup" value={this.state.writeup} onChange={this.handleInputChange} className="form-control" rows="5" id="comment"></textarea>
