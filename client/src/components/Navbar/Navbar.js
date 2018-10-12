@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css"
 
+
+
 const Navbar = props => (
 <nav className="navbar">
   <div className="container-fluid">
@@ -23,11 +25,11 @@ const Navbar = props => (
     <ul className="nav navbar-nav navbar-right">
       <li><a href="#"><span className="glyphicon glyphicon-log-out"></span> Logout</a></li>
     </ul>
-    <form className="navbar-form navbar-left" action="/action_page.php">
+    <form className="navbar-form navbar-left" action={"/search/"}>
       <div className="form-group">
         <input type="text" className="form-control" placeholder="Search Movie" />
       </div>
-      <button type="submit" className="btn btn-default">Submit</button>
+      <button type="submit"  className="btn btn-default">Submit</button>
     </form>
   </div>
 </nav>

@@ -2,9 +2,7 @@
   background-color: rgb(238, 231, 252);
 }
 
-.movie-display img {
-  float: left;
-}
+
 
 .movie-display-body h2 {
   text-align: center
@@ -12,4 +10,26 @@
 
 .plot {
   text-align: center;
+  margin-top: 2%;
+  font-size: 1.1em;
+}
+
+.black-border {
+  border: 1px solid black;
+
+}
+
+.inline {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  text-align: center;
+}
+
+.inline p {
+  display: inline;
+  padding: 12px;
+}
+
+.underline-text {
+  text-decoration: underline;
 }
