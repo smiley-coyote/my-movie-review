@@ -126,8 +126,8 @@ class Search extends Component {
   }
 
   loadUser = () => {
-    API.findUser(6).then(res => {
-
+    API.findUser(1).then(res => {
+      console.log(res.data);
       const userRatings = res.data.ratings;
       const userCritics = res.data.critics;
 

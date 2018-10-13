@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import MovieDisplay from "../../components/MovieDisplay";
-import SearchForm from "../../components/SearchForm"
 import Wrapper from "../../components/Wrapper";
 import Results from "../../components/Results";
 import "./Movie.css";
@@ -24,7 +23,6 @@ class Movie extends Component {
       navsearch: "",
       results: [],
       rating: 0,
-      title: 0,
       ratings: [],
       show: false,
       id: "",
@@ -38,12 +36,30 @@ class Movie extends Component {
 
   }
 
+  handleReviewSubmit = event => {
+    event.preventDefault();
+    console.log(this.state.writeup)
+    console.log(this.state.id)
+    const userId = 6
+    API.submitReview({
+      userId: userId,
+      review: this.state.writeup,
+      imdbID: this.state.id
+    }).then(res => {
+      console.log(res)
+      this.setState({ show: false })
+    })
+
+  }
+
   loadAllUsers = () => {
     API.findAll()
-      .then(res =>
-        this.setState({
-          allusers: res.data
-        }))
+      .then(res => 
+       console.log(res.data)
+        // this.setState({
+        //   allusers: res.data
+        // }))
+      )
   }
 
   handleClose() {
@@ -53,11 +69,11 @@ class Movie extends Component {
 
   loadUser = () => {
     API.findUser(1).then(res => {
-      this.setState({ currentuser: res.data })
+      console.log(res.data)
+      // this.setState({ currentuser: res.data })
     })
 
   }
-
 
   handleShow(id, title, poster) {
 
@@ -67,6 +83,8 @@ class Movie extends Component {
 
   runSearchMovie = movie => {
     API.searchByTitle(movie).then(res => {
+      let searchResults = res.data.Search;
+      let yourRatings = this.state.currentuser.ratings;
       this.setState({results: res.data.Search})
       
     })
@@ -78,6 +96,7 @@ class Movie extends Component {
     })
   }
   componentDidMount() {
+  
     let movie = window.location.search;
     let type;
     movie = movie.split("=")
@@ -85,8 +104,6 @@ class Movie extends Component {
     movie = movie[1]
     
     // let query = movie.substr(0, 3);
-    console.log(movie);
-    console.log(type);
     if (type === "?q") {
       this.setState({ display: "movie" })
       this.runSingleMovie(movie);
@@ -96,9 +113,10 @@ class Movie extends Component {
     }
     
 
-    // })
-    // this.loadUser();
-    // this.loadAllUsers();
+    this.loadUser();
+    this.loadAllUsers();
+
+   
 
   }
 

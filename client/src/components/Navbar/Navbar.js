@@ -37,7 +37,7 @@ class Navbar extends Component {
           <ul className="nav navbar-nav navbar-right">
             <li><a href="#"><span className="glyphicon glyphicon-log-out"></span> Logout</a></li>
           </ul>
-          <form className="navbar-form navbar-left" action={"/movie/"}>
+          <form className="navbar-form navbar-left" action={"/movie"}>
             <div className="form-group">
               <input type="text" name="search" onChange={this.handleInputChange} value={this.state.search} className="form-control" placeholder="Search Movie" />
             </div>
