@@ -17,14 +17,11 @@ export default {
     return axios.get(BASEURL + "?i=" + movie + "&y=&plot=short" + APIKEY);
   },
   // OMDB API movie search
-  movieSearch: function(query){
-    let movie = query.trim();
-    movie = movie.split(" ");
-    movie = movie.join("+");
-    return axios.get(BASEURL + "?s=" + movie + "&y&type=movie" + APIKEY)
+  searchByTitle: function(query){
+    return axios.get(BASEURL + "?s=" + query + "&y&type=movie" + APIKEY)
   },
   // Get movie info from OMDB
-  byCompleteTitle: function(movie){
+  singleByTitle: function(movie){
     return axios.get(BASEURL + "?t=" + movie + "&y=&plot=short" + APIKEY);
   },
   // post initial survey results
