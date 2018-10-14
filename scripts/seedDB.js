@@ -12,60 +12,69 @@ const userSeed = [
   {
     username: "Nick",
     userId: 1,
-    image: "./images/profile-placeholder.png",
+    image: "profile-placeholder.png",
     topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Derry",
     userId: 2,
+    image: "profile-placeholder.png",
     survey: [3, 4, 1, 4, 4, 1, 1, 2, 4, 4, 1, 1, 4, 3, 4],
     topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Freddie",
     userId: 3,
+    image: "profile-placeholder.png",
     survey: [1, 2, 4, 2, 1, 3, 4, 4, 2, 1, 3, 3, 2, 2, 1],
     topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Eddie",
     userId: 4,
+    image: "profile-placeholder.png",
     survey: [1, 2, 4, 2, 1, 3, 4, 4, 2, 1, 3, 3, 2, 2, 1],
     topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Donnie",
     userId: 5,
+    image: "profile-placeholder.png",
     survey: [4, 3, 2, 3, 3, 2, 2, 3, 3, 3, 3, 2, 3, 3, 4],
     topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Fanny",
     userId: 6,
+    image: "profile-placeholder.png",
     survey: [2, 1, 3, 3, 2, 4, 3, 4, 3, 1, 4, 4, 1, 1, 2],
     topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Eddie",
     userId: 7,
+    image: "profile-placeholder.png",
     survey: [3, 3, 3, 1, 2, 2, 4, 3, 1, 4, 2, 3, 1, 2, 1],
     topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Dory",
     userId: 8,
+    image: "profile-placeholder.png",
     survey: [3, 4, 3, 4, 4, 2, 1, 3, 2, 4, 3, 2, 3, 3, 4],
     topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Frank",
     userId: 9,
+    image: "profile-placeholder.png",
     survey: [1, 2, 4, 3, 2, 3, 2, 4, 3, 1, 3, 4, 2, 3, 2],
     topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },
   {
     username: "Earl",
     userId: 10,
+    image: "profile-placeholder.png",
     survey: [4, 2, 3, 1, 1, 4, 3, 3, 3, 1, 3, 3, 1, 1, 1],
     topmovies: ["Blade Runner", "It Follows", "Mad Max: Fury Road", "Taxi Driver"]
   },

@@ -1,5 +1,6 @@
 import "./TopMatches.css";
 import React from "react";
+import { Image, Video, Transformation, CloudinaryContext } from 'cloudinary-react';
 
 const TopMatches = props => (
 
@@ -10,7 +11,9 @@ const TopMatches = props => (
         <fieldset onClick={props.addCritic} key={res._id} name={res.user} id={res.userId}>
           <div>
             <div className="float-left">
-            <img src={props.placeholder} />
+            <Image cloudName="dmyiazu6p" publicId={res.image}>
+              <Transformation width="150" height="150" gravity="faces" crop="fill" />
+              </Image>
             <p>{res.user}</p>
             <p>{res.percentage}% match</p>
             </div>

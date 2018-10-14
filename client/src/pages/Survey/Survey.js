@@ -81,11 +81,14 @@ class Survey extends Component {
     event.preventDefault();
     const thisid = event.currentTarget.name;
     const value = event.target.htmlFor;
+    const title = event.currentTarget.id;
+    const poster = event.currentTarget.getAttribute("image");
     const user = 1;
-
     API.submitRating({
-      movie: thisid,
+      imdbID: thisid,
       rating: value,
+      title: title,
+      poster: poster,
       userId: user
     }).then(res => console.log(res.data))
 
@@ -123,17 +126,7 @@ class Survey extends Component {
          <br />
       <h1>{this.state.question}</h1>
        </Questions>
-       {/* <select
-       className="form-control"
-        value={this.state.selectValue} 
-        onChange={this.handleInputChange}
-       >
-       <option value={1}>1</option>
-       <option value={2}>2</option>
-       <option value={3}>3</option>
-       <option value={4}>4</option>
-     </select> */}
-        <fieldset className="rating" name={this.state.id} onClick={this.handleRatingInputChange}>
+        <fieldset className="rating" image={this.state.image} id={this.state.question} name={this.state.id} onClick={this.handleRatingInputChange}>
                 <h3>Please rate:</h3>
                 <input type="radio" id="star4" name="rating" value="4" /><label htmlFor="4"></label>
                 <input type="radio" id="star3" name="rating" value="3" /><label htmlFor="3"></label>

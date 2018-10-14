@@ -1,5 +1,6 @@
 .asterisk {
   font-size: 11px;
+  margin-top: 5px;
 }
 
 .top-movies {
@@ -7,10 +8,11 @@
 }
 
 .top-movies a {
-  text-decoration: none;
   color: black;
 }
 
 .top-movies a:hover {
   color: blue;
 }
+
+

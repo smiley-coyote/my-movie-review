@@ -7,7 +7,8 @@ import Sidebar from "../../components/Sidebar";
 import Mainbody from "../../components/Mainbody";
 import TopMatches from "../../components/TopMatches";
 import MyCritics from "../../components/MyCritics"
-import Placeholder from "../../images/profile-placeholder.png"
+import Placeholder from "../../images/profile-placeholder.png";
+import { Image, Video, Transformation, CloudinaryContext } from 'cloudinary-react';
 
 
 let userRatings = [];
@@ -63,6 +64,7 @@ class Home extends Component {
 
   state = {
     currentuser: {},
+    mycritics: [],
     allusers: [],
     topusers: [],
     topmovies: [],
@@ -229,7 +231,8 @@ class Home extends Component {
           survey: allusers[i].survey,
           score: 0,
           percentage: 0,
-          ratings: allusers[i].ratings
+          ratings: allusers[i].ratings,
+          image: allusers[i].image
         })
       }
 
@@ -331,7 +334,8 @@ class Home extends Component {
       <Row>
         <Col size="md-3">
           <Sidebar title={"Top Movies"}>
-           <ol className="top-movies">
+           <ol>
+             <div className="top-movies">
                {this.state.topmovies.map(res =>
 
                 <a href={"/movie?q=" + res.movie}><li key={res.id}>{res.percentage}% {res.title}</li></a>
@@ -339,6 +343,7 @@ class Home extends Component {
               )}
              
              <p className="asterisk">*Metacritic score</p>
+             </div>
               <a href="/browse">view more</a>
               
             </ol>
@@ -366,9 +371,14 @@ class Home extends Component {
         </Col>
         <Col size="md-3">
           <Sidebar title={"Profile"}>
-          <img src={Placeholder} />
-          <p>{this.state.currentuser.username}</p>
-            
+          <a href="/profile">
+          <Image cloudName="dmyiazu6p" publicId={this.state.currentuser.image}>
+              <Transformation width="150" height="150" gravity="faces" crop="fill" />
+              </Image>
+              </a>
+              <div className="text-center">
+          <a href="/profile">view profile</a>
+          </div>
           </Sidebar>
         </Col>
       </Row>

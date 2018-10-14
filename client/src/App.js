@@ -7,7 +7,8 @@ import Survey from "./pages/Survey";
 import Search from "./pages/Search"
 import Navbar from "./components/Navbar";
 import Wrapper from "./components/Wrapper";
-import Movie from "./pages/Movie"
+import Movie from "./pages/Movie";
+import Profile from "./pages/Profile";
 import { Jumbotron, Button } from 'react-bootstrap';
 
 const App = () => (
@@ -20,6 +21,7 @@ const App = () => (
         <Route exact path="/" component={Login} />
         <Route exact path="/home" component={Home} />
         <Route exact path="/survey" component={Survey} />
+        <Route path="/profile" component={Profile} />
         <Route path="/movie" component={Movie} />
         <Route path="/search" component={Search} />
       </Switch>

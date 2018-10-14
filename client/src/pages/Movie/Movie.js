@@ -70,7 +70,7 @@ class Movie extends Component {
   loadUser = () => {
     API.findUser(1).then(res => {
       console.log(res.data)
-      // this.setState({ currentuser: res.data })
+      this.setState({ currentuser: res.data })
     })
 
   }

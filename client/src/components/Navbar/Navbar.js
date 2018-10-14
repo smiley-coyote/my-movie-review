@@ -28,7 +28,7 @@ class Navbar extends Component {
         <span className="caret"></span></a>
               <ul className="dropdown-menu">
                 <li><a href="/home">Home</a></li>
-                <li><a href="#">Profile</a></li>
+                <li><a href="/profile">Profile</a></li>
                 <li><a href="/search">Browse</a></li>
               </ul>
             </li>

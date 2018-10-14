@@ -7,9 +7,9 @@ const Sidebar = props => (
     <h3 className="panel-title"><strong>{props.title}</strong></h3>
   </div>
   <div className="panel-body">
-  <ul className="list-items">
+
 {props.children}
-</ul>
+
   </div>
 </div>
 
