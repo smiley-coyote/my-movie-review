@@ -6,20 +6,39 @@ import { Image, Video, Transformation, CloudinaryContext } from 'cloudinary-reac
 const MyCritics = props => (
 
   <div>
-    <div className="container">
-      {props.critics.map(res =>
-      <div key={res.critic}>
-       <Image cloudName="dmyiazu6p" publicId={res.image}>
-       <Transformation width="150" height="150" gravity="faces" crop="fill" />
-       </Image>
-        
-         <p>{res.username}</p>
-       
-       
+
+    {props.critics.map(res =>
+      <div key={res.userId}>
+        <div className="float-left">
+          <Image cloudName="dmyiazu6p" publicId={res.image}>
+            <Transformation width="100" height="100" gravity="faces" crop="fill" />
+          </Image>
+          <p>{res.user}</p>
         </div>
-      )}
-    </div>
+        <div className="critic-content">
+          {res.ratings[0] !== undefined
+            ? <div className="latest-rating">
+              <p className="heading">Latest Review</p>
+              <p>{res.ratings[0].title}</p>
+              <p>{res.ratings[0].rating} out of 4 stars</p>
+              {res.ratings[0].review !== undefined
+                ? <p>
+                  {res.ratings[0].review}
+                </p>
+                : <p>
+                  No written review
+              </p>
+              }
+            </div>
+            : <p>No ratings for this user</p>
+          }
+        </div>
+
+        <hr />
+      </div>
+    )}
   </div>
+
 );
 
 export default MyCritics;

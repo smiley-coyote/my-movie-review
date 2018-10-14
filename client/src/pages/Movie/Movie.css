@@ -55,6 +55,25 @@
   left:2px;
 }
 
+.search-body {
+  position: relative;
+  margin-bottom: 35%;
+}
+
+.search-float-left {
+  float: left;
+  text-align: center;
+}
+
+.search-float-left img {
+  height: 300px;
+  width: auto;
+}
+
+.search-content {
+  margin-left: 40%;
+}
+
 
 
 

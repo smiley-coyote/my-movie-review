@@ -41,8 +41,8 @@ export default {
   findRatingUser: function(id){
     return axios.get("api/rating/" + id)
   },
-  getRatings: function(){
-    return axios.get("api/rating/")
+  getRatings: function(data){
+    return axios.get("api/rating/" + data)
   },
   addCritic: function(data){
     return axios.post("api/critic", data);

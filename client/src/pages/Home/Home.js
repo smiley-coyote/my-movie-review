@@ -12,10 +12,11 @@ import { Image, Video, Transformation, CloudinaryContext } from 'cloudinary-reac
 
 
 let userRatings = [];
-let allRatings = [];
 let topUserRatings = [];
+let userId = "";
 let userScores = [];
 let topUsers = [];
+let userCritics = [];
 const topMovies = [
   {
     title: "",
@@ -70,7 +71,7 @@ class Home extends Component {
     topmovies: [],
     currentratings: [],
     allRatings: [],
-    topUserRatings: [],
+    topuserratings: [],
     button: false,
     title: "Top Matches",
     selection: "My Critics"
@@ -106,7 +107,6 @@ class Home extends Component {
 
 
   getTopUserRatings = () => {
-    console.log(this.state.topusers)
     let topUsers = this.state.topusers
     for (let i = 0; i < topUsers.length; i++) {
       if (topUsers[i].ratings !== null) {
@@ -139,12 +139,7 @@ class Home extends Component {
         
         this.setState({ topmovies: topMovies })
       }
-
     }
-
-
-
-
   }
 
   sortTopUserRatings = () =>{
@@ -158,7 +153,6 @@ class Home extends Component {
        
       }
     }
-
     this.getTopUserRatings();
   }
 
@@ -249,26 +243,72 @@ class Home extends Component {
       .then(() => this.runSurveyResults())
   }
 
+  sortCriticRatings = ratings =>{
+
+    let criticRatings = ratings;
+    for(let i = 0; i<criticRatings.length; i++){
+      if(criticRatings[i].ratings !== undefined){
+        criticRatings[i].ratings.sort(function compare(a, b) {
+          var dateA = new Date(a.date);
+          var dateB = new Date(b.date);
+          return dateB - dateA;
+        });
+       
+      }
+   
+    }
+    console.log(criticRatings)
+    this.setState({
+      topuserratings: criticRatings
+    })
+  }
+
+  getCriticRatings = () =>{
+    let criticRatings = [];
+    const myCritics = this.state.mycritics
+    let thisCritic = myCritics[0]
+    console.log(myCritics[0].ratings);
+    // for(let i = 0; i<myCritics.length; i++){
+    //   API.getRatings(myCritics[i].criticId).then( res => {
+    //     for(let x = 0; x<res.data.length; x++){
+    //       criticRatings.push(res.data[x]);
+    //     }
+    //   })
+    // }
+    
+   
+    
+    
+    // this.sortCriticRatings(criticRatings);
+  }
+
+  getUserCritics = () => {
+    for(let i = 0; i<userCritics.length; i++){
+      API.findUser(userCritics[i].criticId).then(res =>{
+        userCritics[i].image = res.data.image
+        userCritics[i].ratings = res.data.ratings
+        userCritics[i].topmovies = res.data.topmovies
+      })
+    }
+    
+    this.setState({mycritics: userCritics})
+    this.getCriticRatings();
+  }
+
 
   // Loads user. Change from userId after Passport setup =======================xxxxxxxxx
   loadUser = () => {
     API.findUser(1).then(res => {
       userRatings = res.data.ratings;
-     
+     userCritics = res.data.critics;
+     userId = res.data.userId;
+     this.getUserCritics();
       this.setState({ currentuser: res.data })
     }
 
-    ).then(() => this.runFindAll())
-
-
-
-  }
-
-  loadAllRatings = () => {
-    API.getRatings().then(res =>
-      this.setState({
-        allRatings: res.data
-      }))
+    ).then(() => {
+      this.runFindAll()
+    })
   }
 
   componentDidMount() {
@@ -277,6 +317,7 @@ class Home extends Component {
     
     this.loadUser();
     this.runGetMovieTitles();
+    
 
 
   }
@@ -306,7 +347,9 @@ class Home extends Component {
     }).then(res => {console.log(res.data + " added!")
     API.findUser(1).then(res => {
       userRatings = res.data.ratings;
+      userCritics = res.data.critics;
       this.setState({ currentuser: res.data })
+      this.getUserCritics();
     
     })
   }
@@ -364,7 +407,7 @@ class Home extends Component {
               addCritic={this.addCritic}
               placeholder={Placeholder}
           />
-          : <MyCritics critics={this.state.currentuser.critics}/>
+          : <MyCritics critics={this.state.mycritics}/>
         }
           
           </Mainbody>

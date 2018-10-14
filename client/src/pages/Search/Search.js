@@ -50,7 +50,8 @@ class Search extends Component {
     event.preventDefault();
     const thisid = event.currentTarget.name
     const value = event.target.htmlFor
-    const user = 6
+    const poster = event.currentTarget.getAttribute("image")
+    const user = 1
     let title;
 
     API.byId(thisid).then(res => {

@@ -79,19 +79,13 @@ class Profile extends Component {
   }
 
   runUserRatings = () => {
-    userRatings = this.state.currentuser.ratings;
-    for(let i = 0; i<userRatings.length; i++){
-      let movieId = userRatings[i].imdbID;
-      API.byId(movieId).then(res => {
-        userRatings[i].poster = res.data.Poster
-        
-      })
-    
-      
-    }
-    this.setState({
-      userratings: userRatings
-    })
+    let ratings = this.state.currentuser.ratings;
+    ratings.sort(function compare(a, b) {
+      let dateA = new Date(a.date);
+      let dateB = new Date(b.date);
+      return dateB-dateA;
+    });
+    this.setState({userratings: ratings})
     
   }
 
