@@ -22,7 +22,30 @@ const TopMatches = props => (
                 ? <div className="latest-rating">
                   <p className="heading">Latest Review</p>
                   <p>{res.ratings[0].title}</p>
-                  <p>{res.ratings[0].rating} out of 4 stars</p>
+                  {res.ratings[0].rating == "1"
+                    ? <p>
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                      <span class="fa fa-star"></span>
+                    </p>
+                    : res.ratings[0].rating == "2"
+                      ? <p><span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                        <span class="fa fa-star"></span></p>
+                      : res.ratings[0].rating == "3"
+                        ? <p><span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star checked"></span>
+                          <span class="fa fa-star"></span></p>
+                        : res.ratings[0].rating == "4"
+                          ? <p><span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span></p>
+                          : <p>Rating Unavailable</p>
+                  }
                   {res.ratings[0].review !== undefined
                     ? <p>
                       {res.ratings[0].review}

@@ -1,6 +1,7 @@
 .rating {
-  float:left;
-  margin-bottom: 100px;
+  
+  margin-bottom: 30px;
+  
 }
 
 .rating input {
@@ -23,7 +24,7 @@
   overflow:hidden;
   white-space:nowrap;
   cursor:pointer;
-  font-size:200%;
+  font-size:160%;
   line-height:1.2;
   color:#ddd;
 }
@@ -70,11 +71,31 @@
   width: auto;
 }
 
-.search-content {
-  margin-left: 40%;
+.your-rating {
+  margin-top: 30px;
+  border: 1px solid black;
+  padding: 10%;
+  width: 400px;
+  text-align: center;
 }
 
+.your-review {
+  margin-top: 10%;
+}
 
+.star-rating {
+  width: 100%;
+  margin-left: 8%;
 
+}
+.star-rating h3{
+ font-size: 20px;
+}
 
+.checked {
+  color: orange;
+}
 
+.head-text {
+  font-weight: bold;
+}

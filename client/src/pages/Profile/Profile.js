@@ -49,9 +49,9 @@ class Profile extends Component {
       }
 
       if (response.body.secure_url !== '') {
-      
+
         let userImage = response.body.secure_url.split("/")[7];
-        
+
         this.setState({
           userimage: userImage
         });
@@ -62,9 +62,9 @@ class Profile extends Component {
   handleUpload = event => {
     event.preventDefault();
     let userImage = this.state.userimage;
-  
-    API.uploadImage({image: userImage})
-    this.setState({show: false})
+
+    API.uploadImage({ image: userImage })
+    this.setState({ show: false })
     this.loadUser();
   }
 
@@ -83,29 +83,29 @@ class Profile extends Component {
     ratings.sort(function compare(a, b) {
       let dateA = new Date(a.date);
       let dateB = new Date(b.date);
-      return dateB-dateA;
+      return dateB - dateA;
     });
-    this.setState({userratings: ratings})
-    
+    this.setState({ userratings: ratings })
+
   }
 
   loadUser = () => {
     API.findUser(1).then(res => {
-      this.setState({ currentuser: res.data})
+      this.setState({ currentuser: res.data })
       this.runUserRatings();
     })
 
 
-    
+
 
   }
 
   componentDidMount() {
-   this.loadUser();
-   
-    
+    this.loadUser();
+
+
   }
-  
+
   render() {
     return (
       <div>
@@ -113,47 +113,70 @@ class Profile extends Component {
           <Row>
             <Col size="md-3">
               <Sidebar title={"My Top Movies"}>
-              {this.state.currentuser.topmovies !== undefined
-              ? <ol>
-              {this.state.currentuser.topmovies.map(res =>
-              
-                  <li key={res}>{res}</li>
-               
-              )}
-             
-            </ol>
-            : <p>Add top 5 movies</p>
-              
-              }
-               <button>update</button>
-              
+                {this.state.currentuser.topmovies !== undefined
+                  ? <ol>
+                    {this.state.currentuser.topmovies.map(res =>
+
+                      <li key={res}>{res}</li>
+
+                    )}
+
+                  </ol>
+                  : <p>Add top 5 movies</p>
+
+                }
+                <button>update</button>
+
               </Sidebar>
             </Col>
 
             <Col size="md-6">
               <Mainbody>
                 {this.state.userratings !== []
-                ? <div>
-                  {this.state.userratings.map(res => 
-                    <div id={console.log(this.state.userratings)}>
-                    <img src={res.poster} />
-                    <p>Title: {res.title}</p>
-                    <p>Rating: {res.rating}</p>
-                    </div>
-                  )}
+                  ? <div>
+                    {this.state.userratings.map(res =>
+                      <div id={console.log(this.state.userratings)}>
+                        <img src={res.poster} />
+                        <p>Title: {res.title}</p>
+                        {res.rating == "1"
+                          ? <p><span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span></p>
+                          : res.rating == "2"
+                            ? <p><span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star"></span></p>
+                            : res.rating == "3"
+                              ? <p><span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span></p>
+                              : res.rating == "4"
+                                ? <p>
+                                  <span class="fa fa-star checked"></span>
+                                  <span class="fa fa-star checked"></span>
+                                  <span class="fa fa-star checked"></span>
+                                  <span class="fa fa-star checked"></span>
+                                </p>
+                                : <p>Rating Unavailable</p>
+                        }
+                      </div>
+                    )}
                   </div>
-                : <div>
-                  <p>No Ratings Available</p>
-                </div>
-                
+                  : <div>
+                    <p>No Ratings Available</p>
+                  </div>
+
                 }
               </Mainbody>
             </Col>
             <Col size="md-3">
               <Sidebar title={"My Profile"}>
-              <Image cloudName="dmyiazu6p" publicId={this.state.currentuser.image}>
-              <Transformation width="150" height="150" gravity="faces" crop="fill" />
-              </Image>
+                <Image cloudName="dmyiazu6p" publicId={this.state.currentuser.image}>
+                  <Transformation width="150" height="150" gravity="faces" crop="fill" />
+                </Image>
                 <button onClick={this.handleShow}>Update Picture</button>
               </Sidebar>
             </Col>
@@ -195,7 +218,7 @@ class Profile extends Component {
 
 
 
-        
+
 
       </div>
     )

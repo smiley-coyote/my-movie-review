@@ -53,7 +53,7 @@ class Movie extends Component {
           for (let x = 0; x < yourRatings.length; x++) {
             if (searchResults[i].imdbID === yourRatings[x].imdbID) {
               searchResults[i].yourRating = yourRatings[x].rating
-              if(yourRatings[x].review !== undefined){
+              if (yourRatings[x].review !== undefined) {
                 searchResults[i].yourReview = yourRatings[x].review
               }
             }
@@ -141,7 +141,7 @@ class Movie extends Component {
         for (let x = 0; x < yourRatings.length; x++) {
           if (searchResults[i].imdbID === yourRatings[x].imdbID) {
             searchResults[i].yourRating = yourRatings[x].rating
-            if(yourRatings[x].review !== undefined){
+            if (yourRatings[x].review !== undefined) {
               searchResults[i].yourReview = yourRatings[x].review
             }
           }
@@ -212,57 +212,114 @@ class Movie extends Component {
             ? <Wrapper>
               <Results>
                 {this.state.results.map(result => (
-                  <div className="search-body" key={result.imdbID}>
-                    <div className="search-float-left">
-                      <a href={"/movie?q=" + result.plusTitle}>
-                        <img src={result.Poster} alt={result.Title} />
-                      </a>
-                      <a href={"/movie?q=" + result.plusTitle}>view movie info</a>
-                    </div>
-                    <div className="search-content">
-                      <h2>{result.Title} ({result.Year})</h2>
-                      <p>{result.Plot}</p>
-                    </div>
-                    {result.yourRating !== undefined
-                      ? <p>Your Rating: {result.yourRating}</p>
-                      : <fieldset title={result.Title} image={result.Poster} className="rating" name={result.imdbID} onClick={this.handleRatingInputChange}>
-                        <h3>Please rate:</h3>
-                        <input type="radio" id="star4" name="rating" value="4" /><label htmlFor="4"></label>
-                        <input type="radio" id="star3" name="rating" value="3" /><label htmlFor="3"></label>
-                        <input type="radio" id="star2" name="rating" value="2" /><label htmlFor="2"></label>
-                        <input type="radio" id="star1" name="rating" value="1" /><label htmlFor="1"></label>
-                      </fieldset>
-                    }
-                    {result.yourReview !== undefined
-                      ? <p>Your Review: {result.yourReview}</p>
-                      : result.yourRating !== undefined
-                      ? <Button id={result.imdbID} name={result.Title} bsStyle="primary" bsSize="large" onClick={() => this.handleShow(result.imdbID, result.Title, result.Poster)}>
-                        Add A Review
-                        </Button>
-                      : <p>Rate Movie Before Writing Review</p>
-                    }
-
-
-                    <Modal show={this.state.show} onHide={this.handleClose}>
-                      <Modal.Header closeButton>
-                        <Modal.Title>Review {this.state.title}</Modal.Title>
-                      </Modal.Header>
-                      <Modal.Body>
-                        <img src={this.state.poster} alt={this.state.title} />
-                        <br />
-                        <div className="form-group">
-                          <label htmlFor="comment">Review:</label>
-                          <textarea name="writeup" value={this.state.writeup} onChange={this.handleInputChange} className="form-control" rows="5" id="comment"></textarea>
+                  <Row>
+                    <div className="search-body" key={result.imdbID}>
+                      <Col size="md-4">
+                        <div className="search-float-left">
+                          <a href={"/movie?q=" + result.plusTitle}>
+                            <img src={result.Poster} alt={result.Title} />
+                          </a>
+                          <a href={"/movie?q=" + result.plusTitle}>view movie info</a>
                         </div>
+                      </Col>
+                      <Col size="md-8">
+                        <div className="search-content">
+                          <h2>{result.Title} ({result.Year})</h2>
+                          <p>{result.Plot}</p>
+                        </div>
+                        <Row>
+                          <Col size="md-4">
+                            <div className="your-rating">
 
-                      </Modal.Body>
-                      <Modal.Footer>
-                        <Button onClick={this.handleReviewSubmit}>Submit Review</Button>
-                        <Button onClick={this.handleClose}>Close</Button>
-                      </Modal.Footer>
-                    </Modal>
-                  </div>
+                              {result.yourRating === undefined
+                                ? <Row>
+                                  <Col size="md-12">
+                                    <div className="star-rating">
+                                      <fieldset title={result.Title} image={result.Poster} className="rating" name={result.imdbID} onClick={this.handleRatingInputChange}>
+                                        <h3>Please rate:</h3>
+                                        <input type="radio" id="star4" name="rating" value="4" /><label htmlFor="4"></label>
+                                        <input type="radio" id="star3" name="rating" value="3" /><label htmlFor="3"></label>
+                                        <input type="radio" id="star2" name="rating" value="2" /><label htmlFor="2"></label>
+                                        <input type="radio" id="star1" name="rating" value="1" /><label htmlFor="1"></label>
+                                      </fieldset>
+                                    </div>
+                                  </Col>
+                                </Row>
+                                : result.yourRating == "1"
+                                  ? <p><span className="head-text">Your Rating:</span>
+                                    <br />
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                  </p>
+                                  : result.yourRating == "2"
+                                    ? <p><span className="head-text">Your Rating:</span>
+                                    <br />
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                  </p>
+                                    : result.yourRating == "3"
+                                      ? <p><span className="head-text">Your Rating:</span>
+                                      <br />
+                                      <span class="fa fa-star checked"></span>
+                                      <span class="fa fa-star checked"></span>
+                                      <span class="fa fa-star checked"></span>
+                                      <span class="fa fa-star"></span>
+                                    </p>
+                                      : result.yourRating == "4"
+                                        ? <p><span className="head-text">Your Rating:</span>
+                                        <br />
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                      </p>
+                                        : <p>Your Rating is not available at this time</p>
+                              }
+
+
+                              {result.yourReview !== undefined
+                                ? <p><span className="head-text">Your Review:</span>
+                                <br />
+                                {result.yourReview}</p>
+                                : result.yourRating !== undefined
+                                  ? <Button id={result.imdbID} name={result.Title} bsStyle="primary" bsSize="large" onClick={() => this.handleShow(result.imdbID, result.Title, result.Poster)}>
+                                    Add A Review
+                        </Button>
+                                  : <p>Rate Movie Before Writing Review</p>
+                              }
+
+
+                            </div>
+                          </Col>
+                        </Row>
+                      </Col>
+
+                      <Modal show={this.state.show} onHide={this.handleClose}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Review {this.state.title}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <img src={this.state.poster} alt={this.state.title} />
+                          <br />
+                          <div className="form-group">
+                            <label htmlFor="comment">Review:</label>
+                            <textarea name="writeup" value={this.state.writeup} onChange={this.handleInputChange} className="form-control" rows="5" id="comment"></textarea>
+                          </div>
+
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button onClick={this.handleReviewSubmit}>Submit Review</Button>
+                          <Button onClick={this.handleClose}>Close</Button>
+                        </Modal.Footer>
+                      </Modal>
+                    </div>
+                  </Row>
                 ))}
+
               </Results>
 
             </Wrapper>

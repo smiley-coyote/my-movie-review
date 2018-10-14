@@ -27,3 +27,7 @@
 fieldset {
   position: relative;
 }
+
+.checked {
+  color: orange;
+}
