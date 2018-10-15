@@ -7,6 +7,11 @@ import Results from "../../components/Results";
 import "./Movie.css";
 import { Button, Modal } from 'react-bootstrap';
 
+let userCritics = [];
+let yourRatings = [];
+let myCritics = [];
+let thisMovie = {};
+
 class Movie extends Component {
   constructor(props, context) {
     super(props, context);
@@ -30,7 +35,9 @@ class Movie extends Component {
       poster: "",
       writeup: "",
       userratings: [],
-      usercritics: []
+      usercritics: [],
+      currentcriticratings: [],
+      currentcriticreviews: []
 
     }
 
@@ -38,8 +45,6 @@ class Movie extends Component {
 
   handleReviewSubmit = event => {
     event.preventDefault();
-    console.log(this.state.writeup)
-    console.log(this.state.id)
     const userId = 1
     API.submitReview({
       userId: userId,
@@ -98,27 +103,52 @@ class Movie extends Component {
     })
   }
 
-  loadAllUsers = () => {
-    API.findAll()
-      .then(res =>
-        console.log(res.data)
-        // this.setState({
-        //   allusers: res.data
-        // }))
-      )
-  }
+
 
   handleClose() {
     this.setState({ show: false });
   }
 
+  readUrl = () =>{
+    let movie = window.location.search;
+    let type;
+    movie = movie.split("=")
+    type = movie[0]
+    movie = movie[1]
+
+    if (type === "?q") {
+      this.setState({ display: "movie" })
+      this.runSingleMovie(movie);
+    } else if (type === "?search") {
+      this.setState({ display: "search" })
+      this.runSearchMovie(movie);
+    }
+  }
+
+  loadUserCritics = () =>{
+    
+    for(let i = 0; i<userCritics.length; i++){
+      
+      API.findUser(userCritics[i].criticId).then(res =>{
+        myCritics.push(res.data)
+       
+      })
+    }
+    this.setState({usercritics: myCritics})
+    this.readUrl();
+  }
+
 
   loadUser = () => {
     API.findUser(1).then(res => {
-      console.log(res.data)
+    
+      userCritics = res.data.critics;
+      yourRatings = res.data.ratings;
+      console.log(userCritics)
       this.setState({ currentuser: res.data })
+      this.loadUserCritics()
     })
-
+    
   }
 
   handleShow(id, title, poster) {
@@ -152,9 +182,83 @@ class Movie extends Component {
     })
   }
 
+  getCriticScore = () =>{
+    const criticRatings = this.state.currentcriticratings;
+    console.log(criticRatings)
+    let score = 0;
+    let viewers = 0;
+    let percentage = 0;
+    if(criticRatings.length > 0){
+    
+      for(let i = 0; i<criticRatings.length; i++){
+        if(criticRatings[i] > 2){
+          score = score += 1
+          viewers += 1
+          percentage = (score / viewers) * 100
+          percentage = Math.round(percentage)
+          thisMovie.criticRating = percentage;
+          
+        }
+        else {
+          viewers += 1;
+          percentage = (score / viewers) * 100
+          percentage = Math.round(percentage)
+          thisMovie.criticRating = percentage;
+        }
+        
+      }
+      console.log(percentage + "=" + score + "/" + viewers)
+      this.setState({ movie: thisMovie })
+    }
+  
+  }
+
+  getUserRating = () =>{
+    const userCritics = this.state.usercritics
+    let criticReviews = [];
+   
+    console.log(userCritics)
+    let criticRatings = [];
+    for(let i=0; i<userCritics.length; i++){
+      const ratings = userCritics[i].ratings
+      for(let x=0; x<ratings.length; x++){
+        if(thisMovie.imdbID === ratings[x].imdbID){
+          
+          criticReviews.push({
+            username: userCritics[i].username,
+            rating: ratings[x].rating,
+            review: ratings[x].review
+          })
+      
+          criticRatings.push(ratings[x].rating)
+        }
+      }
+      
+    }
+    console.log(criticReviews)
+    this.setState({
+      currentcriticratings: criticRatings,
+      currentcriticreviews: criticReviews
+    })
+    this.getCriticScore();
+  }
+
   runSingleMovie = movie => {
     API.singleByTitle(movie).then(res => {
-      this.setState({ movie: res.data })
+      thisMovie = res.data;
+      // const userRatings = this.state.currentuser.ratings
+     
+
+      for(let i=0; i<yourRatings.length; i++){
+        if(yourRatings[i].imdbID === thisMovie.imdbID){
+          thisMovie.userRating = yourRatings[i].rating
+        }
+      }
+
+      this.getUserRating()
+   
+   
+      
     })
   }
 
@@ -169,25 +273,7 @@ class Movie extends Component {
   };
 
   componentDidMount() {
-
-    let movie = window.location.search;
-    let type;
-    movie = movie.split("=")
-    type = movie[0]
-    movie = movie[1]
-
-    if (type === "?q") {
-      this.setState({ display: "movie" })
-      this.runSingleMovie(movie);
-    } else if (type === "?search") {
-      this.setState({ display: "search" })
-      this.runSearchMovie(movie);
-    }
-
-
     this.loadUser();
-    this.loadAllUsers();
-
 
 
   }
@@ -202,6 +288,7 @@ class Movie extends Component {
               <Col size="md-12">
                 <MovieDisplay
                   data={this.state.movie}
+                  critics={this.state.currentcriticreviews}
                 />
 
 
@@ -297,7 +384,7 @@ class Movie extends Component {
                           </Col>
                         </Row>
                       </Col>
-
+                             
                       <Modal show={this.state.show} onHide={this.handleClose}>
                         <Modal.Header closeButton>
                           <Modal.Title>Review {this.state.title}</Modal.Title>
@@ -321,7 +408,7 @@ class Movie extends Component {
                 ))}
 
               </Results>
-
+             
             </Wrapper>
             : <h1>Error</h1>
         }

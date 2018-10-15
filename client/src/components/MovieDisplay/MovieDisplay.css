@@ -33,3 +33,25 @@
 .underline-text {
   text-decoration: underline;
 }
+
+.checked {
+  color: orange;
+}
+
+.float-right {
+  float: right;
+  padding-right: 5px
+}
+
+.your-movie-rating {
+  padding-left: 5px;
+}
+
+.margin-up{
+  position: relative;
+  margin-bottom: 20%;
+}
+
+.scroll {
+  overflow: scroll;
+}
