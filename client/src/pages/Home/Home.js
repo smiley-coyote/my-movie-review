@@ -8,23 +8,21 @@ import Mainbody from "../../components/Mainbody";
 import TopMatches from "../../components/TopMatches";
 import MyCritics from "../../components/MyCritics"
 import Placeholder from "../../images/profile-placeholder.png";
-import { Image, Video, Transformation, CloudinaryContext } from 'cloudinary-react';
+import { Image, Transformation } from 'cloudinary-react';
+import { Link } from "react-router-dom";
 
 
-let userRatings = [];
-let topUserRatings = [];
-let userId = "";
-let userScores = [];
-let topUsers = [];
+
 let userCritics = [];
 const topMovies = [
   {
     title: "",
-    id: "tt0047522",
+    id: "tt0499549",
     viewers: 0,
     score: 0,
     percentage: 0,
-    metacritic: 0
+    metacritic: 0,
+    reviewed: false
   },
   {
     title: "",
@@ -32,23 +30,26 @@ const topMovies = [
     viewers: 0,
     score: 0,
     percentage: 0,
-    metacritic: 0
+    metacritic: 0,
+    reviewed: false
   },
   {
     title: "",
-    id: "tt6182908",
+    id: "tt4263482",
     viewers: 0,
     score: 0,
     percentage: 0,
-    metacritic: 0
+    metacritic: 0,
+    reviewed: false
   },
   {
     title: "",
-    id: "tt1270797",
+    id: "tt0499549",
     viewers: 0,
     score: 0,
     percentage: 0,
-    metacritic: 0
+    metacritic: 0,
+    reviewed: false
   },
   {
     title: "",
@@ -56,7 +57,8 @@ const topMovies = [
     viewers: 0,
     score: 0,
     percentage: 0,
-    metacritic: 0
+    metacritic: 0,
+    reviewed: false
   }
 ];
 
@@ -67,6 +69,7 @@ class Home extends Component {
     currentuser: {},
     mycritics: [],
     allusers: [],
+    userscores: [],
     topusers: [],
     topmovies: [],
     currentratings: [],
@@ -85,15 +88,15 @@ class Home extends Component {
   runGetMovieTitles = () => {
     for (let i = 0; i < topMovies.length; i++) {
       API.byId(topMovies[i].id).then(res => {
-        if(topMovies[i].percentage === 0 && res.data.Metascore !== "N/A"){
+        if(topMovies[i].reviewed === false && res.data.Metascore !== "N/A"){
           topMovies[i].percentage = "*" + res.data.Metascore
         }
         let movie = res.data.Title;
         const title = res.data.Title;
         movie = movie.split(" ");
         movie = movie.join("+")
-        const year = res.data.Year;
-        const imdbID = res.data.imdbID;
+        // const year = res.data.Year;
+        // const imdbID = res.data.imdbID;
         topMovies[i].title = title;
         topMovies[i].movie = movie;
        
@@ -108,6 +111,7 @@ class Home extends Component {
 
   getTopUserRatings = () => {
     let topUsers = this.state.topusers
+    console.log(topUsers)
     for (let i = 0; i < topUsers.length; i++) {
       if (topUsers[i].ratings !== null) {
         let topUserRatings = topUsers[i].ratings
@@ -119,16 +123,19 @@ class Home extends Component {
               let score = topMovies[y].score;
               let viewers = topMovies[y].viewers;
               let percentage = topMovies[y].percentage;
+              topMovies[y].reviewed = true;
               if (thisRating > 2) {
                 score += 1;
                 viewers += 1;
                 percentage = (score / viewers) * 100
+                percentage = Math.round(percentage)
                 topMovies[y].score = score;
                 topMovies[y].viewers = viewers;
                 topMovies[y].percentage = percentage;
               } else {
                 viewers += 1;
                 percentage = (score / viewers) * 100
+                percentage = Math.round(percentage)
                 topMovies[y].score = score;
                 topMovies[y].viewers = viewers;
                 topMovies[y].percentage = percentage;
@@ -143,6 +150,7 @@ class Home extends Component {
   }
 
   sortTopUserRatings = () =>{
+    let userScores = this.state.userscores;
     for(let i = 0; i<userScores.length; i++){
       if(userScores[i].ratings !== undefined){
         userScores[i].ratings.sort(function compare(a, b) {
@@ -153,18 +161,24 @@ class Home extends Component {
        
       }
     }
+    this.setState({userscores: userScores})
     this.getTopUserRatings();
   }
 
   runTopMatchResults = () => {
+    let userScores = this.state.userscores;
+    let topUsers = [];
+
     userScores.sort(function (a, b) {
       return b.score - a.score
     })
     for (let i = 0; i < 5; i++) {
       topUsers.push(userScores[i]);
     }
+    console.log(topUsers)
     this.setState({
-      topusers: topUsers
+      topusers: topUsers,
+      userscores: userScores
     })
     this.sortTopUserRatings();
    
@@ -174,6 +188,7 @@ class Home extends Component {
   }
 
   runTopMatchFinder = () => {
+    let userScores = this.state.userscores;
     const userSurvey = this.state.currentuser.survey;
     let percentageResult = 0;
     for (let i = 0; i < userScores.length; i++) {
@@ -211,17 +226,19 @@ class Home extends Component {
       }
 
     }
+    this.setState({userscores: userScores})
     this.runTopMatchResults()
   }
 
   runSurveyResults = () => {
     const allusers = this.state.allusers;
+    let userScores = [];
+    console.log(allusers[0]._id);
     for (let i = 0; i < allusers.length; i++) {
-
-      if (allusers[i].userId !== 1) {
+      if (allusers[i]._id !== this.props.auth.userId) {
         userScores.push({
-          user: allusers[i].username,
-          userId: allusers[i].userId,
+          user: allusers[i].name,
+          id: allusers[i]._id,
           survey: allusers[i].survey,
           score: 0,
           percentage: 0,
@@ -231,6 +248,7 @@ class Home extends Component {
       }
 
     }
+    this.setState({userscores: userScores})
     this.runTopMatchFinder();
   }
 
@@ -265,9 +283,10 @@ class Home extends Component {
 
   getCriticRatings = () =>{
     let criticRatings = [];
-    const myCritics = this.state.mycritics
+    const myCritics = this.state.currentuser.critics
+    console.log(myCritics);
     let thisCritic = myCritics[0]
-    console.log(myCritics[0].ratings);
+    console.log(thisCritic);
     // for(let i = 0; i<myCritics.length; i++){
     //   API.getRatings(myCritics[i].criticId).then( res => {
     //     for(let x = 0; x<res.data.length; x++){
@@ -290,6 +309,7 @@ class Home extends Component {
         userCritics[i].topmovies = res.data.topmovies
       })
     }
+
     
     this.setState({mycritics: userCritics})
     this.getCriticRatings();
@@ -298,23 +318,25 @@ class Home extends Component {
 
   // Loads user. Change from userId after Passport setup =======================xxxxxxxxx
   loadUser = () => {
-    API.findUser(1).then(res => {
-      userRatings = res.data.ratings;
-     userCritics = res.data.critics;
-     userId = res.data.userId;
-     this.getUserCritics();
+   console.log(this.props.auth.userId)
+
+    API.findUser(this.props.auth.userId).then(res => {
+   
+    //  let userRatings = res.data.ratings;
+    //  console.log(userRatings)
+   
+    //  this.getUserCritics();
       this.setState({ currentuser: res.data })
     }
 
     ).then(() => {
       this.runFindAll()
     })
+   
   }
 
   componentDidMount() {
-    userScores = [];
-    topUsers = [];
-    
+
     this.loadUser();
     this.runGetMovieTitles();
     
@@ -337,18 +359,21 @@ class Home extends Component {
   addCritic = event => {
     event.preventDefault();
     const criticId = event.currentTarget.id;
-    const thisId = 1;
+    const thisId = this.props.auth.userId
     const name = event.currentTarget.name;
+    console.log(criticId)
+    console.log(thisId)
+    console.log(name)
     API.addCritic({
       username: name,
       userId: thisId,
       criticId: criticId
 
     }).then(res => {console.log(res.data + " added!")
-    API.findUser(1).then(res => {
-      userRatings = res.data.ratings;
-      userCritics = res.data.critics;
+    API.findUser(this.props.auth.userId).then(res => {
+  
       this.setState({ currentuser: res.data })
+      console.log(this.state.currentuser)
       this.getUserCritics();
     
     })
@@ -381,13 +406,13 @@ class Home extends Component {
              <div className="top-movies">
                {this.state.topmovies.map(res =>
 
-                <a href={"/movie?q=" + res.movie}><li key={res.id}>{res.percentage}% {res.title}</li></a>
+                <a href={"/movie/?q=" + res.movie}><li key={res.id}>{res.percentage}% {res.title}</li></a>
 
               )}
              
              <p className="asterisk">*Metacritic score</p>
              </div>
-              <a href="/browse">view more</a>
+             <Link to={"/movie"}>view more</Link>
               
             </ol>
            
@@ -413,14 +438,15 @@ class Home extends Component {
           </Mainbody>
         </Col>
         <Col size="md-3">
-          <Sidebar title={"Profile"}>
-          <a href="/profile">
+          <Sidebar title={"Welcome, " + this.state.currentuser.name + "!"}>
+          <Link to={"/profile"}>
+          
           <Image cloudName="dmyiazu6p" publicId={this.state.currentuser.image}>
               <Transformation width="150" height="150" gravity="faces" crop="fill" />
               </Image>
-              </a>
+              </Link>
               <div className="text-center">
-          <a href="/profile">view profile</a>
+              <Link to={"/profile"}>view profile</Link>
           </div>
           </Sidebar>
         </Col>
@@ -436,71 +462,3 @@ class Home extends Component {
 export default Home;
 
 
-// render() {
-//   const thisButton = this.state.button;
-//   if (!thisButton) {
-//     return (
-//       <div className="container">
-//         <h1>Welcome {this.state.currentuser.username}</h1>
-//         <button onClick={() => this.buttonClick()}>View Critics</button>
-//         <div>
-//           <h2>Top Matches</h2>
-//           <div className="container">
-//             {this.state.topusers.map(res =>
-//               <fieldset onClick={this.addCritic} key={res._id} name={res.user} id={res.userId}>
-//                 <ul>
-//                   <li>{res.user}</li>
-//                   <li>{res.percentage}% match</li>
-//                   <button>Add New Critic</button>
-//                 </ul>
-//               </fieldset>
-
-//             )}
-//           </div>
-//           <div className="container">
-//             <h2>Top Movies</h2>
-//             <ol>
-//               {this.state.topmovies.map(res =>
-
-//                 <li key={res.id}>{res.percentage}% {res.title}</li>
-
-//               )}
-//             </ol>
-//           </div>
-//           <div className="container">
-//           <h2>All Users:</h2>
-//           {this.state.allusers.map(res =>
-//             <ul key={res.userId}>
-//               <li>{res.username}</li>
-//               <li>{res.survey}</li>
-//             </ul>
-
-//           )}
-//         </div>
-
-//         </div>
-//       </div>
-//     )
-//   } else {
-//     return (
-//       <div className="container">
-//         <h1>Welcome {this.state.currentuser.username}</h1>
-//         <button onClick={() => this.buttonClick()}>View Top Matches</button>
-//         <div className="container">
-//           <h2>Critics:</h2>
-//           {this.state.currentuser.critics.map(res =>
-//             <ul key={res.criticId}>
-//               <li>{res.username}</li>
-//             </ul>
-
-//           )}
-//         </div>
-
-
-
-
-//       </div>
-//     )
-
-//   }
-// }

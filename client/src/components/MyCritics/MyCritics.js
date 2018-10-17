@@ -1,6 +1,6 @@
 import "./MyCritics.css";
 import React from "react";
-import { Image, Video, Transformation, CloudinaryContext } from 'cloudinary-react';
+import { Image, Transformation } from 'cloudinary-react';
 
 
 const MyCritics = props => (

@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
-import Wrapper from "../../components/Wrapper"
-import { Image, Video, Transformation, CloudinaryContext } from 'cloudinary-react';
+// import Wrapper from "../../components/Wrapper"
+import { Image, Transformation } from 'cloudinary-react';
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import Sidebar from "../../components/Sidebar";
 import Mainbody from "../../components/Mainbody";
 import { Button, Modal } from 'react-bootstrap';
+import "./Profile.css";
 
 const CLOUDINARY_UPLOAD_PRESET = 'kmmnilon';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dmyiazu6p/image/upload';
-let userRatings = [];
+// let userRatings = [];
 
 class Profile extends Component {
   constructor(props) {
@@ -61,9 +62,10 @@ class Profile extends Component {
 
   handleUpload = event => {
     event.preventDefault();
-    let userImage = this.state.userimage;
+    const userImage = this.state.userimage;
+    const id = this.props.auth.userId
 
-    API.uploadImage({ image: userImage })
+    API.uploadImage({ image: userImage, id: id })
     this.setState({ show: false })
     this.loadUser();
   }
@@ -90,20 +92,28 @@ class Profile extends Component {
   }
 
   loadUser = () => {
-    API.findUser(1).then(res => {
+
+    console.log(this.props.auth.userId)
+
+    API.findUser(this.props.auth.userId).then(res => {
       this.setState({ currentuser: res.data })
       this.runUserRatings();
     })
 
-
-
-
+    
+ 
+    // API.findUser(id).then(res => {
+    //   console.log(res.data);
+    //   this.setState({ currentuser: res.data })
+    //   this.runUserRatings();
+    // })
   }
 
-  componentDidMount() {
-    this.loadUser();
+  
 
-
+  componentDidMount () {
+   this.loadUser();
+   
   }
 
   render() {
@@ -135,25 +145,30 @@ class Profile extends Component {
                 {this.state.userratings !== []
                   ? <div>
                     {this.state.userratings.map(res =>
-                      <div id={console.log(this.state.userratings)}>
-                        <img src={res.poster} />
-                        <p>Title: {res.title}</p>
-                        {res.rating == "1"
+                      <div className="my-reviews" key={res.imdbID}>
+                        <img alt={res.title} src={res.poster} />
+                        <div className="reviews-title">
+                        <h3>{res.title}</h3>
+                        </div>
+                        <div className="reviews-body">
+                        <div className="border-box">
+                        <p>My rating:</p>
+                        {res.rating === 1
                           ? <p><span class="fa fa-star checked"></span>
                             <span class="fa fa-star"></span>
                             <span class="fa fa-star"></span>
                             <span class="fa fa-star"></span></p>
-                          : res.rating == "2"
+                          : res.rating === 2
                             ? <p><span class="fa fa-star checked"></span>
                               <span class="fa fa-star checked"></span>
                               <span class="fa fa-star"></span>
                               <span class="fa fa-star"></span></p>
-                            : res.rating == "3"
+                            : res.rating === 3
                               ? <p><span class="fa fa-star checked"></span>
                                 <span class="fa fa-star checked"></span>
                                 <span class="fa fa-star checked"></span>
                                 <span class="fa fa-star"></span></p>
-                              : res.rating == "4"
+                              : res.rating === 4
                                 ? <p>
                                   <span class="fa fa-star checked"></span>
                                   <span class="fa fa-star checked"></span>
@@ -162,6 +177,16 @@ class Profile extends Component {
                                 </p>
                                 : <p>Rating Unavailable</p>
                         }
+                        {res.review !== undefined
+                        ?<p>{res.review}
+                          <br />
+                          -{this.state.currentuser.username}
+                        </p>
+                        :<p></p>
+                        }
+                      </div>
+                      </div>
+                  
                       </div>
                     )}
                   </div>
@@ -192,14 +217,14 @@ class Profile extends Component {
                 <Dropzone
                   onDrop={this.onImageDrop.bind(this)}
                   multiple={false}
-                  accept=".doc, .pdf, .docx, .jpg">
+                  accept=".png, .jpg">
                   <div>Drop an image or click to select a file to upload.</div>
                 </Dropzone>
               </div>
 
               <div>
                 <div>
-                  <Image cloudName="dmyiazu6p" publicId={this.state.userimage}>
+                  <Image cloudName="dmyiazu6p" publicId={this.state.currentuser.image}>
                     <Transformation width="150" height="150" gravity="faces" crop="fill" />
                   </Image>
                 </div>

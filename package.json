@@ -1,7 +1,7 @@
 {
-  "name": "mern",
+  "name": "my-movie-review-db",
   "version": "1.0.0",
-  "description": "Mern Demo",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
@@ -23,8 +23,12 @@
     "axios": "^0.18.0",
     "cloudinary-react": "^1.0.6",
     "express": "^4.15.4",
+    "express-session": "^1.15.6",
     "if-env": "^1.0.4",
     "mongoose": "^5.3.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^5.0.1",
     "react": "^16.5.2",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.5.2",

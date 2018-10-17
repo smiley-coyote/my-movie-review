@@ -5,7 +5,6 @@ import API from "../../utils/API";
 import SearchForm from "../../components/SearchForm"
 import Wrapper from "../../components/Wrapper"
 import Results from "../../components/Results"
-import TextField from "../../components/form"
 import "./Search.css"
 import { Button, Modal } from 'react-bootstrap';
 
@@ -25,7 +24,6 @@ class Search extends Component {
       navsearch: "",
       results: [],
       rating: 0,
-      title: 0,
       ratings: [],
       show: false,
       id: "",
@@ -50,7 +48,7 @@ class Search extends Component {
     event.preventDefault();
     const thisid = event.currentTarget.name
     const value = event.target.htmlFor
-    const poster = event.currentTarget.getAttribute("image")
+    // const poster = event.currentTarget.getAttribute("image")
     const user = 1
     let title;
 

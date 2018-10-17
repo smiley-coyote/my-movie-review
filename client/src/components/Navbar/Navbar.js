@@ -1,10 +1,17 @@
 import React, { Component } from "react";
 import "./Navbar.css"
+import { Link, Redirect } from "react-router-dom";
 
 class Navbar extends Component {
 
   state = {
     search: ""
+  }
+
+
+  handleInputSubmit = event => {
+    event.preventDefault();
+    return <Redirect to={"/movie"} />
   }
 
   handleInputChange = event => {
@@ -27,17 +34,17 @@ class Navbar extends Component {
               <a className="dropdown-toggle" data-toggle="dropdown" href="/home">Menu
         <span className="caret"></span></a>
               <ul className="dropdown-menu">
-                <li><a href="/home">Home</a></li>
-                <li><a href="/profile">Profile</a></li>
-                <li><a href="/search">Browse</a></li>
+                <li><Link to={"/home"}>Home</Link></li>
+                <li><Link to={"/profile"}>Profile</Link></li>
+                <li><Link to={"/movie"}>Browse Movies</Link></li>
               </ul>
             </li>
           </ul>
 
           <ul className="nav navbar-nav navbar-right">
-            <li><a href="#"><span className="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            <li><a onClick={this.props.handleLogout} href="/"><span className="glyphicon glyphicon-log-out"></span> Logout</a></li>
           </ul>
-          <form className="navbar-form navbar-left" action={"/movie"}>
+          <form className="navbar-form navbar-left" action="/movie">
             <div className="form-group">
               <input type="text" name="search" onChange={this.handleInputChange} value={this.state.search} className="form-control" placeholder="Search Movie" />
             </div>

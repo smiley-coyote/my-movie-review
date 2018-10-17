@@ -8,7 +8,8 @@ const MovieDisplay = props => (
 
         <div className="movie-display-body panel-body">
           <Col size="md-4">
-            <img src={props.data.Poster} />
+            <img alt={props.data.Title} src={props.data.Poster} />
+            <span></span>
           </Col>
           <Col size="md-8">
             <div className="black-border">
@@ -68,10 +69,7 @@ const MovieDisplay = props => (
           <Col size="md-8">
           <div className="scroll">
           {props.critics.map(res =>{
-            <div>
-              <p>{res.username}</p>
-              <p>{res.rating}</p>
-            </div>
+            <p>{res.username}</p>
           })}
           </div>
             </Col>

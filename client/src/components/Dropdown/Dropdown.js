@@ -4,7 +4,7 @@ import "./Dropdown.css";
 
 const Dropdown = props => {
   return (
-    <DropdownButton bsStyle="custom" title={props.title}>
+    <DropdownButton bsStyle="primary" title={props.title}>
       <MenuItem onClick={props.handleSelection}>{props.selection}</MenuItem>
     </DropdownButton>
   );

@@ -1,20 +1,24 @@
 import React, { Component } from "react";
-import {Questions, QuestionsBtn, Stars} from "../../components/Questions"
+import {Questions} from "../../components/Questions"
 import API from "../../utils/API";
 import "./Survey.css"
+import { Redirect } from "react-router-dom";
 
 const movies = ["Pulp Fiction", "Fifty Shades of Grey", "Lost In Translation",
 "2001: A Space Odyssey", "The Witch", "Jurassic World", "La La Land", "Mad Max: Fury Road",
 "Cabin In The Woods", "Twilight", "Transformers", "Interstellar", "Gravity", "The Tree of Life",
 "Monty Python and the Holy Grail"];
 class Survey extends Component {
+  
   state = {
     question: "",
     number: -1,
     selectValue: "1",
     image: "",
     answers: [],
-    id: ""
+    id: "",
+    currentuser: {},
+    redirect: false
   };
   handleInputChange = event => {
     // const { name, value } = event.target;
@@ -31,7 +35,8 @@ class Survey extends Component {
       let poster = res.data.Poster
       this.setState({
         question: movies[x],
-        image: poster
+        image: poster,
+        id: res.data.imdbID
       })
     })
   }
@@ -40,26 +45,29 @@ class Survey extends Component {
     const surveyArr = this.state.answers;
     console.log(surveyArr);
     API.postResults({
+      id: this.props.auth.userId,
       survey: surveyArr
-    }).then( () => this.props.history.push(`/home`))
+    }).then( res => {
+      this.setState({redirect: true})
+    })
     
   }
 
-  // handleFormSubmit = event => {
-  //   event.preventDefault();
-  //   if(this.state.number < 14) {
-  //     const answer = this.state.selectValue;
-  //     const answers = this.state.answers.map( answers => answers)
-  //     answers.push(answer);
-  //   this.setState({
-  //     number: this.state.number += 1,
-  //     answers: answers
-  //   })
-  //   this.nextQuestion()
-  // } else {
-  //   this.endQuestions();
-  // }
-  // }
+  handleFormSubmit = event => {
+    event.preventDefault();
+    if(this.state.number < 14) {
+      const answer = this.state.selectValue;
+      const answers = this.state.answers.map( answers => answers)
+      answers.push(answer);
+    this.setState({
+      number: this.state.number += 1,
+      answers: answers
+    })
+    this.nextQuestion()
+  } else {
+    this.endQuestions();
+  }
+  }
 
   firstQuestion = () => {
     API.byTitle("Avatar").then( res => {
@@ -73,8 +81,19 @@ class Survey extends Component {
     })
   }
 
-  componentDidMount() {
+  loadUser = () =>{
+    API.findUser(this.props.auth.userId).then(res =>{
+      console.log(res.data);
+      this.setState({
+        currentuser: res.data
+      })
+    })
     this.firstQuestion();
+  }
+
+  componentDidMount() {
+    this.loadUser();
+    
   }
 
   handleRatingInputChange = event => {
@@ -83,13 +102,13 @@ class Survey extends Component {
     const value = event.target.htmlFor;
     const title = event.currentTarget.id;
     const poster = event.currentTarget.getAttribute("image");
-    const user = 1;
+    const id = this.props.auth.userId;
     API.submitRating({
+      _userId: id,
       imdbID: thisid,
       rating: value,
       title: title,
-      poster: poster,
-      userId: user
+      poster: poster
     }).then(res => console.log(res.data))
 
     this.setState({
@@ -116,7 +135,11 @@ class Survey extends Component {
 
   
   render() {
-    
+    const { redirect } = this.state;
+
+     if (redirect) {
+       return <Redirect to='/home'/>;
+     }
     return ( 
     <div>
     
