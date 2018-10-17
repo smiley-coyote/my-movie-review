@@ -284,13 +284,13 @@ class Movie extends Component {
     let type = movie[0]
     movie = movie[1]
      
-    // if (type === "?q") {
-    //   this.setState({ display: "movie" })
-    //   this.runSingleMovie(movie);
-    // } else if (type === "?search") {
-    //   this.setState({ display: "search" })
-    //   this.runSearchMovie(movie);
-    // }
+    if (type === "?q") {
+      this.setState({ display: "movie" })
+      this.runSingleMovie(movie);
+    } else if (type === "?search") {
+      this.setState({ display: "search" })
+      this.runSearchMovie(movie);
+    }
   
   }
 

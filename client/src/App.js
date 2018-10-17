@@ -15,6 +15,7 @@ import SignUp from "./components/SignUp";
 // import Home from "./components/Home";
 import API from "./utils/API"
 import NoMatch from "./pages/NoMatch"; 
+import UserPage from "./pages/UserPage";
 
 
 class App extends Component {
@@ -171,6 +172,14 @@ class App extends Component {
           } else {
             return <Profile auth = { this.state.auth }/>
           } 
+        }
+        }/>
+         <Route path = "/user/:id" render = {()=> {
+        if(!loggedIn){
+          return <Redirect to = "/" />
+        } else {
+          return <UserPage auth = { this.state.auth }/>
+        } 
         }
         }/>
         {/* <Route exact path="/survey" component={Survey} /> */}

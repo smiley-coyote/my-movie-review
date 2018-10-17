@@ -26,31 +26,31 @@ export default {
   },
   // post initial survey results
   postResults: function(data) {
-    return axios.put("api/user/results/", data);
+    return axios.put("/api/user/results/", data);
   },
   // get user info
   findUser: function(id) {
-    return axios.get("api/user/" + id);
+    return axios.get("/api/user/" + id);
   },
   findAll: function(){
-    return axios.get("api/user/")
+    return axios.get("/api/user/")
   },
   submitRating: function(data){
-    return axios.post("api/rating", data)
+    return axios.post("/api/rating", data)
   },
   findRatingUser: function(id){
-    return axios.get("api/rating/" + id)
+    return axios.get("/api/rating/" + id)
   },
   getRatings: function(data){
-    return axios.get("api/rating/" + data)
+    return axios.get("/api/rating/" + data)
   },
   addCritic: function(data){
-    return axios.post("api/critic", data);
+    return axios.post("/api/critic", data);
   },
   submitReview: function(data){
-    return axios.put("api/rating/writeup", data)
+    return axios.put("/api/rating/writeup", data)
   },
   uploadImage: function(data){
-    return axios.put("api/user", data);
+    return axios.put("/api/user", data);
   }
 };

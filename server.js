@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
  // For Passport
- app.use(session({ secret: 'superSecretpassport-practice',resave: true, saveUninitialized:true})); // session secret
+ app.use(session({ secret: 'superSecretpassport',resave: true, saveUninitialized:true})); // session secret
  app.use(passport.initialize());
  app.use(passport.session()); // persistent login sessions
  require('./config/passport.js')(passport,models.User);

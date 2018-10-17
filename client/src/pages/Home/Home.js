@@ -406,7 +406,7 @@ class Home extends Component {
              <div className="top-movies">
                {this.state.topmovies.map(res =>
 
-                <a href={"/movie/?q=" + res.movie}><li key={res.id}>{res.percentage}% {res.title}</li></a>
+                <Link to={"/movie/?q=" + res.movie}><li key={res.id}>{res.percentage}% {res.title}</li></Link>
 
               )}
              

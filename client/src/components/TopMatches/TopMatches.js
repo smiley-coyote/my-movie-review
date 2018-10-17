@@ -1,6 +1,7 @@
 import "./TopMatches.css";
 import React from "react";
 import { Image, Transformation } from 'cloudinary-react';
+import { Link } from "react-router-dom";
 
 const TopMatches = props => (
 
@@ -66,7 +67,9 @@ const TopMatches = props => (
           <button>Add New Critic</button>
         </div>
       </fieldset>
-      <a href={"/" + res._id}>visit profile</a>
+      <Link to={"/user/" + res.id}>
+      visit profile
+      </Link>
       <hr />
     </div>
   )}
