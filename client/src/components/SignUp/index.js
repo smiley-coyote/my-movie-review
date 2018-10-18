@@ -4,21 +4,23 @@ import {Link} from 'react-router-dom';
 
 const SignUp = (props)=> {
 	return (
-		<div>
-			<h1>SIGN UP</h1>
+		<div className="container">
+		<div className="sign-in-form">
 			<Link to = "/" >Go to sign in</Link>
-			<form>
+			<form className="form-signup">
+			<h2 className="form-signup-heading">Sign Up</h2>
 				<label>Name</label><br/>
-				<input value = {props.name} onChange = {props.handleChange} name='name' type='text' placeholder = 'your name'/>
+				<input className="form-control" value = {props.name} onChange = {props.handleChange} name='name' type='text' placeholder = 'your name'/>
 				<br />
 				<label>Email</label><br/>
-				<input value = {props.username} onChange = {props.handleChange} name='username' type='email' placeholder = 'example@email.com'/>
+				<input className="form-control" value = {props.username} onChange = {props.handleChange} name='username' type='email' placeholder = 'example@email.com'/>
 				<br />
 				<label>Password</label><br/>
-				<input name='password' type='password' value = {props.password} onChange = {props.handleChange} />
+				<input className="form-control" name='password' type='password' value = {props.password} onChange = {props.handleChange} />
 				<br />
-				<button type = 'submit' name = "/auth/signup" onClick = {props.handleSubmit}>Sign Up</button>
+				<button className="btn btn-lg btn-primary btn-block" type = 'submit' name = "/auth/signup" onClick = {props.handleSubmit}>Sign Up</button>
 			</form>
+			</div>
 		</div>
 	);
 };

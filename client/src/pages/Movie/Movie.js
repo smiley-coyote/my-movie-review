@@ -112,7 +112,6 @@ class Movie extends Component {
   }
 
   handleShow(id, title, poster) {
-
     this.setState({ id: id, title: title, poster: poster })
     this.setState({ show: true })
   }
@@ -245,12 +244,14 @@ class Movie extends Component {
       for (let i = 0; i < yourRatings.length; i++) {
         if (yourRatings[i].imdbID === thisMovie.imdbID) {
           thisMovie.userRating = yourRatings[i].rating
-          if(yourRatings[i].review !== undefined){
-            thisMovie.userReview = yourRatings[i].review
-          }
+          thisMovie.userReview = yourRatings[i].review
+          // if(yourRatings[i].review !== undefined){
+          //   thisMovie.userReview = yourRatings[i].review
+          // }
         }
         
       }
+      console.log(thisMovie)
       this.setState({movie: thisMovie})
 
       this.getUserRating()
@@ -303,10 +304,10 @@ class Movie extends Component {
                   data={this.state.movie}
                   critics={this.state.currentcriticreviews}
                 >
-                {/* {this.state.movie.map(res =>{
-                  {res.userRating !== undefined
+                
+                   {this.state.movie.userRating === undefined
                     ?<div className="star-rating">
-                    <fieldset title={this.state.Title} image={this.state.Poster} className="rating" name={this.state.imdbID} onClick={this.handleRatingInputChange}>
+                    <fieldset title={this.state.movie.Title} image={this.state.movie.Poster} className="rating" name={this.state.movie.imdbID} onClick={this.handleRatingInputChange}>
                       <h3>Please rate:</h3>
                       <input type="radio" id="star4" name="rating" value="4" /><label htmlFor="4"></label>
                       <input type="radio" id="star3" name="rating" value="3" /><label htmlFor="3"></label>
@@ -316,18 +317,35 @@ class Movie extends Component {
                   </div>
                   : <span></span>
                   }
-                  {res.userReview !== undefined
+                  {this.state.movie.userReview !== undefined
                     ? <p><span className="head-text">Your Review:</span>
                       <br />
-                      {res.userReview}</p>
-                    : res.yourRating !== undefined
-                      ? <Button id={this.state.imdbID} name={this.state.Title} bsStyle="primary" bsSize="large" onClick={() => this.handleShow(this.state.imdbID, this.state.Title, this.state.Poster)}>
+                      {this.state.movie.userReview}</p>
+                    : this.state.movie.userRating !== undefined
+                      ? <Button id={this.state.movie.imdbID} name={this.state.movie.Title} bsStyle="primary" bsSize="large" onClick={() => this.handleShow(this.state.movie.imdbID, this.state.movie.Title, this.state.movie.Poster)}>
                         Add A Review
-            </Button>
+                        </Button>
                       : <p>Rate Movie Before Writing Review</p>
                   }
 
-                })} */}
+               <Modal show={this.state.show} onHide={this.handleClose}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Review {this.state.title}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <img src={this.state.poster} alt={this.state.title} />
+                          <br />
+                          <div className="form-group">
+                            <label htmlFor="comment">Review:</label>
+                            <textarea name="writeup" value={this.state.writeup} onChange={this.handleInputChange} className="form-control" rows="5" id="comment"></textarea>
+                          </div>
+
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button onClick={this.handleReviewSubmit}>Submit Review</Button>
+                          <Button onClick={this.handleClose}>Close</Button>
+                        </Modal.Footer>
+                      </Modal>
                 
                 </MovieDisplay>
               </div>

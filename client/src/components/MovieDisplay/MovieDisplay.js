@@ -27,15 +27,15 @@ const MovieDisplay = props => (
               <p><span className="your-movie-rating">Your Rating: </span>{props.data.userRating === 1
                 ? <span>
                   <span className="fa fa-star checked"></span>
-                  <span className="fa fa-star checked"></span>
-                  <span className="fa fa-star checked"></span>
+                  <span className="fa fa-star"></span>
+                  <span className="fa fa-star"></span>
                   <span className="fa fa-star"></span>
                 </span>
                 : props.data.userRating === 2
                   ? <span>
                     <span className="fa fa-star checked"></span>
                     <span className="fa fa-star checked"></span>
-                    <span className="fa fa-star checked"></span>
+                    <span className="fa fa-star"></span>
                     <span className="fa fa-star"></span>
                   </span>
                   : props.data.userRating === 3
@@ -50,7 +50,7 @@ const MovieDisplay = props => (
                         <span className="fa fa-star checked"></span>
                         <span className="fa fa-star checked"></span>
                         <span className="fa fa-star checked"></span>
-                        <span className="fa fa-star"></span>
+                        <span className="fa fa-star checked"></span>
                       </span>
                       : <span>
                         unavailable
@@ -65,12 +65,47 @@ const MovieDisplay = props => (
           <div className="my-review">
           {props.children}
           </div>
-     
-       <div className="scroll">
+        
+       <div className="scroll critic-review-body">
+       <h3>My Critic Reviews</h3>
        {props.critics.map(res =>{
      
         return <div className="critic-review-content">
           <p>{res.username}</p>
+          {res.rating === 1
+          ? <span>
+          <span className="fa fa-star checked"></span>
+          <span className="fa fa-star"></span>
+          <span className="fa fa-star"></span>
+          <span className="fa fa-star"></span>
+        </span>
+        : res.rating === 2
+          ? <span>
+          <span className="fa fa-star checked"></span>
+          <span className="fa fa-star checked"></span>
+          <span className="fa fa-star"></span>
+          <span className="fa fa-star"></span>
+        </span>
+          : res.rating === 3
+          ?<span>
+          <span className="fa fa-star checked"></span>
+          <span className="fa fa-star checked"></span>
+          <span className="fa fa-star checked"></span>
+          <span className="fa fa-star"></span>
+        </span>
+        : res.rating === 4
+        ? <span>
+        <span className="fa fa-star checked"></span>
+        <span className="fa fa-star checked"></span>
+        <span className="fa fa-star checked"></span>
+        <span className="fa fa-star"></span>
+      </span>
+      : <p>rating not available</p>
+          }
+          {res.review !== undefined
+          ? <p>{res.review}</p>
+          : <p>No review submitted</p>
+          }
              </div>
     
        })}

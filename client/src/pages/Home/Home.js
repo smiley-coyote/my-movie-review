@@ -77,7 +77,8 @@ class Home extends Component {
     topuserratings: [],
     button: false,
     title: "Top Matches",
-    selection: "My Critics"
+    selection: "My Critics",
+    criticratings: []
   };
 
 
@@ -151,6 +152,7 @@ class Home extends Component {
 
   sortTopUserRatings = () =>{
     let userScores = this.state.userscores;
+    console.log(userScores)
     for(let i = 0; i<userScores.length; i++){
       if(userScores[i].ratings !== undefined){
         userScores[i].ratings.sort(function compare(a, b) {
@@ -264,68 +266,59 @@ class Home extends Component {
   sortCriticRatings = ratings =>{
 
     let criticRatings = ratings;
-    for(let i = 0; i<criticRatings.length; i++){
-      if(criticRatings[i].ratings !== undefined){
-        criticRatings[i].ratings.sort(function compare(a, b) {
-          var dateA = new Date(a.date);
-          var dateB = new Date(b.date);
-          return dateB - dateA;
-        });
-       
-      }
-   
-    }
+    criticRatings.sort( (a,b) => a.date.localeCompare(b.date) )
     console.log(criticRatings)
     this.setState({
       topuserratings: criticRatings
     })
   }
 
-  getCriticRatings = () =>{
-    let criticRatings = [];
-    const myCritics = this.state.currentuser.critics
-    console.log(myCritics);
-    let thisCritic = myCritics[0]
-    console.log(thisCritic);
-    // for(let i = 0; i<myCritics.length; i++){
-    //   API.getRatings(myCritics[i].criticId).then( res => {
-    //     for(let x = 0; x<res.data.length; x++){
-    //       criticRatings.push(res.data[x]);
-    //     }
-    //   })
-    // }
-    
-   
-    
-    
-    // this.sortCriticRatings(criticRatings);
-  }
+  
 
-  getUserCritics = () => {
-    for(let i = 0; i<userCritics.length; i++){
-      API.findUser(userCritics[i].criticId).then(res =>{
-        userCritics[i].image = res.data.image
-        userCritics[i].ratings = res.data.ratings
-        userCritics[i].topmovies = res.data.topmovies
+  getUserCritics = critics => {
+    let criticArr = critics;
+    let newRatingsArr = []
+    console.log(criticArr)
+    for(let i = 0; i<criticArr.length; i++){
+      API.findUser(criticArr[i].criticId).then(res =>{
+        let userName = res.data.name;
+        let image = res.data.image;
+        console.log(res.data)
+      criticArr[i].image = res.data.image;
+      criticArr[i].ratings = res.data.ratings;
+      for(let x = 0; x<res.data.ratings.length; x++){
+        newRatingsArr.push({
+          image: image,
+          username: userName,
+          imdbID: res.data.ratings[x].imdbID,
+          poster: res.data.ratings[x].poster,
+          rating: res.data.ratings[x].rating,
+          title: res.data.ratings[x].title,
+          date: res.data.ratings[x].date,
+          review: res.data.ratings[x].review
+        })
+      }
       })
     }
-
     
-    this.setState({mycritics: userCritics})
-    this.getCriticRatings();
+    console.log(criticArr)
+    console.log(newRatingsArr)
+    this.setState({mycritics: criticArr})
+  
+    this.sortCriticRatings(newRatingsArr);
   }
 
 
-  // Loads user. Change from userId after Passport setup =======================xxxxxxxxx
+
   loadUser = () => {
-   console.log(this.props.auth.userId)
+
 
     API.findUser(this.props.auth.userId).then(res => {
    
     //  let userRatings = res.data.ratings;
     //  console.log(userRatings)
-   
-    //  this.getUserCritics();
+   let userCritics = res.data.critics
+     this.getUserCritics(userCritics);
       this.setState({ currentuser: res.data })
     }
 
@@ -373,7 +366,6 @@ class Home extends Component {
     API.findUser(this.props.auth.userId).then(res => {
   
       this.setState({ currentuser: res.data })
-      console.log(this.state.currentuser)
       this.getUserCritics();
     
     })
@@ -432,7 +424,7 @@ class Home extends Component {
               addCritic={this.addCritic}
               placeholder={Placeholder}
           />
-          : <MyCritics critics={this.state.mycritics}/>
+          : <MyCritics ratings={this.state.topuserratings} critics={this.state.mycritics}/>
         }
           
           </Mainbody>

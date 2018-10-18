@@ -1,44 +1,76 @@
 import "./MyCritics.css";
 import React from "react";
 import { Image, Transformation } from 'cloudinary-react';
+import { Link } from "react-router-dom";
 
 
 const MyCritics = props => (
 
   <div>
+    {props.ratings.map(res =>
+      <div className="top-matches my-critics-page" key={res.date}>
 
-    {props.critics.map(res =>
-      <div key={res.userId}>
-        <div className="float-left">
-          <Image cloudName="dmyiazu6p" publicId={res.image}>
-            <Transformation width="100" height="100" gravity="faces" crop="fill" />
-          </Image>
-          <p>{res.user}</p>
+        <div className="float-left my-critics">
+        <Link to={"/movie/?q=" + res.title.split(" ").join("+")}>
+          <img src={res.poster} alt={res.title} />
+        </Link>
         </div>
-        <div className="critic-content">
-          {res.ratings[0] !== undefined
-            ? <div className="latest-rating">
-              <p className="heading">Latest Review</p>
-              <p>{res.ratings[0].title}</p>
-              <p>{res.ratings[0].rating} out of 4 stars</p>
-              {res.ratings[0].review !== undefined
-                ? <p>
-                  {res.ratings[0].review}
-                </p>
-                : <p>
-                  No written review
+
+        <div className="content">
+
+          <h3>{res.title}</h3>
+
+          <div className="latest-rating">
+
+            <p className="heading">Rating:</p>
+
+            {res.rating === 1
+
+              ? <p>
+                <span className="fa fa-star checked"></span>
+                <span className="fa fa-star"></span>
+                <span className="fa fa-star"></span>
+                <span className="fa fa-star"></span>
               </p>
-              }
-            </div>
-            : <p>No ratings for this user</p>
-          }
+              : res.rating === 2
+                ? <p><span className="fa fa-star checked"></span>
+                  <span className="fa fa-star checked"></span>
+                  <span className="fa fa-star"></span>
+                  <span className="fa fa-star"></span></p>
+                : res.rating === 3
+                  ? <p><span className="fa fa-star checked"></span>
+                    <span className="fa fa-star checked"></span>
+                    <span className="fa fa-star checked"></span>
+                    <span className="fa fa-star"></span></p>
+                  : res.rating === 4
+                    ? <p><span className="fa fa-star checked"></span>
+                      <span className="fa fa-star checked"></span>
+                      <span className="fa fa-star checked"></span>
+                      <span className="fa fa-star checked"></span></p>
+                    : <p>Rating Unavailable</p>
+            }
+            {res.review !== undefined
+              ? <p>
+                {res.review}
+              </p>
+              : <p>
+                No written review
+          </p>
+            }
+          </div>
         </div>
+      
 
-        <hr />
+
+      <Link to={"/user/" + res.id}>
+        visit profile
+    </Link>
+      <hr />
       </div>
-    )}
-  </div>
+  )}
 
+
+  </div>
 );
 
 export default MyCritics;

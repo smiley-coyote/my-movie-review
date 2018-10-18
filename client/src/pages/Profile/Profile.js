@@ -9,6 +9,7 @@ import Sidebar from "../../components/Sidebar";
 import Mainbody from "../../components/Mainbody";
 import { Button, Modal } from 'react-bootstrap';
 import "./Profile.css";
+import { Link } from "react-router-dom";
 
 const CLOUDINARY_UPLOAD_PRESET = 'kmmnilon';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dmyiazu6p/image/upload';
@@ -146,7 +147,9 @@ class Profile extends Component {
                   ? <div>
                     {this.state.userratings.map(res =>
                       <div className="my-reviews" key={res.imdbID}>
+                      <Link to={"/movie/?q=" + res.title.split(" ").join("+")}>
                         <img alt={res.title} src={res.poster} />
+                        </Link>
                         <div className="reviews-title">
                         <h3>{res.title}</h3>
                         </div>
@@ -180,7 +183,7 @@ class Profile extends Component {
                         {res.review !== undefined
                         ?<p>{res.review}
                           <br />
-                          -{this.state.currentuser.username}
+                          -{this.state.currentuser.name}
                         </p>
                         :<p></p>
                         }

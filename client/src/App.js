@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 // import Wrapper from "./components/Wrapper";
 import Movie from "./pages/Movie";
 import Profile from "./pages/Profile";
+import Search from "./pages/Search";
 import './App.css';
 import axios from 'axios';
 import SignIn from "./components/SignIn";
@@ -151,11 +152,19 @@ class App extends Component {
         }
         }/>
    
-         <Route exact path = "/movie/:movieid?" render = {()=> {
+         <Route exact path = "/movie/:id?" render = {()=> {
           if(!loggedIn){
             return <Redirect to = "/" />
           } else {
             return <Movie auth = { this.state.auth }/>
+          } 
+        }
+        }/>
+         <Route exact path = "/search/:id" render = {()=> {
+          if(!loggedIn){
+            return <Redirect to = "/" />
+          } else {
+            return <Search auth = { this.state.auth }/>
           } 
         }
         }/>

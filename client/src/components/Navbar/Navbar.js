@@ -12,12 +12,15 @@ class Navbar extends Component {
 
   handleInputSubmit = event => {
     event.preventDefault();
-    this.props.history.push("/movie/?search=" + this.state.search);
+    let title = this.state.search;
+    title = title.split(" ");
+    title = title.join("+")
+    this.props.history.push("/search/" + title);
     
   }
 
   handleInputChange = event => {
-    const { name, value } = event.target;
+    let { name, value } = event.target;
     this.setState({
       [name]: value
     });

@@ -2,3 +2,14 @@
   margin: 10px;
   padding: 20px;
 }
+
+.my-critics img {
+  height: 180px;
+  width: auto;
+  margin: 10px;
+}
+
+.my-critics-page {
+  margin-top: 1%;
+  padding: 10px;
+}
