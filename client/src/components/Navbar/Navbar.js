@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Navbar.css"
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
+import {withRouter} from 'react-router-dom';
 
 class Navbar extends Component {
 
@@ -11,7 +12,8 @@ class Navbar extends Component {
 
   handleInputSubmit = event => {
     event.preventDefault();
-    return <Redirect to={"/movie"} />
+    this.props.history.push("/movie/?search=" + this.state.search);
+    
   }
 
   handleInputChange = event => {
@@ -44,11 +46,11 @@ class Navbar extends Component {
           <ul className="nav navbar-nav navbar-right">
             <li><a onClick={this.props.handleLogout} href="/"><span className="glyphicon glyphicon-log-out"></span> Logout</a></li>
           </ul>
-          <form className="navbar-form navbar-left" action="/movie">
+          <form className="navbar-form navbar-left">
             <div className="form-group">
               <input type="text" name="search" onChange={this.handleInputChange} value={this.state.search} className="form-control" placeholder="Search Movie" />
             </div>
-            <button type="submit" className="btn btn-default">Submit</button>
+            <button type="submit" onClick={this.handleInputSubmit} className="btn btn-default">Submit</button>
           </form>
         </div>
       </nav>
@@ -56,7 +58,7 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+export default withRouter(Navbar);
 
 
 

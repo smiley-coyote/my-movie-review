@@ -61,19 +61,23 @@ const MovieDisplay = props => (
 
             </div>
           </Col>
-         
-        </div>
-        <Row>
-          <Col size="md-4">
-          </Col>
-          <Col size="md-8">
-          <div className="scroll">
-          {props.critics.map(res =>{
-            <p>{res.username}</p>
-          })}
+
+          <div className="my-review">
+          {props.children}
           </div>
-            </Col>
-        </Row>
+     
+       <div className="scroll">
+       {props.critics.map(res =>{
+     
+        return <div className="critic-review-content">
+          <p>{res.username}</p>
+             </div>
+    
+       })}
+       </div>
+    
+        </div>
+        
       </div>
 
     </Row>

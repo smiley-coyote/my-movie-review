@@ -150,15 +150,8 @@ class App extends Component {
           } 
         }
         }/>
-        <Route exact path = "/movie" render = {()=> {
-          if(!loggedIn){
-            return <Redirect to = "/" />
-          } else {
-            return <Movie auth = { this.state.auth }/>
-          } 
-        }
-        }/>
-         <Route path = "/movie/:search?" render = {()=> {
+   
+         <Route exact path = "/movie/:movieid?" render = {()=> {
           if(!loggedIn){
             return <Redirect to = "/" />
           } else {

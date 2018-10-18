@@ -6,6 +6,7 @@ import Wrapper from "../../components/Wrapper";
 import Results from "../../components/Results";
 import "./Movie.css";
 import { Button, Modal } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
 let userCritics = [];
 let yourRatings = [];
@@ -43,15 +44,16 @@ class Movie extends Component {
 
   }
 
+
   handleReviewSubmit = event => {
     event.preventDefault();
-    const userId = 1
+    const id = this.props.auth.userId;
     API.submitReview({
-      userId: userId,
+      _userId: id,
       review: this.state.writeup,
       imdbID: this.state.id
     }).then(res => {
-      API.findUser(1).then(res => {
+      API.findUser(id).then(res => {
         const yourRatings = res.data.ratings;
         let searchResults = this.state.results
         for (let i = 0; i < searchResults.length; i++) {
@@ -76,16 +78,16 @@ class Movie extends Component {
     const thisid = event.currentTarget.name;
     const value = event.target.htmlFor;
     const poster = event.currentTarget.getAttribute("image");
-    const user = 1;
+    const id = this.props.auth.userId;
     const title = event.currentTarget.getAttribute("title");
     API.submitRating({
       imdbID: thisid,
       rating: value,
       poster: poster,
-      userId: user,
+      _userId: id,
       title: title
     }).then(res => {
-      API.findUser(1).then(res => {
+      API.findUser(id).then(res => {
         const yourRatings = res.data.ratings;
         let searchResults = this.state.results
         for (let i = 0; i < searchResults.length; i++) {
@@ -168,7 +170,7 @@ class Movie extends Component {
         if (thisMovie.imdbID === ratings[x].imdbID) {
 
           criticReviews.push({
-            username: userCritics[i].username,
+            username: userCritics[i].name,
             rating: ratings[x].rating,
             review: ratings[x].review
           })
@@ -178,23 +180,24 @@ class Movie extends Component {
       }
 
     }
+    console.log(userCritics)
+    this.setState({
+      currentcriticreviews: criticReviews
+    })
     console.log(criticReviews)
     this.setState({
       currentcriticratings: criticRatings
     })
-    this.setState({
-      currentcriticreviews: criticReviews
-    })
+    
     this.getCriticScore();
   }
 
   readUrl = () => {
     let movie = window.location.search;
-    let type;
     movie = movie.split("=")
-    type = movie[0]
+    let type = movie[0]
     movie = movie[1]
-
+     
     if (type === "?q") {
       this.setState({ display: "movie" })
       this.runSingleMovie(movie);
@@ -215,20 +218,20 @@ class Movie extends Component {
       let searchResults = res.data.Search;
       let yourRatings = this.state.currentuser.ratings;
       console.log(yourRatings)
-      // for (let i = 0; i < searchResults.length; i++) {
-      //   let movieTitlePlus = searchResults[i].Title;
-      //   movieTitlePlus = movieTitlePlus.split(" ");
-      //   movieTitlePlus = movieTitlePlus.join("+");
-      //   searchResults[i].plusTitle = movieTitlePlus
-      //   for (let x = 0; x < yourRatings.length; x++) {
-      //     if (searchResults[i].imdbID === yourRatings[x].imdbID) {
-      //       searchResults[i].yourRating = yourRatings[x].rating
-      //       if (yourRatings[x].review !== undefined) {
-      //         searchResults[i].yourReview = yourRatings[x].review
-      //       }
-      //     }
-      //   }
-      // }
+      for (let i = 0; i < searchResults.length; i++) {
+        let movieTitlePlus = searchResults[i].Title;
+        movieTitlePlus = movieTitlePlus.split(" ");
+        movieTitlePlus = movieTitlePlus.join("+");
+        searchResults[i].plusTitle = movieTitlePlus
+        for (let x = 0; x < yourRatings.length; x++) {
+          if (searchResults[i].imdbID === yourRatings[x].imdbID) {
+            searchResults[i].yourRating = yourRatings[x].rating
+            if (yourRatings[x].review !== undefined) {
+              searchResults[i].yourReview = yourRatings[x].review
+            }
+          }
+        }
+      }
       this.setState({ results: searchResults })
 
     })
@@ -237,16 +240,20 @@ class Movie extends Component {
   runSingleMovie = movie => {
     API.singleByTitle(movie).then(res => {
       thisMovie = res.data;
-      // const userRatings = this.state.currentuser.ratings
-      // const yourRatings = this.state.currentuser.ratings
-      // for (let i = 0; i < yourRatings.length; i++) {
-      //   if (yourRatings[i].imdbID === thisMovie.imdbID) {
-      //     thisMovie.userRating = yourRatings[i].rating
-      //   }
-      // }
+      const userRatings = this.state.currentuser.ratings
+      const yourRatings = this.state.currentuser.ratings
+      for (let i = 0; i < yourRatings.length; i++) {
+        if (yourRatings[i].imdbID === thisMovie.imdbID) {
+          thisMovie.userRating = yourRatings[i].rating
+          if(yourRatings[i].review !== undefined){
+            thisMovie.userReview = yourRatings[i].review
+          }
+        }
+        
+      }
       this.setState({movie: thisMovie})
 
-      // this.getUserRating()
+      this.getUserRating()
 
 
 
@@ -256,8 +263,10 @@ class Movie extends Component {
 
   loadUserCritics = () => {
     const userCritics = this.state.currentuser.critics
+    console.log(userCritics)
     for (let i = 0; i < userCritics.length; i++) {
-      API.findUser(userCritics[i]._id).then(res => {
+      API.findUser(userCritics[i].criticId).then(res => {
+        console.log(res.data)
         myCritics.push(res.data)
       })
     }
@@ -266,43 +275,26 @@ class Movie extends Component {
   }
 
   loadUser = () => {
-    API.findUser("5bc2904b27b72c5208fad2b5").then(res => {
+    API.findUser(this.props.auth.userId).then(res => {
       console.log(res.data);
       userCritics = res.data.critics;
       console.log(userCritics)
       yourRatings = res.data.ratings;
       this.setState({ currentuser: res.data })
-      // this.loadUserCritics()
+      this.loadUserCritics()
     })
   }
 
   componentDidMount(){
-  //  this.loadUser();
-    let movie = window.location.search;
-    console.log(movie)
-    movie = movie.split("=")
-    let type = movie[0]
-    movie = movie[1]
-     
-    if (type === "?q") {
-      this.setState({ display: "movie" })
-      this.runSingleMovie(movie);
-    } else if (type === "?search") {
-      this.setState({ display: "search" })
-      this.runSearchMovie(movie);
-    }
+   this.loadUser();
+   this.readUrl()
+  
   
   }
-
- 
-
- 
-
 
   render() {
     return (
       <div>
-        {console.log("movie page")}
         {this.state.display === "movie"
           ? <div className="container">
             <div className="row">
@@ -310,7 +302,34 @@ class Movie extends Component {
                 <MovieDisplay
                   data={this.state.movie}
                   critics={this.state.currentcriticreviews}
-                />
+                >
+                {/* {this.state.movie.map(res =>{
+                  {res.userRating !== undefined
+                    ?<div className="star-rating">
+                    <fieldset title={this.state.Title} image={this.state.Poster} className="rating" name={this.state.imdbID} onClick={this.handleRatingInputChange}>
+                      <h3>Please rate:</h3>
+                      <input type="radio" id="star4" name="rating" value="4" /><label htmlFor="4"></label>
+                      <input type="radio" id="star3" name="rating" value="3" /><label htmlFor="3"></label>
+                      <input type="radio" id="star2" name="rating" value="2" /><label htmlFor="2"></label>
+                      <input type="radio" id="star1" name="rating" value="1" /><label htmlFor="1"></label>
+                    </fieldset>
+                  </div>
+                  : <span></span>
+                  }
+                  {res.userReview !== undefined
+                    ? <p><span className="head-text">Your Review:</span>
+                      <br />
+                      {res.userReview}</p>
+                    : res.yourRating !== undefined
+                      ? <Button id={this.state.imdbID} name={this.state.Title} bsStyle="primary" bsSize="large" onClick={() => this.handleShow(this.state.imdbID, this.state.Title, this.state.Poster)}>
+                        Add A Review
+            </Button>
+                      : <p>Rate Movie Before Writing Review</p>
+                  }
+
+                })} */}
+                
+                </MovieDisplay>
               </div>
             </div>
           </div>
@@ -322,10 +341,10 @@ class Movie extends Component {
                     <div className="search-body" key={result.imdbID}>
                       <Col size="md-4">
                         <div className="search-float-left">
-                          <a href={"/movie?q=" + result.plusTitle}>
+                          <Link to={"/movie/?q=" + result.plusTitle}>
                             <img src={result.Poster} alt={result.Title} />
-                          </a>
-                          <a href={"/movie?q=" + result.plusTitle}>view movie info</a>
+                          </Link>
+                          <Link to={"/movie/?q=" + result.plusTitle}>view movie info</Link>
                         </div>
                       </Col>
                       <Col size="md-8">
