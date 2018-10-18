@@ -14,9 +14,11 @@ const TopMatches = props => (
       <fieldset onClick={props.addCritic} name={res.user} id={res.id}>
         <div>
           <div className="float-left">
+          <Link to={"/user/" + res.id}>
             <Image cloudName="dmyiazu6p" publicId={res.image}>
               <Transformation width="100" height="100" gravity="faces" crop="fill" />
             </Image>
+            </Link>
             <p>{res.user}</p>
             <p>{res.percentage}% match</p>
           </div>

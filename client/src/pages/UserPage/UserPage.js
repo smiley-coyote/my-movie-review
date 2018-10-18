@@ -9,6 +9,7 @@ import Sidebar from "../../components/Sidebar";
 import Mainbody from "../../components/Mainbody";
 import { Button, Modal } from 'react-bootstrap';
 import "./UserPage.css";
+import { Link } from "react-router-dom";
 
 // let userRatings = [];
 
@@ -90,7 +91,9 @@ class UserPage extends Component {
                   ? <div>
                     {this.state.userratings.map(res =>
                       <div className="my-reviews" key={res.imdbID}>
+                      <Link to={"/movie/?q=" + res.title.split(" ").join("+")}>
                         <img alt={res.title} src={res.poster} />
+                        </Link>
                         <div className="reviews-title">
                         <h3>{res.title}</h3>
                         </div>
@@ -142,7 +145,7 @@ class UserPage extends Component {
               </Mainbody>
             </Col>
             <Col size="md-3">
-              <Sidebar title={"My Profile"}>
+              <Sidebar title={this.state.currentuser.name + "'s Profile"}>
                 <Image cloudName="dmyiazu6p" publicId={this.state.currentuser.image}>
                   <Transformation width="150" height="150" gravity="faces" crop="fill" />
                 </Image>

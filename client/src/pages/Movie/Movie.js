@@ -25,7 +25,6 @@ class Movie extends Component {
       movie: {},
       currentuser: {},
       allusers: [],
-      movieSearch: "",
       navsearch: "",
       results: [],
       rating: 0,
@@ -53,22 +52,10 @@ class Movie extends Component {
       review: this.state.writeup,
       imdbID: this.state.id
     }).then(res => {
-      API.findUser(id).then(res => {
-        const yourRatings = res.data.ratings;
-        let searchResults = this.state.results
-        for (let i = 0; i < searchResults.length; i++) {
-          for (let x = 0; x < yourRatings.length; x++) {
-            if (searchResults[i].imdbID === yourRatings[x].imdbID) {
-              searchResults[i].yourRating = yourRatings[x].rating
-              if (yourRatings[x].review !== undefined) {
-                searchResults[i].yourReview = yourRatings[x].review
-              }
-            }
-          }
-        }
-        this.setState({ movie: searchResults })
-      })
+      
       this.setState({ show: false })
+      this.loadUser();
+      this.runSingleMovie();
     })
 
   }
@@ -87,18 +74,10 @@ class Movie extends Component {
       _userId: id,
       title: title
     }).then(res => {
-      API.findUser(id).then(res => {
-        const yourRatings = res.data.ratings;
-        let searchResults = this.state.results
-        for (let i = 0; i < searchResults.length; i++) {
-          for (let x = 0; x < yourRatings.length; x++) {
-            if (searchResults[i].imdbID === yourRatings[x].imdbID) {
-              searchResults[i].yourRating = yourRatings[x].rating
-            }
-          }
-        }
-        this.setState({ results: searchResults })
-      })
+      
+       
+      this.loadUser();
+      this.runSingleMovie();
 
 
 

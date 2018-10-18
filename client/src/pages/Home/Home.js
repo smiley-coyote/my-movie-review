@@ -372,6 +372,7 @@ class Home extends Component {
 
   addCritic = event => {
     event.preventDefault();
+    
     const criticId = event.currentTarget.id;
     const thisId = this.props.auth.userId
     const name = event.currentTarget.name;
@@ -384,13 +385,9 @@ class Home extends Component {
       criticId: criticId
 
     }).then(res => {
-      console.log(res.data + " added!")
-      API.findUser(this.props.auth.userId).then(res => {
-
-        this.setState({ currentuser: res.data })
-        this.getUserCritics();
-
-      })
+      console.log("added!")
+      this.loadUser();
+    this.runGetMovieTitles();
     }
     )
   }
