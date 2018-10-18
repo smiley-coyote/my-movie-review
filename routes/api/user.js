@@ -12,4 +12,7 @@ router.route("/:id").get(usersController.findUser);
 router.route("/")
 .get(usersController.findAll);
 
+router.route("/topfive")
+.put(usersController.addTopFive);
+
 module.exports = router;

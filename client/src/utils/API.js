@@ -52,5 +52,8 @@ export default {
   },
   uploadImage: function(data){
     return axios.put("/api/user", data);
+  },
+  submitTopFive: function(data){
+    return axios.put("/api/user/topfive", data)
   }
 };

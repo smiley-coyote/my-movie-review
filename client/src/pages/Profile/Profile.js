@@ -27,7 +27,13 @@ class Profile extends Component {
       uploadedFileCloudinaryUrl: '',
       userimage: "",
       modalDisplay: false,
-      show: false
+      show: false,
+      showedit: false,
+      movieOne: "",
+      movieTwo: "",
+      movieThree: "",
+      movieFour: "",
+      movieFive: ""
     };
   }
 
@@ -101,8 +107,8 @@ class Profile extends Component {
       this.runUserRatings();
     })
 
-    
- 
+
+
     // API.findUser(id).then(res => {
     //   console.log(res.data);
     //   this.setState({ currentuser: res.data })
@@ -110,11 +116,48 @@ class Profile extends Component {
     // })
   }
 
-  
 
-  componentDidMount () {
-   this.loadUser();
-   
+
+  componentDidMount() {
+    this.loadUser();
+
+  }
+
+  handleInputChange = event => {
+    let value = event.target.value;
+    const name = event.target.name;
+
+    this.setState({
+      [name]: value
+    });
+  };
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+
+    const topFive = [this.state.movieOne, this.state.movieTwo, this.state.movieThree, this.state.movieFour, this.state.movieFive];
+    const data = {
+      userId: this.props.auth.userId,
+      topfive: topFive
+    }
+
+    API.submitTopFive(data).then(res =>{
+      console.log(res.data + " Success!")
+    })
+
+    this.setState({
+      showedit: false
+    })
+
+    this.loadUser();
+  };
+
+  handleUpdateMovies = event =>{
+    event.preventDefault();
+
+    this.setState({
+      showedit: true
+    })
   }
 
   render() {
@@ -125,19 +168,65 @@ class Profile extends Component {
             <Col size="md-3">
               <Sidebar title={"My Top Movies"}>
                 {this.state.currentuser.topmovies !== undefined
+                ? !this.state.showedit
                   ? <ol>
                     {this.state.currentuser.topmovies.map(res =>
 
                       <li key={res}>{res}</li>
 
                     )}
-
+                       <button onClick={this.handleUpdateMovies}>update</button>
                   </ol>
-                  : <p>Add top 5 movies</p>
-
+                 
+                  : <div className="text-align-center"><p>Add top 5 movies</p></div>
+                : <span></span>
                 }
-                <button>update</button>
-
+                
+                {this.state.showedit === true
+                  ? <form>
+                    <ol>
+                      <form className="form">
+                        <li><input
+                          value={this.state.movieOne}
+                          name="movieOne"
+                          onChange={this.handleInputChange}
+                          type="text"
+                          
+                        /></li>
+                        <li><input
+                          value={this.state.movieTwo}
+                          name="movieTwo"
+                          onChange={this.handleInputChange}
+                          type="text"
+                          
+                        /></li>
+                        <li><input
+                          value={this.state.movieThree}
+                          name="movieThree"
+                          onChange={this.handleInputChange}
+                          type="text"
+                          
+                        /></li>
+                        <li><input
+                          value={this.state.movieFour}
+                          name="movieFour"
+                          onChange={this.handleInputChange}
+                          type="text"
+                          
+                        /></li>
+                         <li><input
+                          value={this.state.movieFive}
+                          name="movieFive"
+                          onChange={this.handleInputChange}
+                          type="text"
+                          
+                        /></li>
+                        <button onClick={this.handleFormSubmit}>Submit</button>
+                      </form>
+                    </ol>
+                  </form>
+                  : <span></span>
+                }
               </Sidebar>
             </Col>
 
@@ -147,49 +236,49 @@ class Profile extends Component {
                   ? <div>
                     {this.state.userratings.map(res =>
                       <div className="my-reviews" key={res.imdbID}>
-                      <Link to={"/movie/?q=" + res.title.split(" ").join("+")}>
-                        <img alt={res.title} src={res.poster} />
+                        <Link to={"/movie/?q=" + res.title.split(" ").join("+")}>
+                          <img alt={res.title} src={res.poster} />
                         </Link>
                         <div className="reviews-title">
-                        <h3>{res.title}</h3>
+                          <h3>{res.title}</h3>
                         </div>
                         <div className="reviews-body">
-                        <div className="border-box">
-                        <p>My rating:</p>
-                        {res.rating === 1
-                          ? <p><span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span></p>
-                          : res.rating === 2
-                            ? <p><span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span></p>
-                            : res.rating === 3
+                          <div className="border-box">
+                            <p>My rating:</p>
+                            {res.rating === 1
                               ? <p><span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                                <span class="fa fa-star"></span>
                                 <span class="fa fa-star"></span></p>
-                              : res.rating === 4
-                                ? <p>
+                              : res.rating === 2
+                                ? <p><span class="fa fa-star checked"></span>
                                   <span class="fa fa-star checked"></span>
-                                  <span class="fa fa-star checked"></span>
-                                  <span class="fa fa-star checked"></span>
-                                  <span class="fa fa-star checked"></span>
-                                </p>
-                                : <p>Rating Unavailable</p>
-                        }
-                        {res.review !== undefined
-                        ?<p>{res.review}
-                          <br />
-                          -{this.state.currentuser.name}
-                        </p>
-                        :<p></p>
-                        }
-                      </div>
-                      </div>
-                  
+                                  <span class="fa fa-star"></span>
+                                  <span class="fa fa-star"></span></p>
+                                : res.rating === 3
+                                  ? <p><span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span></p>
+                                  : res.rating === 4
+                                    ? <p>
+                                      <span class="fa fa-star checked"></span>
+                                      <span class="fa fa-star checked"></span>
+                                      <span class="fa fa-star checked"></span>
+                                      <span class="fa fa-star checked"></span>
+                                    </p>
+                                    : <p>Rating Unavailable</p>
+                            }
+                            {res.review !== undefined
+                              ? <p>{res.review}
+                                <br />
+                                -{this.state.currentuser.name}
+                              </p>
+                              : <p></p>
+                            }
+                          </div>
+                        </div>
+
                       </div>
                     )}
                   </div>

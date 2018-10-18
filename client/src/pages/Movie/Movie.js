@@ -66,7 +66,7 @@ class Movie extends Component {
             }
           }
         }
-        this.setState({ results: searchResults })
+        this.setState({ movie: searchResults })
       })
       this.setState({ show: false })
     })

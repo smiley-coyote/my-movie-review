@@ -83,5 +83,11 @@ module.exports = {
     .findOneAndUpdate({ _id: req.body.id}, {"image" : req.body.image})
     .then(dbModel => res.json(dbModel))
     .catch(err => res.status(422).json(err));
+  },
+  addTopFive: function(req, res){
+    db.User
+    .findOneAndUpdate({ _id: req.body.userId}, {"topmovies" : req.body.topfive})
+    .then(dbModel => res.json(dbModel))
+    .catch(err => res.status(422).json(err));
   }
 };
