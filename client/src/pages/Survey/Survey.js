@@ -18,7 +18,8 @@ class Survey extends Component {
     answers: [],
     id: "",
     currentuser: {},
-    redirect: false
+    redirect: false,
+    questionNumber: 1
   };
   handleInputChange = event => {
     // const { name, value } = event.target;
@@ -28,7 +29,8 @@ class Survey extends Component {
   };
 
   nextQuestion = () => {
-  
+    let addQuestion = this.state.questionNumber
+    addQuestion += 1
     let x = this.state.number;
     API.byTitle(movies[x]).then( res => {
       console.log(res.data)
@@ -36,7 +38,8 @@ class Survey extends Component {
       this.setState({
         question: movies[x],
         image: poster,
-        id: res.data.imdbID
+        id: res.data.imdbID,
+        questionNumber: addQuestion
       })
     })
   }
@@ -141,21 +144,28 @@ class Survey extends Component {
        return <Redirect to='/home'/>;
      }
     return ( 
-    <div>
+    <div className="container">
     
-    <div>
+    <div className="survey-questions">
+    <div className="question-number">
+    <h3>Question {this.state.questionNumber} of 15</h3>
+    </div>
        <Questions>
-         <img src={this.state.image} alt={this.state.question} />
+         <img className="survey-poster" src={this.state.image} alt={this.state.question} />
          <br />
       <h1>{this.state.question}</h1>
        </Questions>
-        <fieldset className="rating" image={this.state.image} id={this.state.question} name={this.state.id} onClick={this.handleRatingInputChange}>
+       <div className="star-buttons">
+        <fieldset className="rating-survey" image={this.state.image} id={this.state.question} name={this.state.id} onClick={this.handleRatingInputChange}>
                 <h3>Please rate:</h3>
+                
                 <input type="radio" id="star4" name="rating" value="4" /><label htmlFor="4"></label>
                 <input type="radio" id="star3" name="rating" value="3" /><label htmlFor="3"></label>
                 <input type="radio" id="star2" name="rating" value="2" /><label htmlFor="2"></label>
                 <input type="radio" id="star1" name="rating" value="1" /><label htmlFor="1"></label>
+             
               </fieldset>
+              </div>
      </div>
      
    
