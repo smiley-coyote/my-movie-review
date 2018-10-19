@@ -265,21 +265,28 @@ class Home extends Component {
     ))
 
 
+      if(filteredUsers > 4){    this.setState({
+        allusers: filteredUsers
+      })
+      this.runSurveyResults()
+    }
 
-    this.setState({
-      allusers: filteredUsers
-    })
-    this.runSurveyResults()
   }
 
   runFindAll = () => {
     API.findAll()
-      .then(res =>
+      .then(res => {
+        if(res.data.length > 4){
         this.setState({
           allusers: res.data
-        }))
-      .then(() => this.filterCritics())
+        })
+        this.filterCritics()
+      }
+      })
+      
   }
+
+  
 
   sortCriticRatings = ratings => {
 
