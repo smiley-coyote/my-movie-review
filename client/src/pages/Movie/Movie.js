@@ -43,6 +43,11 @@ class Movie extends Component {
 
   }
 
+  componentWillReceiveProps(){
+    this.loadUser();
+    this.readUrl();
+  }
+
 
   handleReviewSubmit = event => {
     event.preventDefault();
@@ -66,6 +71,7 @@ class Movie extends Component {
           }
   
         }
+        console.log(thisMovie)
         this.setState({ show: false, movie: thisMovie })
   
       })
@@ -102,8 +108,9 @@ class Movie extends Component {
               thisMovie.userReview = yourRatings[i].review
             }
           }
-  
+          console.log(res.data)
         }
+        console.log(thisMovie)
         this.setState({ show: false, movie: thisMovie })
   
       })
@@ -157,7 +164,6 @@ class Movie extends Component {
         }
 
       }
-      console.log(percentage + "=" + score + "/" + viewers)
       this.setState({ movie: thisMovie })
       this.setState({ display: "search" })
       this.setState({ display: "movie" })
@@ -200,6 +206,7 @@ class Movie extends Component {
   }
 
   runSingleMovie = movie => {
+    console.log(movie)
     API.byId(movie).then(res => {
       thisMovie = res.data;
       const userRatings = this.state.currentuser.ratings
@@ -229,6 +236,7 @@ class Movie extends Component {
     movie = movie.split("=")
     let type = movie[0]
     movie = movie[1]
+    console.log(movie)
     if(movie !== undefined){
     this.runSingleMovie(movie);
     }
@@ -266,7 +274,7 @@ class Movie extends Component {
 
   componentDidMount() {
     console.log(this.state.movie)
-    this.setState({display: false})
+    this.setState({display: false, movie: null})
     this.loadUser();
     this.readUrl()
 

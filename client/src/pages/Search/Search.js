@@ -43,6 +43,7 @@ class Search extends Component {
 
   componentWillReceiveProps(){
     this.runSearch();
+    this.loadUser();
   }
 
   handleReviewSubmit = event => {
