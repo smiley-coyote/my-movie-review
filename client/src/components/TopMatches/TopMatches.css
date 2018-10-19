@@ -15,6 +15,12 @@
   bottom: 0;
 }
 
+.float-right button:focus{
+  background-color: rgb(99, 99, 99);
+  color: rgb(99, 99, 99);
+  outline: none;
+}
+
 .content {
   margin-left: 25%;
 }

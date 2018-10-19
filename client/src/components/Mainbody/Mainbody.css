@@ -1,5 +1,4 @@
 .mainbody {
-  border: solid 1px black;
   border-radius: 3px;
   width: 100%;
   height: auto;
@@ -14,4 +13,8 @@
 .body-contents {
   width: 100%;
   overflow: scroll;
+}
+
+.panel-heading h3 {
+  text-align: center;
 }

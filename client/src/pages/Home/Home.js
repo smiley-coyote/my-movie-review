@@ -14,53 +14,129 @@ import { Link } from "react-router-dom";
 
 
 let userCritics = [];
-const topMovies = [
+const openingMovies =[
   {
-    title: "",
-    id: "tt0499549",
+    title: "Halloween",
+    id: "tt1502407",
     viewers: 0,
     score: 0,
     percentage: 0,
+    metacritic: 68,
+    reviewed: false
+  },
+  {
+    title: "The Old Man & the Gun",
+    id: "tt2837574",
+    viewers: 0,
+    score: 0,
+    percentage: 0,
+    metacritic: 79,
+    reviewed: false
+  },
+  {
+    title: "The Hate U Give",
+    id: "tt5580266",
+    viewers: 0,
+    score: 0,
+    percentage: 0,
+    metacritic: 82,
+    reviewed: false
+  }
+];
+const topBoxOffice = [
+  {
+    title: "Venom",
+    id: "tt1270797",
+    viewers: 0,
+    score: 0,
+    percentage: 35,
     metacritic: 0,
     reviewed: false
   },
   {
-    title: "",
-    id: "tt3104988",
+    title: "A Star Is Born",
+    id: "tt1517451",
     viewers: 0,
     score: 0,
     percentage: 0,
-    metacritic: 0,
+    metacritic: 88,
     reviewed: false
   },
   {
-    title: "",
-    id: "tt4263482",
+    title: "First Man",
+    id: "tt1213641",
     viewers: 0,
     score: 0,
     percentage: 0,
-    metacritic: 0,
+    metacritic: 84,
     reviewed: false
   },
   {
-    title: "",
-    id: "tt0499549",
+    title: "Smallfoot",
+    id: "tt6182908",
     viewers: 0,
     score: 0,
     percentage: 0,
-    metacritic: 0,
+    metacritic: 60,
     reviewed: false
   },
   {
-    title: "",
+    title: "Night School",
     id: "tt6781982",
     viewers: 0,
     score: 0,
     percentage: 0,
-    metacritic: 0,
+    metacritic: 43,
     reviewed: false
   }
 ];
+const popularMovies =[
+  {
+    title: "Black Panther",
+    id: "tt1825683",
+    viewers: 0,
+    score: 0,
+    percentage: 0,
+    metacritic: 88,
+    reviewed: false
+  },
+  {
+    title: "Avengers: Infinity War",
+    id: "tt4154756",
+    viewers: 0,
+    score: 0,
+    percentage: 0,
+    metacritic: 68,
+    reviewed: false
+  },
+  {
+    title: "Crazy Rich Asians",
+    id: "tt3104988",
+    viewers: 0,
+    score: 0,
+    percentage: 0,
+    metacritic: 74,
+    reviewed: false
+  },
+  {
+    title: "Deadpool 2",
+    id: "tt5463162",
+    viewers: 0,
+    score: 0,
+    percentage: 0,
+    metacritic: 66,
+    reviewed: false
+  },
+  {
+    title: "Jurassic World: Fallen Kingdom",
+    id: "tt4881806",
+    viewers: 0,
+    score: 0,
+    percentage: 0,
+    metacritic: 51,
+    reviewed: false
+  }
+]
 
 class Home extends Component {
 
@@ -72,83 +148,174 @@ class Home extends Component {
     allusers: [],
     userscores: [],
     topusers: [],
-    topmovies: [],
+    openingmovies: [],
+    topboxoffice: [],
+    popularmovies: [],
     currentratings: [],
     allRatings: [],
     topuserratings: [],
     button: false,
     title: "Top Matches",
     selection: "My Critics",
-    criticratings: []
+    criticratings: [],
+    dropdown: true
   };
 
 
-  setMovieState = () => {
-    this.setState({ topmovies: topMovies })
-  }
+  // setMovieState = () => {
+  //   this.setState({ topmovies: topMovies })
+  // }
 
-  runGetMovieTitles = () => {
-    for (let i = 0; i < topMovies.length; i++) {
-      API.byId(topMovies[i].id).then(res => {
-        if (topMovies[i].reviewed === false && res.data.Metascore !== "N/A") {
-          topMovies[i].percentage = "*" + res.data.Metascore
-        }
-        let movie = res.data.Title;
-        const title = res.data.Title;
-        movie = movie.split(" ");
-        movie = movie.join("+")
-        // const year = res.data.Year;
-        // const imdbID = res.data.imdbID;
-        topMovies[i].title = title;
-        topMovies[i].movie = movie;
+  // runGetMovieTitles = () => {
+  //   for (let i = 0; i < topMovies.length; i++) {
+  //     API.byId(topMovies[i].id).then(res => {
+  //       if (topMovies[i].reviewed === false && res.data.Metascore !== "N/A") {
+  //         topMovies[i].percentage = "*" + res.data.Metascore
+  //       }
+  //       let movie = res.data.Title;
+  //       const title = res.data.Title;
+  //       movie = movie.split(" ");
+  //       movie = movie.join("+")
+  //       // const year = res.data.Year;
+  //       // const imdbID = res.data.imdbID;
+  //       topMovies[i].title = title;
+  //       topMovies[i].movie = movie;
 
 
-      }).then(() => this.setMovieState())
+  //     })
 
-    }
+  //   }
 
-  }
+  // }
 
 
 
   getTopUserRatings = () => {
     let topUsers = this.state.topusers
     
+    // opening movies
     for (let i = 0; i < topUsers.length; i++) {
       if (topUsers[i].ratings !== null) {
         let topUserRatings = topUsers[i].ratings
         for (let x = 0; x < topUserRatings.length; x++) {
           let thisTitle = topUserRatings[x].imdbID
           let thisRating = topUserRatings[x].rating
-          for (let y = 0; y < topMovies.length; y++) {
-            if (topMovies[y].id === thisTitle) {
-              let score = topMovies[y].score;
-              let viewers = topMovies[y].viewers;
-              let percentage = topMovies[y].percentage;
-              topMovies[y].reviewed = true;
+          for (let y = 0; y < openingMovies.length; y++) {
+            if (openingMovies[y].id === thisTitle) {
+              let score = openingMovies[y].score;
+              let viewers = openingMovies[y].viewers;
+              let percentage = openingMovies[y].percentage;
+              openingMovies[y].reviewed = true;
               if (thisRating > 2) {
                 score += 1;
                 viewers += 1;
                 percentage = (score / viewers) * 100
                 percentage = Math.round(percentage)
-                topMovies[y].score = score;
-                topMovies[y].viewers = viewers;
-                topMovies[y].percentage = percentage;
+                openingMovies[y].score = score;
+                openingMovies[y].viewers = viewers;
+                openingMovies[y].percentage = percentage;
               } else {
                 viewers += 1;
                 percentage = (score / viewers) * 100
                 percentage = Math.round(percentage)
-                topMovies[y].score = score;
-                topMovies[y].viewers = viewers;
-                topMovies[y].percentage = percentage;
+                openingMovies[y].score = score;
+                openingMovies[y].viewers = viewers;
+                openingMovies[y].percentage = percentage;
               }
+            }if(!openingMovies[y].reviewed){
+              let metaScore = openingMovies[y].metacritic
+              openingMovies[y].percentage = "*" + metaScore
             }
           }
         }
 
-        this.setState({ topmovies: topMovies })
+        
       }
     }
+    // Top box office movies
+    for (let i = 0; i < topUsers.length; i++) {
+      if (topUsers[i].ratings !== null) {
+        let topUserRatings = topUsers[i].ratings
+        for (let x = 0; x < topUserRatings.length; x++) {
+          let thisTitle = topUserRatings[x].imdbID
+          let thisRating = topUserRatings[x].rating
+          for (let y = 0; y < topBoxOffice.length; y++) {
+            if (topBoxOffice[y].id === thisTitle) {
+              let score = topBoxOffice[y].score;
+              let viewers = topBoxOffice[y].viewers;
+              let percentage = topBoxOffice[y].percentage;
+              topBoxOffice[y].reviewed = true;
+              if (thisRating > 2) {
+                score += 1;
+                viewers += 1;
+                percentage = (score / viewers) * 100
+                percentage = Math.round(percentage)
+                topBoxOffice[y].score = score;
+                topBoxOffice[y].viewers = viewers;
+                topBoxOffice[y].percentage = percentage;
+              } else {
+                viewers += 1;
+                percentage = (score / viewers) * 100
+                percentage = Math.round(percentage)
+                topBoxOffice[y].score = score;
+                topBoxOffice[y].viewers = viewers;
+                topBoxOffice[y].percentage = percentage;
+              }
+            }if(!topBoxOffice[y].reviewed){
+              let metaScore = topBoxOffice[y].metacritic
+              topBoxOffice[y].percentage = "*" + metaScore
+            }
+          }
+          
+        }
+
+        
+      }
+    }
+    // Popular Movies
+    for (let i = 0; i < topUsers.length; i++) {
+      if (topUsers[i].ratings !== null) {
+        let topUserRatings = topUsers[i].ratings
+        for (let x = 0; x < topUserRatings.length; x++) {
+          let thisTitle = topUserRatings[x].imdbID
+          let thisRating = topUserRatings[x].rating
+          for (let y = 0; y < popularMovies.length; y++) {
+            if (popularMovies[y].id === thisTitle) {
+              let score = popularMovies[y].score;
+              let viewers = popularMovies[y].viewers;
+              let percentage = popularMovies[y].percentage;
+              popularMovies[y].reviewed = true;
+              if (thisRating > 2) {
+                score += 1;
+                viewers += 1;
+                percentage = (score / viewers) * 100
+                percentage = Math.round(percentage)
+                popularMovies[y].score = score;
+                popularMovies[y].viewers = viewers;
+                popularMovies[y].percentage = percentage;
+              } else {
+                viewers += 1;
+                percentage = (score / viewers) * 100
+                percentage = Math.round(percentage)
+                popularMovies[y].score = score;
+                popularMovies[y].viewers = viewers;
+                popularMovies[y].percentage = percentage;
+              }
+            } if(!popularMovies[y].reviewed){
+              let metaScore = popularMovies[y].metacritic
+              popularMovies[y].percentage = "*" + metaScore
+            }
+          }
+        }
+
+        
+      }
+    }
+    this.setState({ 
+      openingmovies: openingMovies,
+      topboxoffice: topBoxOffice,
+      popularmovies: popularMovies 
+    })
   }
 
   sortTopUserRatings = () => {
@@ -313,13 +480,17 @@ class Home extends Component {
       API.findUser(criticArr[i].criticId).then(res => {
         let userName = res.data.name;
         let image = res.data.image;
+        let id = res.data._id
         console.log(res.data)
         criticArr[i].image = res.data.image;
         criticArr[i].ratings = res.data.ratings;
-        for (let x = 0; x < res.data.ratings.length; x++) {
+        let resultsNumber = Math.round(res.data.ratings.length / 2)
+        if(newRatingsArr.length < 20){
+        for (let x = 0; x < resultsNumber; x++) {
           newRatingsArr.push({
             image: image,
             username: userName,
+            id: id,
             imdbID: res.data.ratings[x].imdbID,
             poster: res.data.ratings[x].poster,
             rating: res.data.ratings[x].rating,
@@ -328,6 +499,7 @@ class Home extends Component {
             review: res.data.ratings[x].review
           })
         }
+      }
       })
     }
 
@@ -364,7 +536,7 @@ class Home extends Component {
   componentDidMount() {
 
     this.loadUser();
-    this.runGetMovieTitles();
+    // this.runGetMovieTitles();
 
 
 
@@ -399,7 +571,7 @@ class Home extends Component {
     }).then(res => {
       console.log("added!")
       this.loadUser();
-    this.runGetMovieTitles();
+    // this.runGetMovieTitles();
     }
     )
   }
@@ -425,19 +597,34 @@ class Home extends Component {
         <Row>
           <Col size="md-3">
             <Sidebar title={"Top Movies"}>
-              <ol>
-                <div className="top-movies">
-                  {this.state.topmovies.map(res =>
-
-                    <Link to={"/movie/?q=" + res.movie}><li key={res.id}>{res.percentage}% {res.title}</li></Link>
-
-                  )}
+              
+                <div className="top-movies black-border">
+               
+                  <h3>Opening This Week</h3>
+                  <ol>
+                  {this.state.openingmovies.map(res =>
+                    <Link to={"/movie/?q=" + res.id}><li key={res.id}>{res.percentage}% {res.title}</li></Link>
+                    )}
+                  </ol>
+                  <h3>Top Box Office</h3>
+                  <ol>
+                  {this.state.topboxoffice.map(res =>
+                    <Link to={"/movie/?q=" + res.id}><li key={res.id}>{res.percentage}% {res.title}</li></Link>
+                    )}
+                  </ol>
+                  <h3>Popular Movies</h3>
+                  <ol>
+                  {this.state.popularmovies.map(res =>
+                    <Link to={"/movie/?q=" + res.id}><li key={res.id}>{res.percentage}% {res.title}</li></Link>
+                    )}
+                  </ol>
 
                   <p className="asterisk">*Metacritic score</p>
+                  
                 </div>
-                <Link to={"/movie"}>view more</Link>
+                
 
-              </ol>
+           
 
 
 
@@ -448,6 +635,7 @@ class Home extends Component {
               selection={this.state.selection}
               title={this.state.title}
               handleSelection={this.handleSelection}
+              dropdown={this.state.dropdown}
             >
               {this.state.title === "Top Matches"
                 ? this.state.topusers.length > 4
@@ -457,7 +645,7 @@ class Home extends Component {
                   placeholder={Placeholder}
                   />
                   :<div>
-                    <p>Not enough users</p>
+                    <p>Loading users...</p>
                   </div>
                 : <MyCritics ratings={this.state.topuserratings} critics={this.state.mycritics} />
               }
@@ -466,6 +654,7 @@ class Home extends Component {
           </Col>
           <Col size="md-3">
             <Sidebar title={"Welcome, " + this.state.currentuser.name + "!"}>
+            <div className="black-border padding-xs">
               <Link to={"/profile"}>
 
                 <Image cloudName="dmyiazu6p" publicId={this.state.currentuser.image}>
@@ -474,6 +663,7 @@ class Home extends Component {
               </Link>
               <div className="text-center">
                 <Link to={"/profile"}>view profile</Link>
+                </div>
               </div>
             </Sidebar>
           </Col>

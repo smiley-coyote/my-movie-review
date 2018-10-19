@@ -31,4 +31,18 @@
   text-align: center;
 }
 
+.FileUpload {
+  width: 100%;
+}
+
+.FileUpload-contents{
+  width: 40%;
+  margin: 0 auto;
+}
+
+.upload-img {
+  width: 30%;
+  margin: 0 auto;
+}
+
 

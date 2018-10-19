@@ -10,14 +10,22 @@ const MyCritics = props => (
     {props.ratings.map(res =>
       <div className="top-matches my-critics-page" key={res.date}>
 
-        <div className="float-left my-critics">
-        <Link to={"/movie/?q=" + res.title.split(" ").join("+")}>
+        <div className="my-critics">
+        <Link to={"/user/" + res.id}>
+        <Image cloudName="dmyiazu6p" publicId={res.image}>
+                  <Transformation width="100" height="100" gravity="faces" crop="fill" />
+                </Image>
+                
+                </Link>
+                
+        </div>
+        
+        <div className="mycritic-content">
+        <p>{res.username}'s review:</p>
+        <Link to={"/movie/?q=" + res.imdbID}>
           <img src={res.poster} alt={res.title} />
         </Link>
-        </div>
-
-        <div className="content">
-
+  
           <h3>{res.title}</h3>
 
           <div className="latest-rating">
@@ -60,11 +68,6 @@ const MyCritics = props => (
           </div>
         </div>
       
-
-
-      <Link to={"/user/" + res.id}>
-        visit profile
-    </Link>
       <hr />
       </div>
   )}

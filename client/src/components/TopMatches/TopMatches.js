@@ -7,7 +7,7 @@ const TopMatches = props => (
 
   <div>
   {props.topusers !== undefined
-  ?<div>
+  ?<div className="black-border padding-xs">
   {props.topusers.map(res =>
       
     <div className="top-matches" key={res.id}>
@@ -52,9 +52,10 @@ const TopMatches = props => (
                         : <p>Rating Unavailable</p>
                 }
                 {res.ratings[0].review !== undefined
-                  ? <p>
+                  ? <div className="overflow-scroll height-med"><p >
                     {res.ratings[0].review}
                   </p>
+                  </div>
                   : <p>
                     No written review
             </p>
@@ -65,13 +66,10 @@ const TopMatches = props => (
           </div>
 
         </div>
-        <div className="float-right">
-          <button>Add New Critic</button>
+        <div className="float-right margin-top-md">
+          <button>Add Critic</button>
         </div>
       </fieldset>
-      <Link to={"/user/" + res.id}>
-      visit profile
-      </Link>
       <hr />
     </div>
   )}

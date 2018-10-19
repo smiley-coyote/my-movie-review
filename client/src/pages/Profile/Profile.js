@@ -33,7 +33,8 @@ class Profile extends Component {
       movieTwo: "",
       movieThree: "",
       movieFour: "",
-      movieFive: ""
+      movieFive: "",
+      dropdown: false
     };
   }
 
@@ -167,6 +168,7 @@ class Profile extends Component {
           <Row>
             <Col size="md-3">
               <Sidebar title={"My Fav Five"}>
+              <div className="black-border">
                 {this.state.currentuser.topmovies !== undefined
                 ? !this.state.showedit
                   ? <ol>
@@ -227,16 +229,18 @@ class Profile extends Component {
                   </form>
                   : <span></span>
                 }
+                </div>
               </Sidebar>
             </Col>
 
             <Col size="md-6">
-              <Mainbody>
+              <Mainbody dropdown={this.state.dropdown}>
+              <div className="black-border padding-xs">
                 {this.state.userratings !== []
                   ? <div>
                     {this.state.userratings.map(res =>
                       <div className="my-reviews" key={res.imdbID}>
-                        <Link to={"/movie/?q=" + res.title.split(" ").join("+")}>
+                        <Link to={"/movie/?q=" + res.imdbID}>
                           <img alt={res.title} src={res.poster} />
                         </Link>
                         <div className="reviews-title">
@@ -287,14 +291,17 @@ class Profile extends Component {
                   </div>
 
                 }
+                </div>
               </Mainbody>
             </Col>
             <Col size="md-3">
               <Sidebar title={"My Profile"}>
+              <div className="black-border padding-xs">
                 <Image cloudName="dmyiazu6p" publicId={this.state.currentuser.image}>
                   <Transformation width="150" height="150" gravity="faces" crop="fill" />
                 </Image>
                 <button onClick={this.handleShow}>Update Picture</button>
+                </div>
               </Sidebar>
             </Col>
           </Row>
@@ -306,6 +313,7 @@ class Profile extends Component {
           <Modal.Body>
             <form>
               <div className="FileUpload">
+              <div className="FileUpload-contents">
                 <Dropzone
                   onDrop={this.onImageDrop.bind(this)}
                   multiple={false}
@@ -315,15 +323,16 @@ class Profile extends Component {
               </div>
 
               <div>
-                <div>
-                  <Image cloudName="dmyiazu6p" publicId={this.state.currentuser.image}>
+        
+                <div className="upload-img">
+                
+                
+                    <p> <Image cloudName="dmyiazu6p" publicId={this.state.userimage}>
                     <Transformation width="150" height="150" gravity="faces" crop="fill" />
-                  </Image>
-                </div>
-                {this.state.uploadedFileCloudinaryUrl === '' ? null :
-                  <div>
-                    <p>{this.state.uploadedFile.name}</p>
-                  </div>}
+                  </Image><br /></p>
+                    
+                  </div>
+                  </div>
               </div>
             </form>
           </Modal.Body>

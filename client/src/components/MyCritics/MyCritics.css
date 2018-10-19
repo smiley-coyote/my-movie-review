@@ -4,12 +4,23 @@
 }
 
 .my-critics img {
-  height: 180px;
-  width: auto;
-  margin: 10px;
+  position: absolute;
+  float: left;
 }
 
 .my-critics-page {
   margin-top: 1%;
   padding: 10px;
+}
+
+.mycritic-content img {
+  height: 140px;
+  width: auto;
+}
+
+.mycritic-content{
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  overflow: scroll;
 }

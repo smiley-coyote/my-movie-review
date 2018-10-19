@@ -6,14 +6,15 @@ const Results = props => (
   <div className="row">
     <div className="col-sm-12">
       <br />
-      <div className="panel">
+      <div className="panel panel-small">
         <div className="panel-heading">
           <h3 className="panel-title"><strong>Movie Results</strong></h3>
         </div>
         <div className="panel-body" id="well-section">
-        <ul className="list-group search-results">
+        <div className="search-results">
     {props.children}
-  </ul>
+   
+  </div>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 .asterisk {
   font-size: 11px;
   margin-top: 5px;
+  text-align: center;
 }
 
 .top-movies {
@@ -13,6 +14,11 @@
 
 .top-movies a:hover {
   color: blue;
+}
+
+.top-movies h3 {
+  font-size: 20px;
+  font-weight: bold;
 }
 
 

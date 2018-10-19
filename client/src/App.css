@@ -22,3 +22,24 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.black-border {
+  border: 1px solid rgb(151, 149, 149);
+  border-radius: 2px;
+}
+
+.padding-xs {
+  padding:15px;
+}
+
+.overflow-scroll {
+  overflow: scroll;
+}
+
+.height-med {
+  height: 100px;
+}
+
+.margin-top-md{
+  margin-top: 30px;
+}

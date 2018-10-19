@@ -1,25 +1,25 @@
-.rating {
+.rating-movie {
   
   margin-bottom: 30px;
   
 }
 
-.rating input {
+.rating-movie input {
   display: none;
 }
 
 /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
  follow these rules. Every browser that supports :checked also supports :not(), so
  it doesn’t make the test unnecessarily selective */
-.rating:not(:checked) > input {
+.rating-movie:not(:checked) > input {
   position:absolute;
   top:-9999px;
   clip:rect(0,0,0,0);
 }
 
-.rating:not(:checked) > label {
+.rating-movie:not(:checked) > label {
   float:right;
-  width:3em;
+  width:2em;
   padding:0 .1em;
   overflow:hidden;
   white-space:nowrap;
@@ -29,28 +29,28 @@
   color:#ddd;
 }
 
-.rating:not(:checked) > label:before {
+.rating-movie:not(:checked) > label:before {
   content: '★ ';
 }
 
-.rating > input:checked ~ label {
+.rating-movie > input:checked ~ label {
   color: gold;
 }
 
-.rating:not(:checked) > label:hover,
-.rating:not(:checked) > label:hover ~ label {
+.rating-movie:not(:checked) > label:hover,
+.rating-movie:not(:checked) > label:hover ~ label {
   color: gold;
 }
 
-.rating > input:checked + label:hover,
-.rating > input:checked + label:hover ~ label,
-.rating > input:checked ~ label:hover,
-.rating > input:checked ~ label:hover ~ label,
-.rating > label:hover ~ input:checked ~ label {
+.rating-movie > input:checked + label:hover,
+.rating-movie > input:checked + label:hover ~ label,
+.rating-movie > input:checked ~ label:hover,
+.rating-movie > input:checked ~ label:hover ~ label,
+.rating-movie > label:hover ~ input:checked ~ label {
   color: gold;
 }
 
-.rating > label:active {
+.rating-movie > label:active {
   position:relative;
   top:2px;
   left:2px;
@@ -71,13 +71,6 @@
   width: auto;
 }
 
-.your-rating {
-  margin-top: 30px;
-  border: 1px solid black;
-  padding: 10%;
-  width: 400px;
-  text-align: center;
-}
 
 .your-review {
   margin-top: 10%;
@@ -85,11 +78,12 @@
 
 .star-rating {
   width: 100%;
-  margin-left: 8%;
+  margin: 0 auto;
 
 }
 .star-rating h3{
  font-size: 20px;
+ text-align: center;
 }
 
 .checked {
@@ -99,3 +93,4 @@
 .head-text {
   font-weight: bold;
 }
+

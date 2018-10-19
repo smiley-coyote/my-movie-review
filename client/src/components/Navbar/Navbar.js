@@ -28,12 +28,13 @@ class Navbar extends Component {
 
   render() {
     return (
-      <nav className="navbar">
+      <nav className="navbar navbar-expand-lg">
      
         <div className="container-fluid">
           <div className="navbar-header">
             <a className="navbar-brand" href="/home">MMRD</a>
           </div>
+          
           <ul className="nav navbar-nav">
             <li className="dropdown">
               <a className="dropdown-toggle" data-toggle="dropdown" href="/home">Menu

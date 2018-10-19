@@ -18,7 +18,8 @@ class UserPage extends Component {
       currentuser: {},
       topmovies: [],
       userratings: [],
-      userimage: ""
+      userimage: "",
+      dropdown: false
     };
   
 
@@ -68,29 +69,31 @@ class UserPage extends Component {
           <Row>
             <Col size="md-3">
               <Sidebar title={"My Fav Five"}>
+              <div className="black-border padding-xs">
                 {this.state.currentuser.topmovies !== undefined
                   ? <ol>
                     {this.state.currentuser.topmovies.map(res =>
-
+                      
                       <li key={res}>{res}</li>
-
+                      
                     )}
 
                   </ol>
                   : <p>Not yet added</p>
 
                 }
-               
+               </div>
               </Sidebar>
             </Col>
 
             <Col size="md-6">
-              <Mainbody>
+              <Mainbody dropdown={this.state.dropdown}>
+              <div className="black-border padding-xs">
                 {this.state.userratings !== []
                   ? <div>
                     {this.state.userratings.map(res =>
                       <div className="my-reviews" key={res.imdbID}>
-                      <Link to={"/movie/?q=" + res.title.split(" ").join("+")}>
+                      <Link to={"/movie/?q=" + res.imdbID}>
                         <img alt={res.title} src={res.poster} />
                         </Link>
                         <div className="reviews-title">
@@ -124,11 +127,13 @@ class UserPage extends Component {
                                 : <p>Rating Unavailable</p>
                         }
                         {res.review !== undefined
-                        ?<p>{res.review}
+                        ?<div className="overflow-scroll height-med">
+                        <p>{res.review}
                           <br />
                           -{this.state.currentuser.username}
                         </p>
-                        :<p></p>
+                        </div>
+                        :null
                         }
                       </div>
                       </div>
@@ -141,13 +146,16 @@ class UserPage extends Component {
                   </div>
 
                 }
+                </div>
               </Mainbody>
             </Col>
             <Col size="md-3">
               <Sidebar title={this.state.currentuser.name + "'s Profile"}>
+              <div className="black-border padding-xs">
                 <Image cloudName="dmyiazu6p" publicId={this.state.currentuser.image}>
                   <Transformation width="150" height="150" gravity="faces" crop="fill" />
                 </Image>
+                </div>
               </Sidebar>
             </Col>
           </Row>
