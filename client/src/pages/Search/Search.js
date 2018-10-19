@@ -200,7 +200,7 @@ class Search extends Component {
           <Row>
             <div className="search-body" key={result.imdbID}>
               <Col size="md-4">
-                <div className="search-float-left">
+                <div className="search-float-left movie-img">
                   <Link to={"/movie/?q=" + result.imdbID}>
                   {result.Poster !== "N/A"
                 ?  <img src={result.Poster} alt={result.Title} />

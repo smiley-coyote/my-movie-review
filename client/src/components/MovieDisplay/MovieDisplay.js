@@ -59,10 +59,15 @@ const MovieDisplay = props => (
                         <span className="fa fa-star checked"></span>
                       </span>
                       : <span>
-                        unavailable
+                        No rating yet
   </span>
               }
-                <span className="float-right">MyCritic Score: {props.data.criticRating}%</span>
+                {props.data.criticRating !== undefined
+                ?<span className="float-right">
+                MyCritic Score: {props.data.criticRating}%</span>
+                : <span className="float-right">
+                MyCritic Score: No ratings</span>
+                }
               </p>
 
             </div>

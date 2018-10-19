@@ -67,4 +67,7 @@
 }
 
 
-
+.movie-img img{
+  height: 260px;
+  width: auto;
+}
