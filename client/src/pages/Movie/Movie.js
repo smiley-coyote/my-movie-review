@@ -45,7 +45,7 @@ class Movie extends Component {
 
   componentWillReceiveProps(){
     this.loadUser();
-    this.readUrl();
+
   }
 
 
@@ -256,6 +256,7 @@ class Movie extends Component {
         })
       }
       this.setState({ usercritics: myCritics })
+      this.readUrl()
     }
     
 
@@ -276,7 +277,7 @@ class Movie extends Component {
     console.log(this.state.movie)
     this.setState({display: false, movie: null})
     this.loadUser();
-    this.readUrl()
+   
 
     
 

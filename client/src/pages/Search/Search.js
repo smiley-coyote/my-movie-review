@@ -42,7 +42,7 @@ class Search extends Component {
   }
 
   componentWillReceiveProps(){
-    this.runSearch();
+    
     this.loadUser();
   }
 
@@ -181,13 +181,14 @@ class Search extends Component {
       console.log(userCritics)
       yourRatings = res.data.ratings;
       this.setState({ currentuser: res.data })
+      this.runSearch();
       // this.loadUserCritics()
     })
   }
 
   componentDidMount(){
     this.loadUser();
-    this.runSearch();
+    
    
    
    }
