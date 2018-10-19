@@ -67,7 +67,7 @@ class UserPage extends Component {
         <Container>
           <Row>
             <Col size="md-3">
-              <Sidebar title={"My Top Movies"}>
+              <Sidebar title={"My Fav Five"}>
                 {this.state.currentuser.topmovies !== undefined
                   ? <ol>
                     {this.state.currentuser.topmovies.map(res =>
@@ -77,11 +77,10 @@ class UserPage extends Component {
                     )}
 
                   </ol>
-                  : <p>Add top 5 movies</p>
+                  : <p>Not yet added</p>
 
                 }
-                <button>update</button>
-
+               
               </Sidebar>
             </Col>
 

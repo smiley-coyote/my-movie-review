@@ -166,7 +166,7 @@ class Profile extends Component {
         <Container>
           <Row>
             <Col size="md-3">
-              <Sidebar title={"My Top Movies"}>
+              <Sidebar title={"My Fav Five"}>
                 {this.state.currentuser.topmovies !== undefined
                 ? !this.state.showedit
                   ? <ol>

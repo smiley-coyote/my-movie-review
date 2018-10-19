@@ -113,7 +113,7 @@ class Home extends Component {
 
   getTopUserRatings = () => {
     let topUsers = this.state.topusers
-    console.log(topUsers)
+    
     for (let i = 0; i < topUsers.length; i++) {
       if (topUsers[i].ratings !== null) {
         let topUserRatings = topUsers[i].ratings
@@ -153,7 +153,7 @@ class Home extends Component {
 
   sortTopUserRatings = () => {
     let userScores = this.state.userscores;
-    console.log(userScores)
+    
     for (let i = 0; i < userScores.length; i++) {
       if (userScores[i].ratings !== undefined) {
         userScores[i].ratings.sort(function compare(a, b) {
@@ -171,11 +171,14 @@ class Home extends Component {
   runTopMatchResults = () => {
     let userScores = this.state.userscores;
     let topUsers = [];
-
+    let userNumber;
     userScores.sort(function (a, b) {
       return b.score - a.score
     })
-    for (let i = 0; i < 5; i++) {
+    console.log(userScores)
+    userNumber = Math.round(userScores.length / 2)
+    console.log(userNumber)
+    for (let i = 0; i < userNumber; i++) {
       topUsers.push(userScores[i]);
     }
     console.log(topUsers)
@@ -265,7 +268,7 @@ class Home extends Component {
     ))
 
 
-      if(filteredUsers > 4){    this.setState({
+      if(filteredUsers.length > 4){    this.setState({
         allusers: filteredUsers
       })
       this.runSurveyResults()
@@ -276,6 +279,8 @@ class Home extends Component {
   runFindAll = () => {
     API.findAll()
       .then(res => {
+        console.log(res.data.length);
+        console.log(res.data)
         if(res.data.length > 4){
         this.setState({
           allusers: res.data
@@ -445,11 +450,15 @@ class Home extends Component {
               handleSelection={this.handleSelection}
             >
               {this.state.title === "Top Matches"
-                ? <TopMatches
+                ? this.state.topusers.length > 4
+                  ?<TopMatches
                   topusers={this.state.topusers}
                   addCritic={this.addCritic}
                   placeholder={Placeholder}
-                />
+                  />
+                  :<div>
+                    <p>Not enough users</p>
+                  </div>
                 : <MyCritics ratings={this.state.topuserratings} critics={this.state.mycritics} />
               }
 
