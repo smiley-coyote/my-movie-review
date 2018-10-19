@@ -19,10 +19,15 @@
 
 .navbar button {
   position: absolute;
+  margin-top: 1px;
 }
 
 .navbar form {
   margin-left: 30%;
+}
+
+.mmrdb-logo{
+  color: gold;
 }
 
 

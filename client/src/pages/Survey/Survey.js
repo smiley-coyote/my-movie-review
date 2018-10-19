@@ -149,7 +149,7 @@ class Survey extends Component {
     <div className="survey-questions">
     <div className="question-number">
     <h3>Building your profile...</h3>
-    <h3>Question {this.state.questionNumber} of 15</h3>
+    <h3>Question {this.state.questionNumber} of 16</h3>
     </div>
        <Questions>
          <img className="survey-poster" src={this.state.image} alt={this.state.question} />

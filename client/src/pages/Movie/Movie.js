@@ -22,7 +22,7 @@ class Movie extends Component {
 
     this.state = {
       display: false,
-      movie: {},
+      movie: null,
       currentuser: {},
       allusers: [],
       navsearch: "",
@@ -229,8 +229,9 @@ class Movie extends Component {
     movie = movie.split("=")
     let type = movie[0]
     movie = movie[1]
-
+    if(movie !== undefined){
     this.runSingleMovie(movie);
+    }
   }
 
   
@@ -264,6 +265,7 @@ class Movie extends Component {
   }
 
   componentDidMount() {
+    console.log(this.state.movie)
     this.setState({display: false})
     this.loadUser();
     this.readUrl()
@@ -276,14 +278,8 @@ class Movie extends Component {
   render() {
     return (
       <div>
-      {!this.state.display
-      ?  <div className="container">
-      <div className="row">
-        <div className="col-md-12">
-         
-        </div>
-      </div>
-    </div>
+      {this.state.movie === null
+      ?  null
       
       : <div className="container">
       <div className="row">
@@ -321,7 +317,9 @@ class Movie extends Component {
                 <Modal.Title>Review {this.state.title}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
+                <div className="review-window-contents">
                 <img src={this.state.poster} alt={this.state.title} />
+                </div>
                 <br />
                 <div className="form-group">
                   <label htmlFor="comment">Review:</label>
