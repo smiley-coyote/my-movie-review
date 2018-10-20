@@ -176,27 +176,26 @@ class Movie extends Component {
     const userCritics = this.state.usercritics
     let criticReviews = [];
     let thisMovie = this.state.movieholder;
+    let thisRatings = [];
 
     console.log(userCritics)
     let criticRatings = [];
     for (let i = 0; i < userCritics.length; i++) {
       const ratings = userCritics[i].ratings
-      console.log(ratings)
-      for (let x = 0; x < ratings.length; x++) {
-        if (thisMovie.imdbID === ratings[x].imdbID) {
-
-          criticReviews.push({
-            username: userCritics[i].name,
-            id: userCritics[i]._id,
-            rating: ratings[x].rating,
-            review: ratings[x].review
-          })  
-
-          criticRatings.push(ratings[x].rating)
-        }
-      }
+     thisRatings = ratings.filter( res => res.imdbID === thisMovie.imdbID)
+     console.log(thisRatings)
+     if(thisRatings.length != 0){
+      criticReviews.push({username: userCritics[i].name,
+      id: thisRatings[0]._id,
+    rating: thisRatings[0].rating,
+  review: thisRatings[0].review});
+  criticRatings.push(thisRatings[0].rating)
+     }
+      console.log(criticReviews)
+    
 
     }
+  
     console.log(criticReviews)
     if(criticReviews !== null){
       this.setState({
