@@ -130,7 +130,7 @@ class UserPage extends Component {
                         ?<div className="overflow-scroll height-med">
                         <p>{res.review}
                           <br />
-                          -{this.state.currentuser.username}
+                          -{this.state.currentuser.name}
                         </p>
                         </div>
                         :null

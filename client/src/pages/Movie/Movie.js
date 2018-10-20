@@ -196,14 +196,25 @@ class Movie extends Component {
       }
 
     }
-    console.log(userCritics)
-    this.setState({
-      currentcriticreviews: criticReviews, currentcriticratings: criticRatings
-    })
     console.log(criticReviews)
-   
-
+    if(criticReviews !== null){
+      this.setState({
+        currentcriticreviews: criticReviews
+      })
+    }
+    
+    console.log(criticRatings)
+    if(criticRatings !== null){
+      this.setState({
+        currentcriticratings: criticRatings
+      })
+      
+    }
     this.getCriticScore();
+    
+    this.setState({movie: thisMovie})
+
+    
   }
 
   runSingleMovie = movie => {
@@ -223,7 +234,7 @@ class Movie extends Component {
 
       }
       console.log(thisMovie)
-      this.setState({ movieholder: thisMovie, display: true })
+      this.setState({ movie: thisMovie, movieholder: thisMovie, display: true })
 
       this.getUserRating()
 

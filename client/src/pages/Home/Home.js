@@ -279,6 +279,7 @@ class Home extends Component {
         
       }
     }
+    this.setState({openingmovies: openingMovies})
     // Top box office movies
     for (let i = 0; i < topUsers.length; i++) {
       if (topUsers[i].ratings !== null) {
@@ -319,6 +320,7 @@ class Home extends Component {
         
       }
     }
+    this.setState({topboxoffice: topBoxOffice})
     // Popular Movies
     for (let i = 0; i < topUsers.length; i++) {
       if (topUsers[i].ratings !== null) {
@@ -359,8 +361,6 @@ class Home extends Component {
       }
     }
     this.setState({ 
-      openingmovies: openingMovies,
-      topboxoffice: topBoxOffice,
       popularmovies: popularMovies 
     })
   }
