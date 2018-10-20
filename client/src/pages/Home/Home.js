@@ -279,6 +279,7 @@ class Home extends Component {
         
       }
     }
+    console.log(openingMovies)
     this.setState({openingmovies: openingMovies})
     // Top box office movies
     for (let i = 0; i < topUsers.length; i++) {
@@ -320,6 +321,7 @@ class Home extends Component {
         
       }
     }
+    console.log(topBoxOffice)
     this.setState({topboxoffice: topBoxOffice})
     // Popular Movies
     for (let i = 0; i < topUsers.length; i++) {
@@ -360,6 +362,7 @@ class Home extends Component {
         
       }
     }
+    console.log(popularMovies)
     this.setState({ 
       popularmovies: popularMovies 
     })

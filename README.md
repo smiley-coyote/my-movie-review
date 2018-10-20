@@ -1,29 +1,25 @@
-# Create React Express App
+# Welcom to My Movie Review Database!
 
-## About This Boilerplate
+## About
 
-This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
+Rate and review movies and get matched up with fellow critics who have similar taste. 
+Follow your top matched critics and view their latest reviews. Get overall movie 
+scores that are influenced by your top matches to help predict whether or not you'll 
+like a movie before you go see it.
 
-The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
+## Technologies
 
-## Starting the app locally
+* Mongodb
+* Express
+* React
+* Node.js
 
-Start by installing front and backend dependencies. While in this directory, run the following command:
+All movie data is supplied by an OMDb API
 
-```
-yarn install
-```
+## Link to site on Heroku
 
-This should install node modules within the server and the client folder.
+https://immense-eyrie-37039.herokuapp.com/
 
-After both installations complete, run the following command in your terminal:
 
-```
-yarn start
-```
 
-Your app should now be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
 
-## Deployment (Heroku)
-
-To deploy, simply add and commit your changes, and push to Heroku. As is, the NPM scripts should take care of the rest.

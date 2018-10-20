@@ -184,7 +184,7 @@ class Movie extends Component {
       const ratings = userCritics[i].ratings
      thisRatings = ratings.filter( res => res.imdbID === thisMovie.imdbID)
      console.log(thisRatings)
-     if(thisRatings.length != 0){
+     if(thisRatings.length !== 0){
       criticReviews.push({username: userCritics[i].name,
       id: thisRatings[0]._id,
     rating: thisRatings[0].rating,
