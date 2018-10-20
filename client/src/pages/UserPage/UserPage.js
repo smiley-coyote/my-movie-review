@@ -103,26 +103,26 @@ class UserPage extends Component {
                         <div className="border-box">
                         <p>My rating:</p>
                         {res.rating === 1
-                          ? <p><span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span></p>
+                          ? <p><span className="fa fa-star checked"></span>
+                            <span className="fa fa-star"></span>
+                            <span className="fa fa-star"></span>
+                            <span className="fa fa-star"></span></p>
                           : res.rating === 2
-                            ? <p><span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span></p>
+                            ? <p><span className="fa fa-star checked"></span>
+                              <span className="fa fa-star checked"></span>
+                              <span className="fa fa-star"></span>
+                              <span className="fa fa-star"></span></p>
                             : res.rating === 3
-                              ? <p><span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span></p>
+                              ? <p><span className="fa fa-star checked"></span>
+                                <span className="fa fa-star checked"></span>
+                                <span className="fa fa-star checked"></span>
+                                <span className="fa fa-star"></span></p>
                               : res.rating === 4
                                 ? <p>
-                                  <span class="fa fa-star checked"></span>
-                                  <span class="fa fa-star checked"></span>
-                                  <span class="fa fa-star checked"></span>
-                                  <span class="fa fa-star checked"></span>
+                                  <span className="fa fa-star checked"></span>
+                                  <span className="fa fa-star checked"></span>
+                                  <span className="fa fa-star checked"></span>
+                                  <span className="fa fa-star checked"></span>
                                 </p>
                                 : <p>Rating Unavailable</p>
                         }

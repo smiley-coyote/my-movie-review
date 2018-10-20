@@ -188,8 +188,55 @@ class Home extends Component {
 
   // }
 
+  sortCriticRatings = ratings => {
+
+    let criticRatings = ratings;
+    criticRatings.sort((a, b) => a.date.localeCompare(b.date))
+    console.log(criticRatings)
+    this.setState({
+      topuserratings: criticRatings
+    })
+  }
 
 
+
+  getUserCritics = critics => {
+    let criticArr = critics;
+    let newRatingsArr = []
+    console.log(criticArr)
+    for (let i = 0; i < criticArr.length; i++) {
+      API.findUser(criticArr[i].criticId).then(res => {
+        let userName = res.data.name;
+        let image = res.data.image;
+        let id = res.data._id
+        console.log(res.data)
+        criticArr[i].image = res.data.image;
+        criticArr[i].ratings = res.data.ratings;
+        let resultsNumber = Math.round(res.data.ratings.length / 2)
+        if(newRatingsArr.length < 20){
+        for (let x = 0; x < resultsNumber; x++) {
+          newRatingsArr.push({
+            image: image,
+            username: userName,
+            id: id,
+            imdbID: res.data.ratings[x].imdbID,
+            poster: res.data.ratings[x].poster,
+            rating: res.data.ratings[x].rating,
+            title: res.data.ratings[x].title,
+            date: res.data.ratings[x].date,
+            review: res.data.ratings[x].review
+          })
+        }
+      }
+      })
+    }
+
+    console.log(criticArr)
+    console.log(newRatingsArr)
+    this.setState({ mycritics: criticArr })
+
+    this.sortCriticRatings(newRatingsArr);
+  }
   getTopUserRatings = () => {
     let topUsers = this.state.topusers
     
@@ -318,6 +365,7 @@ class Home extends Component {
     })
   }
 
+
   sortTopUserRatings = () => {
     let userScores = this.state.userscores;
     
@@ -334,6 +382,7 @@ class Home extends Component {
     this.setState({ userscores: userScores })
     this.getTopUserRatings();
   }
+
 
   runTopMatchResults = () => {
     let userScores = this.state.userscores;
@@ -354,9 +403,6 @@ class Home extends Component {
       userscores: userScores
     })
     this.sortTopUserRatings();
-
-
-
 
   }
 
@@ -458,58 +504,6 @@ class Home extends Component {
       
   }
 
-  
-
-  sortCriticRatings = ratings => {
-
-    let criticRatings = ratings;
-    criticRatings.sort((a, b) => a.date.localeCompare(b.date))
-    console.log(criticRatings)
-    this.setState({
-      topuserratings: criticRatings
-    })
-  }
-
-
-
-  getUserCritics = critics => {
-    let criticArr = critics;
-    let newRatingsArr = []
-    console.log(criticArr)
-    for (let i = 0; i < criticArr.length; i++) {
-      API.findUser(criticArr[i].criticId).then(res => {
-        let userName = res.data.name;
-        let image = res.data.image;
-        let id = res.data._id
-        console.log(res.data)
-        criticArr[i].image = res.data.image;
-        criticArr[i].ratings = res.data.ratings;
-        let resultsNumber = Math.round(res.data.ratings.length / 2)
-        if(newRatingsArr.length < 20){
-        for (let x = 0; x < resultsNumber; x++) {
-          newRatingsArr.push({
-            image: image,
-            username: userName,
-            id: id,
-            imdbID: res.data.ratings[x].imdbID,
-            poster: res.data.ratings[x].poster,
-            rating: res.data.ratings[x].rating,
-            title: res.data.ratings[x].title,
-            date: res.data.ratings[x].date,
-            review: res.data.ratings[x].review
-          })
-        }
-      }
-      })
-    }
-
-    console.log(criticArr)
-    console.log(newRatingsArr)
-    this.setState({ mycritics: criticArr })
-
-    this.sortCriticRatings(newRatingsArr);
-  }
-
 
 
   loadUser = () => {
@@ -603,19 +597,19 @@ class Home extends Component {
                   <h3>Opening This Week</h3>
                   <ol>
                   {this.state.openingmovies.map(res =>
-                    <Link to={"/movie/?q=" + res.id}><li key={res.id}>{res.percentage}% {res.title}</li></Link>
+                    <Link key={res.id} to={"/movie/?q=" + res.id}><li>{res.percentage}% {res.title}</li></Link>
                     )}
                   </ol>
                   <h3>Top Box Office</h3>
                   <ol>
                   {this.state.topboxoffice.map(res =>
-                    <Link to={"/movie/?q=" + res.id}><li key={res.id}>{res.percentage}% {res.title}</li></Link>
+                    <Link key={res.id} to={"/movie/?q=" + res.id}><li>{res.percentage}% {res.title}</li></Link>
                     )}
                   </ol>
                   <h3>Popular Movies</h3>
                   <ol>
                   {this.state.popularmovies.map(res =>
-                    <Link to={"/movie/?q=" + res.id}><li key={res.id}>{res.percentage}% {res.title}</li></Link>
+                    <Link key={res.id} to={"/movie/?q=" + res.id}><li>{res.percentage}% {res.title}</li></Link>
                     )}
                   </ol>
 

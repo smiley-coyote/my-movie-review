@@ -199,8 +199,8 @@ class Search extends Component {
         {this.state.success
         ? <Results>
         {this.state.results.map(result => (
-          <Row>
-            <div className="search-body" key={result.imdbID}>
+          <Row key={result.imdbID}>
+            <div className="search-body">
               <Col size="md-4">
                 <div className="search-float-left movie-img">
                   <Link to={"/movie/?q=" + result.imdbID}>
@@ -242,34 +242,34 @@ class Search extends Component {
                         : result.yourRating === 1
                           ? <p><span className="head-text">Your Rating:</span>
                             <br />
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
+                            <span className="fa fa-star checked"></span>
+                            <span className="fa fa-star"></span>
+                            <span className="fa fa-star"></span>
+                            <span className="fa fa-star"></span>
                           </p>
                           : result.yourRating === 2
                             ? <p><span className="head-text">Your Rating:</span>
                               <br />
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
+                              <span className="fa fa-star checked"></span>
+                              <span className="fa fa-star checked"></span>
+                              <span className="fa fa-star"></span>
+                              <span className="fa fa-star"></span>
                             </p>
                             : result.yourRating === 3
                               ? <p><span className="head-text">Your Rating:</span>
                                 <br />
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
+                                <span className="fa fa-star checked"></span>
+                                <span className="fa fa-star checked"></span>
+                                <span className="fa fa-star checked"></span>
+                                <span className="fa fa-star"></span>
                               </p>
                               : result.yourRating === 4
                                 ? <p><span className="head-text">Your Rating:</span>
                                   <br />
-                                  <span class="fa fa-star checked"></span>
-                                  <span class="fa fa-star checked"></span>
-                                  <span class="fa fa-star checked"></span>
-                                  <span class="fa fa-star checked"></span>
+                                  <span className="fa fa-star checked"></span>
+                                  <span className="fa fa-star checked"></span>
+                                  <span className="fa fa-star checked"></span>
+                                  <span className="fa fa-star checked"></span>
                                 </p>
                                 : <p>Your Rating is not available at this time</p>
                       }

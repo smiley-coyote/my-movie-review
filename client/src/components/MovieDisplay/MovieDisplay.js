@@ -6,7 +6,7 @@ import { Image, Transformation } from 'cloudinary-react';
 const MovieDisplay = props => (
   <Container>
     <Row>
-      <div className="movie-display panel">
+      <div className="movie-display panel" key={props.data.imdbID}>
 
         <div className="movie-display-body panel-body">
           <Col size="md-4">
@@ -81,7 +81,7 @@ const MovieDisplay = props => (
             <h3>My Critic Reviews</h3>
             {props.critics.map(res => {
 
-              return <div className="critic-review-content">
+              return <div className="critic-review-content" key={res.id}>
                 <p>{res.username}</p>
                 {res.rating === 1
                   ? <span>

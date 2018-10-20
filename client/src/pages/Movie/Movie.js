@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 let userCritics = [];
 let yourRatings = [];
 let myCritics = [];
-let thisMovie = {};
+
 
 class Movie extends Component {
   constructor(props, context) {
@@ -23,6 +23,7 @@ class Movie extends Component {
     this.state = {
       display: false,
       movie: null,
+      movieholder: null,
       currentuser: {},
       allusers: [],
       navsearch: "",
@@ -52,6 +53,7 @@ class Movie extends Component {
   handleReviewSubmit = event => {
     event.preventDefault();
     const id = this.props.auth.userId;
+    let thisMovie = this.state.movie
     API.submitReview({
       _userId: id,
       review: this.state.writeup,
@@ -141,6 +143,7 @@ class Movie extends Component {
 
   getCriticScore = () => {
     const criticRatings = this.state.currentcriticratings;
+    let thisMovie = this.state.movieholder
     console.log(criticRatings)
     let score = 0;
     let viewers = 0;
@@ -165,8 +168,6 @@ class Movie extends Component {
 
       }
       this.setState({ movie: thisMovie })
-      this.setState({ display: "search" })
-      this.setState({ display: "movie" })
     }
 
   }
@@ -174,6 +175,7 @@ class Movie extends Component {
   getUserRating = () => {
     const userCritics = this.state.usercritics
     let criticReviews = [];
+    let thisMovie = this.state.movieholder;
 
     console.log(userCritics)
     let criticRatings = [];
@@ -184,6 +186,7 @@ class Movie extends Component {
 
           criticReviews.push({
             username: userCritics[i].name,
+            id: userCritics[i]._id,
             rating: ratings[x].rating,
             review: ratings[x].review
           })
@@ -195,12 +198,10 @@ class Movie extends Component {
     }
     console.log(userCritics)
     this.setState({
-      currentcriticreviews: criticReviews
+      currentcriticreviews: criticReviews, currentcriticratings: criticRatings
     })
     console.log(criticReviews)
-    this.setState({
-      currentcriticratings: criticRatings
-    })
+   
 
     this.getCriticScore();
   }
@@ -208,7 +209,7 @@ class Movie extends Component {
   runSingleMovie = movie => {
     console.log(movie)
     API.byId(movie).then(res => {
-      thisMovie = res.data;
+      let thisMovie = res.data;
       const userRatings = this.state.currentuser.ratings
       const yourRatings = this.state.currentuser.ratings
       for (let i = 0; i < yourRatings.length; i++) {
@@ -222,7 +223,7 @@ class Movie extends Component {
 
       }
       console.log(thisMovie)
-      this.setState({ movie: thisMovie, display: true })
+      this.setState({ movieholder: thisMovie, display: true })
 
       this.getUserRating()
 
@@ -234,7 +235,6 @@ class Movie extends Component {
   readUrl = () => {
     let movie = window.location.search;
     movie = movie.split("=")
-    let type = movie[0]
     movie = movie[1]
     console.log(movie)
     if(movie !== undefined){
@@ -274,13 +274,7 @@ class Movie extends Component {
   }
 
   componentDidMount() {
-    console.log(this.state.movie)
-    this.setState({display: false, movie: null})
     this.loadUser();
-   
-
-    
-
 
   }
 
