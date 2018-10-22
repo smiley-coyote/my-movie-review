@@ -10,11 +10,11 @@ const TopMatches = props => (
   ?<div className="black-border padding-xs">
   {props.topusers.map(res =>
       
-    <div className="top-matches" key={res.id}>
-      <fieldset onClick={props.addCritic} name={res.name} id={res.id}>
+    <div className="top-matches" key={res._id}>
+      <fieldset onClick={props.addCritic} name={res.name} id={res._id}>
         <div>
           <div className="float-left">
-          <Link to={"/user/" + res.id}>
+          <Link to={"/user/" + res._id}>
             <Image cloudName="dmyiazu6p" publicId={res.image}>
               <Transformation width="100" height="100" gravity="faces" crop="fill" />
             </Image>
