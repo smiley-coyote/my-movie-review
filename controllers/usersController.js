@@ -1,15 +1,16 @@
 const db = require("../models");
 
+
 module.exports = {
   postSurvey: function (req, res) {
     db.User
-      .findOneAndUpdate({ _id: req.body.id }, {"survey" : req.body.survey} )
+      .findOneAndUpdate({ _id: req.body.id }, { "survey": req.body.survey })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
   findUser: function (req, res) {
     db.User
-      .findById(req.params.id )
+      .findById(req.params.id)
       .populate("ratings")
       .populate("critics")
       .then(dbModel => res.json(dbModel))
@@ -23,11 +24,96 @@ module.exports = {
   },
   findAll: function (req, res) {
     db.User
-      .find(req.query)
+      .find({ _id: { $ne: req.user._id } })
       .populate("ratings")
-      // .sort({ date: -1 })
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+      .then(dbUsers => {
+        db.User
+          .findById(req.user._id)
+          .populate("critics")
+          .then(currentUser =>
+            dbUsers.filter(dbUser => currentUser.critics.every(
+              userCritic => userCritic.criticId != dbUser._id
+            )
+            )
+          ).then(dbUsers => {
+            const userScores = []
+            dbUsers.map(res => userScores.push({
+              name: res.name,
+              _id: res._id,
+              survey: res.survey,
+              score: 0,
+              percentage: 0,
+              ratings: res.ratings,
+              image: res.image
+            }))
+            return userScores
+          }
+          ).then(users => {
+            const userSurvey = req.user.survey;
+            let percentageResult = 0;
+            for (let i = 0; i < users.length; i++) {
+              let score = 0;
+              let thisUser = users[i]
+              for (let x = 0; x < thisUser.survey.length; x++) {
+                const length = thisUser.survey.length
+                if (userSurvey[x] > 2 && thisUser.survey[x] > 2) {
+                  score += 1
+                  percentageResult = (score / length) * 100
+                  percentageResult = Math.round(percentageResult)
+                  users[i].score = score
+
+                  users[i].percentage = percentageResult
+
+                }
+                else if (userSurvey[x] < 3 && thisUser.survey[x] < 3) {
+                  score += 1
+                  percentageResult = (score / length) * 100
+                  percentageResult = Math.round(percentageResult)
+                  users[i].score = score
+
+                  users[i].percentage = percentageResult
+
+                }
+                else {
+                  score += 0
+                  percentageResult = (score / length) * 100
+                  percentageResult = Math.round(percentageResult)
+                  users[i].score = score
+
+                  users[i].percentage = percentageResult
+
+                }
+              }
+
+            }
+            return users
+
+          }).then(dbUsers => {
+        
+            dbUsers.sort( (a, b) => {
+              return b.score - a.score
+            })
+            return dbUsers
+            
+            
+          }).then(dbUsers => {
+            for (let i = 0; i < dbUsers.length; i++) {
+              if (dbUsers[i].ratings !== undefined) {
+                dbUsers[i].ratings.sort(function compare(a, b) {
+                  var dateA = new Date(a.date);
+                  var dateB = new Date(b.date);
+                  return dateB - dateA;
+                });
+        
+              }
+            }
+            return dbUsers
+          }).then(dbModel => res.json(dbModel))
+          .catch(err => res.status(422)
+            .json(err));
+      })
+
+
   },
   postRating: function (req, res) {
     db.Rating
@@ -71,23 +157,23 @@ module.exports = {
       .catch(err => res.status(422)
         .json(err));
   },
-  postReview: function(req, res){
+  postReview: function (req, res) {
     db.Rating
-    .findOneAndUpdate({ _userId: req.body._userId, imdbID: req.body.imdbID }, { "review" : req.body.review } )
-    .then(dbModel => res.json(dbModel))
-    .catch(err => res.status(422).json(err));
+      .findOneAndUpdate({ _userId: req.body._userId, imdbID: req.body.imdbID }, { "review": req.body.review })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
 
   },
-  uploadImage: function(req, res){
+  uploadImage: function (req, res) {
     db.User
-    .findOneAndUpdate({ _id: req.body.id}, {"image" : req.body.image})
-    .then(dbModel => res.json(dbModel))
-    .catch(err => res.status(422).json(err));
+      .findOneAndUpdate({ _id: req.body.id }, { "image": req.body.image })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
   },
-  addTopFive: function(req, res){
+  addTopFive: function (req, res) {
     db.User
-    .findOneAndUpdate({ _id: req.body.userId}, {"topmovies" : req.body.topfive})
-    .then(dbModel => res.json(dbModel))
-    .catch(err => res.status(422).json(err));
+      .findOneAndUpdate({ _id: req.body.userId }, { "topmovies": req.body.topfive })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
   }
 };

@@ -32,7 +32,7 @@ export default {
   findUser: function(id) {
     return axios.get("/api/user/" + id);
   },
-  findAll: function(){
+  forTopMatches: function(){
     return axios.get("/api/user/")
   },
   submitRating: function(data){

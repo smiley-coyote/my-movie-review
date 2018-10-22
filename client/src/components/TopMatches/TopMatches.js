@@ -11,7 +11,7 @@ const TopMatches = props => (
   {props.topusers.map(res =>
       
     <div className="top-matches" key={res.id}>
-      <fieldset onClick={props.addCritic} name={res.user} id={res.id}>
+      <fieldset onClick={props.addCritic} name={res.name} id={res.id}>
         <div>
           <div className="float-left">
           <Link to={"/user/" + res.id}>
@@ -19,7 +19,7 @@ const TopMatches = props => (
               <Transformation width="100" height="100" gravity="faces" crop="fill" />
             </Image>
             </Link>
-            <p>{res.user}</p>
+            <p>{res.name}</p>
             <p>{res.percentage}% match</p>
           </div>
           <div className="content">

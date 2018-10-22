@@ -369,139 +369,135 @@ class Home extends Component {
   }
 
 
-  sortTopUserRatings = () => {
-    let userScores = this.state.userscores;
+  // sortTopUserRatings = () => {
+  //   let userScores = this.state.userscores;
     
-    for (let i = 0; i < userScores.length; i++) {
-      if (userScores[i].ratings !== undefined) {
-        userScores[i].ratings.sort(function compare(a, b) {
-          var dateA = new Date(a.date);
-          var dateB = new Date(b.date);
-          return dateB - dateA;
-        });
+  //   for (let i = 0; i < userScores.length; i++) {
+  //     if (userScores[i].ratings !== undefined) {
+  //       userScores[i].ratings.sort(function compare(a, b) {
+  //         var dateA = new Date(a.date);
+  //         var dateB = new Date(b.date);
+  //         return dateB - dateA;
+  //       });
 
-      }
-    }
-    this.setState({ userscores: userScores })
-    this.getTopUserRatings();
-  }
-
-
-  runTopMatchResults = () => {
-    let userScores = this.state.userscores;
-    let topUsers = [];
-    let userNumber;
-    userScores.sort(function (a, b) {
-      return b.score - a.score
-    })
-    console.log(userScores)
-    userNumber = Math.round(userScores.length / 2)
-    console.log(userNumber)
-    for (let i = 0; i < userNumber; i++) {
-      topUsers.push(userScores[i]);
-    }
-    console.log(topUsers)
-    this.setState({
-      topusers: topUsers,
-      userscores: userScores
-    })
-    this.sortTopUserRatings();
-
-  }
-
-  runTopMatchFinder = () => {
-    let userScores = this.state.userscores;
-    const userSurvey = this.state.currentuser.survey;
-    let percentageResult = 0;
-    for (let i = 0; i < userScores.length; i++) {
-      let score = 0;
-      let thisUser = userScores[i]
-      for (let x = 0; x < thisUser.survey.length; x++) {
-        const length = thisUser.survey.length
-        if (userSurvey[x] > 2 && thisUser.survey[x] > 2) {
-          score += 1
-          percentageResult = (score / length) * 100
-          percentageResult = Math.round(percentageResult)
-          userScores[i].score = score
-
-          userScores[i].percentage = percentageResult
-
-        }
-        else if (userSurvey[x] < 3 && thisUser.survey[x] < 3) {
-          score += 1
-          percentageResult = (score / length) * 100
-          percentageResult = Math.round(percentageResult)
-          userScores[i].score = score
-
-          userScores[i].percentage = percentageResult
-
-        }
-        else {
-          score += 0
-          percentageResult = (score / length) * 100
-          percentageResult = Math.round(percentageResult)
-          userScores[i].score = score
-
-          userScores[i].percentage = percentageResult
-
-        }
-      }
-
-    }
-    this.setState({ userscores: userScores })
-    this.runTopMatchResults()
-  }
-
-  runSurveyResults = () => {
-    const allusers = this.state.allusers;
-    let userScores = [];
-    console.log(allusers);
-    for (let i = 0; i < allusers.length; i++) {
-      if (allusers[i]._id !== this.props.auth.userId) {
-        userScores.push({
-          user: allusers[i].name,
-          id: allusers[i]._id,
-          survey: allusers[i].survey,
-          score: 0,
-          percentage: 0,
-          ratings: allusers[i].ratings,
-          image: allusers[i].image
-        })
-      }
-
-    }
-    this.setState({ userscores: userScores })
-    this.runTopMatchFinder();
-  }
-
-  filterCritics = () => {
-    const userCritics = this.state.usercurrentcritics;
-    const users = this.state.allusers;
+  //     }
+  //   }
+  //   this.setState({ userscores: userScores })
+  //   this.getTopUserRatings();
+  // }
 
 
-    let filteredUsers = users.filter(res => userCritics.every(
-      userCritics => userCritics.criticId !== res._id
-    ))
+  // runTopMatchResults = () => {
+  //   let userScores = this.state.userscores;
+  //   let topUsers = [];
+  //   let userNumber;
+  //   userScores.sort(function (a, b) {
+  //     return b.score - a.score
+  //   })
+  //   console.log(userScores)
+  //   userNumber = Math.round(userScores.length / 2)
+  //   console.log(userNumber)
+  //   for (let i = 0; i < userNumber; i++) {
+  //     topUsers.push(userScores[i]);
+  //   }
+  //   console.log(topUsers)
+  //   this.setState({
+  //     topusers: topUsers,
+  //     userscores: userScores
+  //   })
+  //   this.sortTopUserRatings();
+
+  // }
+
+  // runTopMatchFinder = () => {
+  //   let userScores = this.state.userscores;
+  //   const userSurvey = this.state.currentuser.survey;
+  //   let percentageResult = 0;
+  //   for (let i = 0; i < userScores.length; i++) {
+  //     let score = 0;
+  //     let thisUser = userScores[i]
+  //     for (let x = 0; x < thisUser.survey.length; x++) {
+  //       const length = thisUser.survey.length
+  //       if (userSurvey[x] > 2 && thisUser.survey[x] > 2) {
+  //         score += 1
+  //         percentageResult = (score / length) * 100
+  //         percentageResult = Math.round(percentageResult)
+  //         userScores[i].score = score
+
+  //         userScores[i].percentage = percentageResult
+
+  //       }
+  //       else if (userSurvey[x] < 3 && thisUser.survey[x] < 3) {
+  //         score += 1
+  //         percentageResult = (score / length) * 100
+  //         percentageResult = Math.round(percentageResult)
+  //         userScores[i].score = score
+
+  //         userScores[i].percentage = percentageResult
+
+  //       }
+  //       else {
+  //         score += 0
+  //         percentageResult = (score / length) * 100
+  //         percentageResult = Math.round(percentageResult)
+  //         userScores[i].score = score
+
+  //         userScores[i].percentage = percentageResult
+
+  //       }
+  //     }
+
+  //   }
+  //   this.setState({ userscores: userScores })
+  //   this.runTopMatchResults()
+  // }
+
+  // runSurveyResults = () => {
+  //   const allusers = this.state.allusers;
+  //   let userScores = [];
+  //   console.log(allusers);
+  //   for (let i = 0; i < allusers.length; i++) {
+  //     if (allusers[i]._id !== this.props.auth.userId) {
+  //       userScores.push({
+  //         user: allusers[i].name,
+  //         id: allusers[i]._id,
+  //         survey: allusers[i].survey,
+  //         score: 0,
+  //         percentage: 0,
+  //         ratings: allusers[i].ratings,
+  //         image: allusers[i].image
+  //       })
+  //     }
+
+  //   }
+  //   this.setState({ userscores: userScores })
+  //   this.runTopMatchFinder();
+  // }
 
 
-      if(filteredUsers.length > 4){    this.setState({
-        allusers: filteredUsers
-      })
-      this.runSurveyResults()
-    }
-
-  }
 
   runFindAll = () => {
-    API.findAll()
+    API.forTopMatches()
       .then(res => {
-        console.log(res.data.length);
-        console.log(res.data)
+      
+        let topUsers = [];
+        let userNumber;
+
+        userNumber = Math.round(res.data.length / 2)
+        console.log(userNumber)
+        for (let i = 0; i < userNumber; i++) {
+          topUsers.push(res.data[i]);
+        }
+        console.log(topUsers)
+
         if(res.data.length > 4){
         this.setState({
-          allusers: res.data
+          topusers: topUsers,
+          allusers: res.data,
+          userscores: res.data
         })
-        this.filterCritics()
+        
+        this.getTopUserRatings();
       }
       })
       
@@ -514,7 +510,7 @@ class Home extends Component {
 
     API.findUser(this.props.auth.userId).then(res => {
 
-
+      console.log(res.data)
       let userCritics = res.data.critics
       console.log(userCritics)
       this.getUserCritics(userCritics);
@@ -522,11 +518,11 @@ class Home extends Component {
         currentuser: res.data,
         usercurrentcritics: userCritics
       })
+      this.runFindAll()
     }
 
-    ).then(() => {
-      this.runFindAll()
-    })
+    )
+   
 
   }
 
