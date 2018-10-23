@@ -5,7 +5,7 @@ router.route("/").post(usersController.postRating);
 
 router.route("/writeup").put(usersController.postReview);
 
-router.route("/").get(usersController.getRatings);
+router.route("/all").post(usersController.movieRatings);
 
 router.route("/:id").get(usersController.findRating);
 

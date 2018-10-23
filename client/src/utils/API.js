@@ -32,8 +32,8 @@ export default {
   findUser: function(id) {
     return axios.get("/api/user/" + id);
   },
-  forTopMatches: function(){
-    return axios.get("/api/user/")
+  forTopMatches: function(data){
+    return axios.post("/api/user/all", data)
   },
   submitRating: function(data){
     return axios.post("/api/rating", data)
@@ -41,9 +41,9 @@ export default {
   findRatingUser: function(id){
     return axios.get("/api/rating/" + id)
   },
-  getRatings: function(data){
-    return axios.get("/api/rating/" + data)
-  },
+  // getRatings: function(data){
+  //   return axios.get("/api/rating/" + data)
+  // },
   addCritic: function(data){
     return axios.post("/api/critic", data);
   },
@@ -55,5 +55,8 @@ export default {
   },
   submitTopFive: function(data){
     return axios.put("/api/user/topfive", data)
+  },
+  getMovieRatings: function(data){
+    return axios.post("/api/rating/all" , data)
   }
 };

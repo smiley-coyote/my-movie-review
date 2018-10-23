@@ -23,8 +23,8 @@ class Movie extends Component {
     this.state = {
       display: false,
       movie: null,
-      movieholder: null,
       currentuser: {},
+      currentuserreview: null,
       allusers: [],
       navsearch: "",
       results: [],
@@ -39,7 +39,7 @@ class Movie extends Component {
       usercritics: [],
       currentcriticratings: [],
       currentcriticreviews: [],
-
+      error: false
     }
 
   }
@@ -60,22 +60,22 @@ class Movie extends Component {
       imdbID: this.state.id
     }).then(res => {
 
-      API.findUser(id).then(res =>{
-        const yourRatings = res.data.ratings;
-        let thisMovie = this.state.movie
-        for (let i = 0; i < yourRatings.length; i++) {
-          if (yourRatings[i].imdbID === thisMovie.imdbID) {
-            thisMovie.userRating = yourRatings[i].rating
-            thisMovie.userReview = yourRatings[i].review
-            if(yourRatings[i].review !== undefined){
-              thisMovie.userReview = yourRatings[i].review
-            }
-          }
-  
-        }
+      let movie = window.location.search;
+      movie = movie.split("=")
+      movie = movie[1]
+      API.findUser(this.props.auth.userId).then(res =>{
+        const thisMovie = res.data.ratings.filter(rating => rating.imdbID === movie)
         console.log(thisMovie)
-        this.setState({ show: false, movie: thisMovie })
-  
+        const myscore = {
+          rating: thisMovie[0].rating,
+          review: thisMovie[0].review
+        }
+        console.log(myscore)
+        this.setState({
+          currentuser: res.data,
+          currentuserreview: myscore,
+          show: false
+        })
       })
      
       
@@ -89,32 +89,34 @@ class Movie extends Component {
     const value = event.target.htmlFor;
     const poster = event.currentTarget.getAttribute("image");
     const id = this.props.auth.userId;
+    const username = this.state.currentuser.name
     const title = event.currentTarget.getAttribute("title");
     API.submitRating({
       imdbID: thisid,
       rating: value,
       poster: poster,
       _userId: id,
-      title: title
+      title: title,
+      username: username
     }).then(res => {
 
 
-      API.findUser(id).then(res =>{
-        const yourRatings = res.data.ratings;
-        let thisMovie = this.state.movie
-        for (let i = 0; i < yourRatings.length; i++) {
-          if (yourRatings[i].imdbID === thisMovie.imdbID) {
-            thisMovie.userRating = yourRatings[i].rating
-            thisMovie.userReview = yourRatings[i].review
-            if(yourRatings[i].review !== undefined){
-              thisMovie.userReview = yourRatings[i].review
-            }
-          }
-          console.log(res.data)
-        }
+      let movie = window.location.search;
+      movie = movie.split("=")
+      movie = movie[1]
+      API.findUser(this.props.auth.userId).then(res =>{
+        const thisMovie = res.data.ratings.filter(rating => rating.imdbID === movie)
         console.log(thisMovie)
-        this.setState({ show: false, movie: thisMovie })
-  
+        const myscore = {
+          rating: thisMovie[0].rating,
+          review: thisMovie[0].review
+        }
+        console.log(myscore)
+        this.setState({
+          currentuser: res.data,
+          currentuserreview: myscore,
+          show: false
+        })
       })
 
 
@@ -243,6 +245,10 @@ class Movie extends Component {
         this.getUserRating()
   
       })
+    } else{
+      this.setState({
+        error: true
+      })
     }
 
     
@@ -271,17 +277,81 @@ class Movie extends Component {
 
   }
 
-  loadUser = () => {
-    API.findUser(this.props.auth.userId).then(res => {
-      console.log(res.data);
-      yourRatings = res.data.ratings;
-      this.setState({ currentuser: res.data})
-      this.loadUserCritics()
+  loadPage = () => {
+    let movie = window.location.search;
+    movie = movie.split("=")
+    movie = movie[1]
+    API.findUser(this.props.auth.userId).then(res =>{
+      const thisMovie = res.data.ratings.filter(rating => rating.imdbID === movie)
+      console.log(thisMovie.length)
+      if(thisMovie.length !== 0){
+        const myscore = {
+          rating: thisMovie[0].rating,
+          review: thisMovie[0].review
+        }
+        console.log(myscore)
+        this.setState({
+          currentuser: res.data,
+          currentuserreview: myscore
+        })
+      } else {
+        this.setState({
+          currentuser: res.data
+        })
+      }
+
+      console.log(this.state.currentuserreview)
+      if(movie !== undefined){
+        API.byId(movie).then(res => {
+         console.log(res.data)
+            const thisMovie = res.data;
+          const userId = this.props.auth.userId;
+          API.getMovieRatings({
+            movie: thisMovie,
+            id: userId
+          }).then(res =>{
+            console.log(res.data)
+            this.setState({
+              movie: {
+                Title: res.data.Title,
+                Poster: res.data.Poster,
+                imdbID: res.data.imdbID,
+                Plot: res.data.Plot,
+                Rated: res.data.Rated,
+                Genre: res.data.Genre,
+                Released: res.data.Released,
+                Runtime: res.data.Runtime,
+                myCriticRating: res.data.criticRating,
+                myCriticReviews: res.data.writeups
+              },
+  
+              currentcriticratings: res.data.criticRatings,
+              currentuser: res.data.currentUser,
+              currentcriticreviews: res.data.writeups
+            })
+          })
+           
+          
+        })} else{
+          this.setState({
+            error: true
+          })
+        }
     })
+    console.log(movie)
+   
+   
+
+    // API.forMoviePage(this.props.auth.userId).then(res => {
+    //   console.log(res.data);
+    //   yourRatings = res.data.ratings;
+    //   this.setState({ currentuser: res.data})
+    //   this.loadUserCritics()
+    // })
   }
 
   componentDidMount() {
-    this.loadUser();
+    this.loadPage();
 
   }
 
@@ -297,9 +367,10 @@ class Movie extends Component {
           <MovieDisplay
             data={this.state.movie}
             critics={this.state.currentcriticreviews}
+            user={this.state.currentuserreview}
           >
 
-            {this.state.movie.userRating === undefined
+            {this.state.currentuserreview.rating === undefined
               ? <div className="star-rating">
                 <fieldset title={this.state.movie.Title} image={this.state.movie.Poster} className="rating-movie" name={this.state.movie.imdbID} onClick={this.handleRatingInputChange}>
                   <h3>Please rate:</h3>
@@ -311,11 +382,11 @@ class Movie extends Component {
               </div>
               : <span></span>
             }
-            {this.state.movie.userReview !== undefined
+            {this.state.currentuserreview.review !== undefined
               ? <p><span className="head-text">Your Review:</span>
                 <br />
-                {this.state.movie.userReview}</p>
-              : this.state.movie.userRating !== undefined
+                {this.state.currentuserreview.review}</p>
+              : this.state.currentuserreview.rating !== undefined
                 ? <Button id={this.state.movie.imdbID} name={this.state.movie.Title} bsStyle="primary" bsSize="large" onClick={() => this.handleShow(this.state.movie.imdbID, this.state.movie.Title, this.state.movie.Poster)}>
                   Add A Review
                     </Button>

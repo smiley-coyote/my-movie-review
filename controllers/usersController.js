@@ -23,12 +23,13 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   findAll: function (req, res) {
+    console.log(req.body._id)
     db.User
-      .find({ _id: { $ne: req.user._id } })
+      .find({ _id: { $ne: req.body._id } })
       .populate("ratings")
       .then(dbUsers => {
         db.User
-          .findById(req.user._id)
+          .findById(req.body._id)
           .populate("critics")
           .then(currentUser =>
             dbUsers.filter(dbUser => currentUser.critics.every(
@@ -49,7 +50,7 @@ module.exports = {
             return userScores
           }
           ).then(users => {
-            const userSurvey = req.user.survey;
+            const userSurvey = req.body.survey;
             let percentageResult = 0;
             for (let i = 0; i < users.length; i++) {
               let score = 0;
@@ -175,5 +176,67 @@ module.exports = {
       .findOneAndUpdate({ _id: req.body.userId }, { "topmovies": req.body.topfive })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
+  },
+  movieRatings: function (req, res) {
+    db.User
+    .findById(req.body.id)
+    .populate("ratings")
+    .populate("critics")
+    .then( thisUser =>{
+      db.User
+      .find({_id: thisUser.critics.map(critics => critics.criticId)})
+      .populate("ratings")
+      .then( userCritics =>
+         userCritics.map(critic => 
+          critic.ratings.filter(rating => rating.imdbID === req.body.movie.imdbID)
+        )
+      ).then( criticRatings => {
+        const thisMovie = req.body.movie
+        thisMovie.currentUser = thisUser
+        thisMovie.criticRatings = criticRatings
+        let writeups = [];
+        let score = 0;
+        let viewers = 0;
+        let percentage = 0;
+        for (let i = 0; i < criticRatings.length; i++) {
+          if (criticRatings[i][0].rating > 2) {
+            score = score += 1
+            viewers += 1
+            percentage = (score / viewers) * 100
+            percentage = Math.round(percentage)
+            thisMovie.criticRating = percentage;
+            writeups.push({
+              name: criticRatings[i][0].username,
+              rating: criticRatings[i][0].rating,
+              review: criticRatings[i][0].review,
+            _id: criticRatings[i][0].criticId})
+  
+          }
+          //  if(criticRatings[i][0].review !== undefined){
+          //  writeups.push({
+          //    name: criticRatings[i][0].username,
+          //    rating: criticRatings[i][0].rating,
+          //    review: criticRatings[i][0].review})
+          // }
+          else {
+            viewers += 1;
+            percentage = (score / viewers) * 100
+            percentage = Math.round(percentage)
+            thisMovie.criticRating = percentage;
+            writeups.push({
+              name: criticRatings[i][0].username,
+              rating: criticRatings[i][0].rating,
+              review: criticRatings[i][0].review,
+              _id: criticRatings[i][0].criticId
+            })
+          }
+  
+        }
+        thisMovie.writeups = writeups
+        return thisMovie
+      }).then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+    })
+      
   }
 };

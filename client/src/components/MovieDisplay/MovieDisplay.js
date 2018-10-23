@@ -30,28 +30,28 @@ const MovieDisplay = props => (
                 <p><span className="underline-text">Released:</span> {props.data.Released}</p>
                 <p><span className="underline-text">Runtime:</span> {props.data.Runtime}</p>
               </div>
-              <p><span className="your-movie-rating">Your Rating: </span>{props.data.userRating === 1
+              <p><span className="your-movie-rating">Your Rating: </span>{props.user.rating === 1
                 ? <span>
                   <span className="fa fa-star checked"></span>
                   <span className="fa fa-star"></span>
                   <span className="fa fa-star"></span>
                   <span className="fa fa-star"></span>
                 </span>
-                : props.data.userRating === 2
+                : props.user.rating === 2
                   ? <span>
                     <span className="fa fa-star checked"></span>
                     <span className="fa fa-star checked"></span>
                     <span className="fa fa-star"></span>
                     <span className="fa fa-star"></span>
                   </span>
-                  : props.data.userRating === 3
+                  : props.user.rating === 3
                     ? <span>
                       <span className="fa fa-star checked"></span>
                       <span className="fa fa-star checked"></span>
                       <span className="fa fa-star checked"></span>
                       <span className="fa fa-star"></span>
                     </span>
-                    : props.data.userRating === 4
+                    : props.user.rating === 4
                       ? <span>
                         <span className="fa fa-star checked"></span>
                         <span className="fa fa-star checked"></span>
@@ -62,9 +62,9 @@ const MovieDisplay = props => (
                         No rating yet
   </span>
               }
-                {props.data.criticRating !== undefined
+                {props.data.myCriticRating !== undefined
                 ?<span className="float-right">
-                MyCritic Score: {props.data.criticRating}%</span>
+                MyCritic Score: {props.data.myCriticRating}%</span>
                 : <span className="float-right">
                 MyCritic Score: No ratings</span>
                 }
@@ -81,8 +81,8 @@ const MovieDisplay = props => (
             <h3>My Critic Reviews</h3>
             {props.critics.map(res => {
 
-              return <div className="critic-review-content" key={res.id}>
-                <p>{res.username}</p>
+              return <div className="critic-review-content" key={res._id}>
+                <p>{res.name}</p>
                 {res.rating === 1
                   ? <span>
                     <span className="fa fa-star checked"></span>

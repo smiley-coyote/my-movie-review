@@ -9,6 +9,7 @@ const ratingSchema = new Schema({
   title: { type: String, required: true},
   imdbID: { type: String, required: true},
   rating: { type: Number, required: true },
+  username: { type: String, required: true},
   date: {type: Date, default: Date.now },
   poster: { type: String},
   review: { type: String},

@@ -9,8 +9,8 @@ router.route("/")
 
 router.route("/:id").get(usersController.findUser);
 
-router.route("/")
-.get(usersController.findAll);
+router.route("/all")
+.post(usersController.findAll);
 
 router.route("/topfive")
 .put(usersController.addTopFive);

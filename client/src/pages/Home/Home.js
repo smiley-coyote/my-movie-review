@@ -477,7 +477,7 @@ class Home extends Component {
 
 
   runFindAll = () => {
-    API.forTopMatches()
+    API.forTopMatches(this.state.currentuser)
       .then(res => {
       
         let topUsers = [];
@@ -507,7 +507,7 @@ class Home extends Component {
 
   loadUser = () => {
 
-
+console.log(this.props.auth.userId)
     API.findUser(this.props.auth.userId).then(res => {
 
       console.log(res.data)

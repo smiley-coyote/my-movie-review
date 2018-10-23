@@ -80,13 +80,15 @@ class Search extends Component {
     const value = event.target.htmlFor;
     const poster = event.currentTarget.getAttribute("image");
     const id = this.props.auth.userId;
+    const username = this.state.currentuser.name
     const title = event.currentTarget.getAttribute("title");
     API.submitRating({
       imdbID: thisid,
       rating: value,
       poster: poster,
       _userId: id,
-      title: title
+      title: title,
+      username: username
     }).then(res => {
       API.findUser(id).then(res => {
         const yourRatings = res.data.ratings;

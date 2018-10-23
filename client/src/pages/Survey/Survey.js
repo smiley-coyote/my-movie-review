@@ -105,13 +105,15 @@ class Survey extends Component {
     const value = event.target.htmlFor;
     const title = event.currentTarget.id;
     const poster = event.currentTarget.getAttribute("image");
+    const username = this.state.currentuser.name;
     const id = this.props.auth.userId;
     API.submitRating({
       _userId: id,
       imdbID: thisid,
       rating: value,
       title: title,
-      poster: poster
+      poster: poster,
+      username: username
     }).then(res => console.log(res.data))
 
     this.setState({
