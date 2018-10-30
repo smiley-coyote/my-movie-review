@@ -103,10 +103,10 @@ class Profile extends Component {
 
   loadUser = () => {
 
-    console.log(this.props.auth.userId)
+
 
     API.findUser(this.props.auth.userId).then(res => {
-console.log(res.data.critics)
+
       this.setState({ currentuser: res.data })
       if(res.data.critics !== undefined){
         this.setState({
@@ -151,7 +151,7 @@ console.log(res.data.critics)
     }
 
     API.submitTopFive(data).then(res =>{
-      console.log(res.data + " Success!")
+     
     })
 
     this.setState({
@@ -186,7 +186,7 @@ console.log(res.data.critics)
   }
   
   handleDelete = data =>{
-    console.log(data)
+    
     API.deleteCritic(data).then(res =>{
       console.log(res.data + " deleted!")
     })

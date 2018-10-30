@@ -6,7 +6,7 @@ const Mainbody = props => (
   <div className="mainbody panel">
   <div className="panel-heading">
   {props.dropdown
-  ?  <Dropdown handleSelection={props.handleSelection} selection={props.selection} title={props.title}/>
+  ?  <Dropdown handleSelection={props.handleSelection} selection={props.selection} id={props.title} title={props.title}/>
   : <h3 className="panel-title"><strong>My Reviews</strong></h3>
   }
    

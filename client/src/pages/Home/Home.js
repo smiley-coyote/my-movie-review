@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 
 let userCritics = [];
-const openingMovies =[
+const openingMovies = [
   {
     title: "Bohemian Rhapsody",
     id: "tt1727824",
@@ -90,7 +90,7 @@ const topBoxOffice = [
     reviewed: false
   }
 ];
-const popularMovies =[
+const popularMovies = [
   {
     title: "Black Panther",
     id: "tt1825683",
@@ -162,31 +162,6 @@ class Home extends Component {
   };
 
 
-  // setMovieState = () => {
-  //   this.setState({ topmovies: topMovies })
-  // }
-
-  // runGetMovieTitles = () => {
-  //   for (let i = 0; i < topMovies.length; i++) {
-  //     API.byId(topMovies[i].id).then(res => {
-  //       if (topMovies[i].reviewed === false && res.data.Metascore !== "N/A") {
-  //         topMovies[i].percentage = "*" + res.data.Metascore
-  //       }
-  //       let movie = res.data.Title;
-  //       const title = res.data.Title;
-  //       movie = movie.split(" ");
-  //       movie = movie.join("+")
-  //       // const year = res.data.Year;
-  //       // const imdbID = res.data.imdbID;
-  //       topMovies[i].title = title;
-  //       topMovies[i].movie = movie;
-
-
-  //     })
-
-  //   }
-
-  // }
 
   sortCriticRatings = ratings => {
 
@@ -213,21 +188,21 @@ class Home extends Component {
         criticArr[i].image = res.data.image;
         criticArr[i].ratings = res.data.ratings;
         let resultsNumber = Math.round(res.data.ratings.length / 2)
-        if(newRatingsArr.length < 20){
-        for (let x = 0; x < resultsNumber; x++) {
-          newRatingsArr.push({
-            image: image,
-            username: userName,
-            id: id,
-            imdbID: res.data.ratings[x].imdbID,
-            poster: res.data.ratings[x].poster,
-            rating: res.data.ratings[x].rating,
-            title: res.data.ratings[x].title,
-            date: res.data.ratings[x].date,
-            review: res.data.ratings[x].review
-          })
+        if (newRatingsArr.length < 20) {
+          for (let x = 0; x < resultsNumber; x++) {
+            newRatingsArr.push({
+              image: image,
+              username: userName,
+              id: id,
+              imdbID: res.data.ratings[x].imdbID,
+              poster: res.data.ratings[x].poster,
+              rating: res.data.ratings[x].rating,
+              title: res.data.ratings[x].title,
+              date: res.data.ratings[x].date,
+              review: res.data.ratings[x].review
+            })
+          }
         }
-      }
       })
     }
 
@@ -239,7 +214,7 @@ class Home extends Component {
   }
   getTopUserRatings = () => {
     let topUsers = this.state.topusers
-    
+
     // opening movies
     for (let i = 0; i < topUsers.length; i++) {
       if (topUsers[i].ratings !== null) {
@@ -269,18 +244,18 @@ class Home extends Component {
                 openingMovies[y].viewers = viewers;
                 openingMovies[y].percentage = percentage;
               }
-            }if(!openingMovies[y].reviewed){
+            } if (!openingMovies[y].reviewed) {
               let metaScore = openingMovies[y].metacritic
               openingMovies[y].percentage = "*" + metaScore
             }
           }
         }
 
-        
+
       }
     }
     console.log(openingMovies)
-    this.setState({openingmovies: openingMovies})
+    this.setState({ openingmovies: openingMovies })
     // Top box office movies
     for (let i = 0; i < topUsers.length; i++) {
       if (topUsers[i].ratings !== null) {
@@ -310,19 +285,19 @@ class Home extends Component {
                 topBoxOffice[y].viewers = viewers;
                 topBoxOffice[y].percentage = percentage;
               }
-            }if(!topBoxOffice[y].reviewed){
+            } if (!topBoxOffice[y].reviewed) {
               let metaScore = topBoxOffice[y].metacritic
               topBoxOffice[y].percentage = "*" + metaScore
             }
           }
-          
+
         }
 
-        
+
       }
     }
     console.log(topBoxOffice)
-    this.setState({topboxoffice: topBoxOffice})
+    this.setState({ topboxoffice: topBoxOffice })
     // Popular Movies
     for (let i = 0; i < topUsers.length; i++) {
       if (topUsers[i].ratings !== null) {
@@ -352,167 +327,53 @@ class Home extends Component {
                 popularMovies[y].viewers = viewers;
                 popularMovies[y].percentage = percentage;
               }
-            } if(!popularMovies[y].reviewed){
+            } if (!popularMovies[y].reviewed) {
               let metaScore = popularMovies[y].metacritic
               popularMovies[y].percentage = "*" + metaScore
             }
           }
         }
 
-        
+
       }
     }
     console.log(popularMovies)
-    this.setState({ 
-      popularmovies: popularMovies 
+    this.setState({
+      popularmovies: popularMovies
     })
   }
-
-
-  // sortTopUserRatings = () => {
-  //   let userScores = this.state.userscores;
-    
-  //   for (let i = 0; i < userScores.length; i++) {
-  //     if (userScores[i].ratings !== undefined) {
-  //       userScores[i].ratings.sort(function compare(a, b) {
-  //         var dateA = new Date(a.date);
-  //         var dateB = new Date(b.date);
-  //         return dateB - dateA;
-  //       });
-
-  //     }
-  //   }
-  //   this.setState({ userscores: userScores })
-  //   this.getTopUserRatings();
-  // }
-
-
-  // runTopMatchResults = () => {
-  //   let userScores = this.state.userscores;
-  //   let topUsers = [];
-  //   let userNumber;
-  //   userScores.sort(function (a, b) {
-  //     return b.score - a.score
-  //   })
-  //   console.log(userScores)
-  //   userNumber = Math.round(userScores.length / 2)
-  //   console.log(userNumber)
-  //   for (let i = 0; i < userNumber; i++) {
-  //     topUsers.push(userScores[i]);
-  //   }
-  //   console.log(topUsers)
-  //   this.setState({
-  //     topusers: topUsers,
-  //     userscores: userScores
-  //   })
-  //   this.sortTopUserRatings();
-
-  // }
-
-  // runTopMatchFinder = () => {
-  //   let userScores = this.state.userscores;
-  //   const userSurvey = this.state.currentuser.survey;
-  //   let percentageResult = 0;
-  //   for (let i = 0; i < userScores.length; i++) {
-  //     let score = 0;
-  //     let thisUser = userScores[i]
-  //     for (let x = 0; x < thisUser.survey.length; x++) {
-  //       const length = thisUser.survey.length
-  //       if (userSurvey[x] > 2 && thisUser.survey[x] > 2) {
-  //         score += 1
-  //         percentageResult = (score / length) * 100
-  //         percentageResult = Math.round(percentageResult)
-  //         userScores[i].score = score
-
-  //         userScores[i].percentage = percentageResult
-
-  //       }
-  //       else if (userSurvey[x] < 3 && thisUser.survey[x] < 3) {
-  //         score += 1
-  //         percentageResult = (score / length) * 100
-  //         percentageResult = Math.round(percentageResult)
-  //         userScores[i].score = score
-
-  //         userScores[i].percentage = percentageResult
-
-  //       }
-  //       else {
-  //         score += 0
-  //         percentageResult = (score / length) * 100
-  //         percentageResult = Math.round(percentageResult)
-  //         userScores[i].score = score
-
-  //         userScores[i].percentage = percentageResult
-
-  //       }
-  //     }
-
-  //   }
-  //   this.setState({ userscores: userScores })
-  //   this.runTopMatchResults()
-  // }
-
-  // runSurveyResults = () => {
-  //   const allusers = this.state.allusers;
-  //   let userScores = [];
-  //   console.log(allusers);
-  //   for (let i = 0; i < allusers.length; i++) {
-  //     if (allusers[i]._id !== this.props.auth.userId) {
-  //       userScores.push({
-  //         user: allusers[i].name,
-  //         id: allusers[i]._id,
-  //         survey: allusers[i].survey,
-  //         score: 0,
-  //         percentage: 0,
-  //         ratings: allusers[i].ratings,
-  //         image: allusers[i].image
-  //       })
-  //     }
-
-  //   }
-  //   this.setState({ userscores: userScores })
-  //   this.runTopMatchFinder();
-  // }
-
-
 
   runFindAll = () => {
     API.forTopMatches(this.state.currentuser)
       .then(res => {
-      
+
         let topUsers = [];
         let userNumber;
 
         userNumber = Math.round(res.data.length / 2)
-        console.log(userNumber)
         for (let i = 0; i < userNumber; i++) {
           topUsers.push(res.data[i]);
         }
-        console.log(topUsers)
 
-        if(res.data.length > 4){
-        this.setState({
-          topusers: topUsers,
-          allusers: res.data,
-          userscores: res.data
-        })
-        
-        this.getTopUserRatings();
-      }
+        if (res.data.length > 4) {
+          this.setState({
+            topusers: topUsers,
+            allusers: res.data,
+            userscores: res.data
+          })
+
+          this.getTopUserRatings();
+        }
       })
-      
+
   }
 
 
 
   loadUser = () => {
 
-console.log(this.props.auth.userId)
     API.findUser(this.props.auth.userId).then(res => {
-
-      console.log(res.data)
       let userCritics = res.data.critics
-      console.log(userCritics)
       this.getUserCritics(userCritics);
       this.setState({
         currentuser: res.data,
@@ -522,16 +383,13 @@ console.log(this.props.auth.userId)
     }
 
     )
-   
+
 
   }
 
   componentDidMount() {
 
     this.loadUser();
-    // this.runGetMovieTitles();
-
-
 
   }
 
@@ -549,22 +407,17 @@ console.log(this.props.auth.userId)
 
   addCritic = event => {
     event.preventDefault();
-    
+
     const criticId = event.currentTarget.id;
     const thisId = this.props.auth.userId
     const name = event.currentTarget.name;
-    console.log(criticId)
-    console.log(thisId)
-    console.log(name)
     API.addCritic({
       username: name,
       userId: thisId,
       criticId: criticId
 
     }).then(res => {
-      console.log("added!")
       this.loadUser();
-    // this.runGetMovieTitles();
     }
     )
   }
@@ -590,34 +443,34 @@ console.log(this.props.auth.userId)
         <Row>
           <Col size="md-3">
             <Sidebar title={"Top Movies"}>
-              
-                <div className="top-movies black-border">
-               
-                  <h3>Opening This Week</h3>
-                  <ol>
+
+              <div className="top-movies black-border">
+
+                <h3>Opening This Week</h3>
+                <ol>
                   {this.state.openingmovies.map(res =>
                     <Link key={res.id} to={"/movie/?q=" + res.id}><li>{res.percentage}% {res.title}</li></Link>
-                    )}
-                  </ol>
-                  <h3>Top Box Office</h3>
-                  <ol>
+                  )}
+                </ol>
+                <h3>Top Box Office</h3>
+                <ol>
                   {this.state.topboxoffice.map(res =>
                     <Link key={res.id} to={"/movie/?q=" + res.id}><li>{res.percentage}% {res.title}</li></Link>
-                    )}
-                  </ol>
-                  <h3>Popular Movies</h3>
-                  <ol>
+                  )}
+                </ol>
+                <h3>Popular Movies</h3>
+                <ol>
                   {this.state.popularmovies.map(res =>
                     <Link key={res.id} to={"/movie/?q=" + res.id}><li>{res.percentage}% {res.title}</li></Link>
-                    )}
-                  </ol>
+                  )}
+                </ol>
 
-                  <p className="asterisk">*Metacritic score</p>
-                  
-                </div>
-                
+                <p className="asterisk">*Metacritic score</p>
 
-           
+              </div>
+
+
+
 
 
 
@@ -632,12 +485,12 @@ console.log(this.props.auth.userId)
             >
               {this.state.title === "Top Matches"
                 ? this.state.topusers.length > 4
-                  ?<TopMatches
-                  topusers={this.state.topusers}
-                  addCritic={this.addCritic}
-                  placeholder={Placeholder}
+                  ? <TopMatches
+                    topusers={this.state.topusers}
+                    addCritic={this.addCritic}
+                    placeholder={Placeholder}
                   />
-                  :<div>
+                  : <div>
                     <p>Loading users...</p>
                   </div>
                 : <MyCritics ratings={this.state.topuserratings} critics={this.state.mycritics} />
@@ -647,15 +500,15 @@ console.log(this.props.auth.userId)
           </Col>
           <Col size="md-3">
             <Sidebar title={"Welcome, " + this.state.currentuser.name + "!"}>
-            <div className="black-border padding-xs">
-              <Link to={"/profile"}>
+              <div className="black-border padding-xs">
+                <Link to={"/profile"}>
 
-                <Image cloudName="dmyiazu6p" publicId={this.state.currentuser.image}>
-                  <Transformation width="150" height="150" gravity="faces" crop="fill" />
-                </Image>
-              </Link>
-              <div className="text-center">
-                <Link to={"/profile"}>View profile</Link>
+                  <Image cloudName="dmyiazu6p" publicId={this.state.currentuser.image}>
+                    <Transformation width="150" height="150" gravity="faces" crop="fill" />
+                  </Image>
+                </Link>
+                <div className="text-center">
+                  <Link to={"/profile"}>View profile</Link>
                 </div>
               </div>
             </Sidebar>

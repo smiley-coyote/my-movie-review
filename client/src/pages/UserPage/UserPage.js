@@ -37,7 +37,7 @@ class UserPage extends Component {
   loadUser = () => {
     let user = window.location.pathname;
     user = user.split("/")[2]
-    console.log(user);
+ 
  
   
 

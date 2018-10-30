@@ -65,14 +65,14 @@ class Movie extends Component {
       movie = movie[1]
       API.findUser(this.props.auth.userId).then(res =>{
         const thisMovie = res.data.ratings.filter(rating => rating.imdbID === movie)
-        console.log(thisMovie.length)
+        
         if(thisMovie.length !== 0){
           if(thisMovie[0].review !== undefined){
           const myscore = {
             rating: thisMovie[0].rating,
             review: thisMovie[0].review
           }
-          console.log(myscore)
+          
           this.setState({
             currentuser: res.data,
             currentuserreview: myscore,
@@ -83,7 +83,7 @@ class Movie extends Component {
             rating: thisMovie[0].rating,
             review: null
           }
-          console.log(myscore)
+          
           this.setState({
             currentuser: res.data,
             currentuserreview: myscore,
@@ -137,7 +137,7 @@ class Movie extends Component {
             rating: thisMovie[0].rating,
             review: thisMovie[0].review
           }
-          console.log(myscore)
+          
           this.setState({
             currentuser: res.data,
             currentuserreview: myscore,
@@ -148,7 +148,7 @@ class Movie extends Component {
             rating: thisMovie[0].rating,
             review: null
           }
-          console.log(myscore)
+          
           this.setState({
             currentuser: res.data,
             currentuserreview: myscore,
@@ -195,7 +195,7 @@ class Movie extends Component {
   getCriticScore = () => {
     const criticRatings = this.state.currentcriticratings;
     let thisMovie = this.state.movieholder
-    console.log(criticRatings)
+   
     let score = 0;
     let viewers = 0;
     let percentage = 0;
@@ -229,12 +229,12 @@ class Movie extends Component {
     let thisMovie = this.state.movieholder;
     let thisRatings = [];
 
-    console.log(userCritics)
+    
     let criticRatings = [];
     for (let i = 0; i < userCritics.length; i++) {
       const ratings = userCritics[i].ratings
      thisRatings = ratings.filter( res => res.imdbID === thisMovie.imdbID)
-     console.log(thisRatings)
+   
      if(thisRatings.length !== 0){
       criticReviews.push({username: userCritics[i].name,
       id: thisRatings[0]._id,
@@ -242,19 +242,19 @@ class Movie extends Component {
   review: thisRatings[0].review});
   criticRatings.push(thisRatings[0].rating)
      }
-      console.log(criticReviews)
+      
     
 
     }
   
-    console.log(criticReviews)
+    
     if(criticReviews !== null){
       this.setState({
         currentcriticreviews: criticReviews
       })
     }
     
-    console.log(criticRatings)
+    
     if(criticRatings !== null){
       this.setState({
         currentcriticratings: criticRatings
@@ -272,7 +272,7 @@ class Movie extends Component {
     let movie = window.location.search;
     movie = movie.split("=")
     movie = movie[1]
-    console.log(movie)
+ 
     if(movie !== undefined){
       API.byId(movie).then(res => {
         let thisMovie = res.data;
@@ -288,7 +288,7 @@ class Movie extends Component {
           }
   
         }
-        console.log(thisMovie)
+      
         this.setState({ movie: thisMovie, movieholder: thisMovie, display: true })
   
         this.getUserRating()
@@ -311,11 +311,11 @@ class Movie extends Component {
 
   loadUserCritics = () => {
     const userCritics = this.state.currentuser.critics
-    console.log(userCritics)
+  
     if(userCritics !== undefined){
       for (let i = 0; i < userCritics.length; i++) {
         API.findUser(userCritics[i].criticId).then(res => {
-          console.log(res.data)
+        
           myCritics.push(res.data)
         })
       }
@@ -332,14 +332,14 @@ class Movie extends Component {
     movie = movie[1]
     API.findUser(this.props.auth.userId).then(res =>{
       const thisMovie = res.data.ratings.filter(rating => rating.imdbID === movie)
-      console.log(thisMovie.length)
+    
       if(thisMovie.length !== 0){
         if(thisMovie[0].review !== undefined){
         const myscore = {
           rating: thisMovie[0].rating,
           review: thisMovie[0].review
         }
-        console.log(myscore)
+     
         this.setState({
           currentuser: res.data,
           currentuserreview: myscore
@@ -349,7 +349,7 @@ class Movie extends Component {
           rating: thisMovie[0].rating,
           review: null
         }
-        console.log(myscore)
+      
         this.setState({
           currentuser: res.data,
           currentuserreview: myscore
@@ -366,17 +366,17 @@ class Movie extends Component {
         })
       }
 
-      console.log(this.state.currentuserreview)
+     
       if(movie !== undefined){
         API.byId(movie).then(res => {
-         console.log(res.data)
+         
             const thisMovie = res.data;
           const userId = this.props.auth.userId;
           API.getMovieRatings({
             movie: thisMovie,
             id: userId
           }).then(res =>{
-            console.log(res.data)
+           
             this.setState({
               movie: {
                 Title: res.data.Title,
