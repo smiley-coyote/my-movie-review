@@ -65,17 +65,42 @@ class Movie extends Component {
       movie = movie[1]
       API.findUser(this.props.auth.userId).then(res =>{
         const thisMovie = res.data.ratings.filter(rating => rating.imdbID === movie)
-        console.log(thisMovie)
-        const myscore = {
-          rating: thisMovie[0].rating,
-          review: thisMovie[0].review
+        console.log(thisMovie.length)
+        if(thisMovie.length !== 0){
+          if(thisMovie[0].review !== undefined){
+          const myscore = {
+            rating: thisMovie[0].rating,
+            review: thisMovie[0].review
+          }
+          console.log(myscore)
+          this.setState({
+            currentuser: res.data,
+            currentuserreview: myscore,
+            show: false
+          })
+        } else {
+          const myscore = {
+            rating: thisMovie[0].rating,
+            review: null
+          }
+          console.log(myscore)
+          this.setState({
+            currentuser: res.data,
+            currentuserreview: myscore,
+            show: false
+          })
         }
-        console.log(myscore)
-        this.setState({
-          currentuser: res.data,
-          currentuserreview: myscore,
-          show: false
-        })
+        } else {
+          const myscore = {
+            rating: null,
+            review: null
+          }
+          this.setState({
+            currentuser: res.data,
+            currentuserreview: myscore,
+            show: false
+          })
+        }
       })
      
       
@@ -100,23 +125,47 @@ class Movie extends Component {
       username: username
     }).then(res => {
 
-
       let movie = window.location.search;
       movie = movie.split("=")
       movie = movie[1]
       API.findUser(this.props.auth.userId).then(res =>{
         const thisMovie = res.data.ratings.filter(rating => rating.imdbID === movie)
-        console.log(thisMovie)
-        const myscore = {
-          rating: thisMovie[0].rating,
-          review: thisMovie[0].review
+        console.log(thisMovie.length)
+        if(thisMovie.length !== 0){
+          if(thisMovie[0].review !== undefined){
+          const myscore = {
+            rating: thisMovie[0].rating,
+            review: thisMovie[0].review
+          }
+          console.log(myscore)
+          this.setState({
+            currentuser: res.data,
+            currentuserreview: myscore,
+  
+          })
+        } else {
+          const myscore = {
+            rating: thisMovie[0].rating,
+            review: null
+          }
+          console.log(myscore)
+          this.setState({
+            currentuser: res.data,
+            currentuserreview: myscore,
+  
+          })
         }
-        console.log(myscore)
-        this.setState({
-          currentuser: res.data,
-          currentuserreview: myscore,
-          show: false
-        })
+        } else {
+          const myscore = {
+            rating: null,
+            review: null
+          }
+          this.setState({
+            currentuser: res.data,
+            currentuserreview: myscore,
+  
+          })
+        }
       })
 
 
@@ -285,6 +334,7 @@ class Movie extends Component {
       const thisMovie = res.data.ratings.filter(rating => rating.imdbID === movie)
       console.log(thisMovie.length)
       if(thisMovie.length !== 0){
+        if(thisMovie[0].review !== undefined){
         const myscore = {
           rating: thisMovie[0].rating,
           review: thisMovie[0].review
@@ -295,8 +345,24 @@ class Movie extends Component {
           currentuserreview: myscore
         })
       } else {
+        const myscore = {
+          rating: thisMovie[0].rating,
+          review: null
+        }
+        console.log(myscore)
         this.setState({
-          currentuser: res.data
+          currentuser: res.data,
+          currentuserreview: myscore
+        })
+      }
+      } else {
+        const myscore = {
+          rating: null,
+          review: null
+        }
+        this.setState({
+          currentuser: res.data,
+          currentuserreview: myscore
         })
       }
 
@@ -365,29 +431,33 @@ class Movie extends Component {
       <div className="row">
         <div className="col-md-12">
           <MovieDisplay
-            data={this.state.movie}
+            movie={this.state.movie}
             critics={this.state.currentcriticreviews}
             user={this.state.currentuserreview}
           >
 
-            {this.state.currentuserreview.rating === undefined
-              ? <div className="star-rating">
+            {this.state.currentuserreview.rating === null
+              ? <div className="movie-star-rating">
+              <h3>Please rate:</h3>
+              <div className="your-rating-stars">
                 <fieldset title={this.state.movie.Title} image={this.state.movie.Poster} className="rating-movie" name={this.state.movie.imdbID} onClick={this.handleRatingInputChange}>
-                  <h3>Please rate:</h3>
+                  
                   <input type="radio" id="star4" name="rating" value="4" /><label htmlFor="4"></label>
                   <input type="radio" id="star3" name="rating" value="3" /><label htmlFor="3"></label>
                   <input type="radio" id="star2" name="rating" value="2" /><label htmlFor="2"></label>
                   <input type="radio" id="star1" name="rating" value="1" /><label htmlFor="1"></label>
                 </fieldset>
+                </div>
               </div>
               : <span></span>
             }
-            {this.state.currentuserreview.review !== undefined
+            {this.state.currentuserreview.review !== null
               ? <p><span className="head-text">Your Review:</span>
                 <br />
+                <br />
                 {this.state.currentuserreview.review}</p>
-              : this.state.currentuserreview.rating !== undefined
-                ? <Button id={this.state.movie.imdbID} name={this.state.movie.Title} bsStyle="primary" bsSize="large" onClick={() => this.handleShow(this.state.movie.imdbID, this.state.movie.Title, this.state.movie.Poster)}>
+              : this.state.currentuserreview.rating !== null
+                ? <Button id={this.state.movie.imdbID} name={this.state.movie.Title} className="button-review-submit" bsSize="large" onClick={() => this.handleShow(this.state.movie.imdbID, this.state.movie.Title, this.state.movie.Poster)}>
                   Add A Review
                     </Button>
                 : <span></span>

@@ -1,5 +1,5 @@
 .checked {
-  color: orange;
+  color: #fac21c;
 }
 
 .my-reviews img {
@@ -45,4 +45,6 @@
   margin: 0 auto;
 }
 
-
+#update-button{
+  margin-left: 40px;
+}

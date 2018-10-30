@@ -34,7 +34,9 @@ class Profile extends Component {
       movieThree: "",
       movieFour: "",
       movieFive: "",
-      dropdown: false
+      dropdown: false,
+      title: "My Reviews",
+      selection: "My Critics"
     };
   }
 
@@ -104,7 +106,13 @@ class Profile extends Component {
     console.log(this.props.auth.userId)
 
     API.findUser(this.props.auth.userId).then(res => {
+console.log(res.data.critics)
       this.setState({ currentuser: res.data })
+      if(res.data.critics !== undefined){
+        this.setState({
+          dropdown: true
+        })
+      }
       this.runUserRatings();
     })
 
@@ -161,6 +169,30 @@ class Profile extends Component {
     })
   }
 
+  handleSelection = event => {
+    event.preventDefault();
+    if (this.state.title === "My Reviews") {
+      this.setState({
+        title: "My Critics",
+        selection: "My Reviews"
+      })
+    }
+    if (this.state.title === "My Critics") {
+      this.setState({
+        title: "My Reviews",
+        selection: "My Critics"
+      })
+    }
+  }
+  
+  handleDelete = data =>{
+    console.log(data)
+    API.deleteCritic(data).then(res =>{
+      console.log(res.data + " deleted!")
+    })
+    this.loadUser();
+  }
+
   render() {
     return (
       <div>
@@ -177,11 +209,11 @@ class Profile extends Component {
                       <li key={res}>{res}</li>
 
                     )}
-                       <button onClick={this.handleUpdateMovies}>update</button>
+                       <button id="update-button" className="update-btn" onClick={this.handleUpdateMovies}>Update</button>
                   </ol>
                  
-                  : <div className="text-align-center"><p>Add top 5 movies</p></div>
-                : <span></span>
+                  : null
+                : null
                 }
                 
                 {this.state.showedit === true
@@ -234,64 +266,88 @@ class Profile extends Component {
             </Col>
 
             <Col size="md-6">
-              <Mainbody dropdown={this.state.dropdown}>
-              <div className="black-border padding-xs">
-                {this.state.userratings !== []
-                  ? <div>
-                    {this.state.userratings.map(res =>
-                      <div className="my-reviews" key={res.imdbID}>
-                        <Link to={"/movie/?q=" + res.imdbID}>
-                          <img alt={res.title} src={res.poster} />
-                        </Link>
-                        <div className="reviews-title">
-                          <h3>{res.title}</h3>
-                        </div>
-                        <div className="reviews-body">
-                          <div className="border-box">
-                            <p>My rating:</p>
-                            {res.rating === 1
+              <Mainbody dropdown={this.state.dropdown}
+                handleSelection={this.handleSelection}
+                dropdown={this.state.dropdown}
+                title={this.state.title}
+                selection={this.state.selection}
+              >
+              {this.state.title === "My Reviews"
+              ?<div className="black-border padding-xs">
+              {this.state.userratings !== []
+                ? <div>
+                  {this.state.userratings.map(res =>
+                    <div className="my-reviews" key={res.imdbID}>
+                      <Link to={"/movie/?q=" + res.imdbID}>
+                        <img alt={res.title} src={res.poster} />
+                      </Link>
+                      <div className="reviews-title">
+                        <h3>{res.title}</h3>
+                      </div>
+                      <div className="reviews-body">
+                        <div className="border-box">
+                          <p>My rating:</p>
+                          {res.rating === 1
+                            ? <p><span className="fa fa-star checked"></span>
+                              <span className="fa fa-star"></span>
+                              <span className="fa fa-star"></span>
+                              <span className="fa fa-star"></span></p>
+                            : res.rating === 2
                               ? <p><span className="fa fa-star checked"></span>
-                                <span className="fa fa-star"></span>
+                                <span className="fa fa-star checked"></span>
                                 <span className="fa fa-star"></span>
                                 <span className="fa fa-star"></span></p>
-                              : res.rating === 2
+                              : res.rating === 3
                                 ? <p><span className="fa fa-star checked"></span>
                                   <span className="fa fa-star checked"></span>
-                                  <span className="fa fa-star"></span>
+                                  <span className="fa fa-star checked"></span>
                                   <span className="fa fa-star"></span></p>
-                                : res.rating === 3
-                                  ? <p><span className="fa fa-star checked"></span>
+                                : res.rating === 4
+                                  ? <p>
                                     <span className="fa fa-star checked"></span>
                                     <span className="fa fa-star checked"></span>
-                                    <span className="fa fa-star"></span></p>
-                                  : res.rating === 4
-                                    ? <p>
-                                      <span className="fa fa-star checked"></span>
-                                      <span className="fa fa-star checked"></span>
-                                      <span className="fa fa-star checked"></span>
-                                      <span className="fa fa-star checked"></span>
-                                    </p>
-                                    : <p>Rating Unavailable</p>
-                            }
-                            {res.review !== undefined
-                              ? <p>{res.review}
-                                <br />
-                                -{this.state.currentuser.name}
-                              </p>
-                              : <p></p>
-                            }
-                          </div>
+                                    <span className="fa fa-star checked"></span>
+                                    <span className="fa fa-star checked"></span>
+                                  </p>
+                                  : <p>Rating Unavailable</p>
+                          }
+                          {res.review !== undefined
+                            ? <p>{res.review}
+                              <br />
+                              -{this.state.currentuser.name}
+                            </p>
+                            : <p></p>
+                          }
                         </div>
-
                       </div>
-                    )}
-                  </div>
-                  : <div>
-                    <p>No Ratings Available</p>
-                  </div>
 
-                }
+                    </div>
+                  )}
                 </div>
+                : <div>
+                  <p>No Ratings Available</p>
+                </div>
+
+              }
+              </div>
+              : <div className="black-border padding-xs">
+              {this.state.currentuser.critics.map(res =>{
+                 return <div key={res.criticId}>
+                 <div className="float-left">
+                   <Link to={"/user/" + res._id}>
+            <Image cloudName="dmyiazu6p" publicId={res.image}>
+              <Transformation width="100" height="100" gravity="faces" crop="fill" />
+            </Image>
+            </Link>
+            </div>
+            <Link to={"/user/" + res.criticId}>
+                  <p>{res.username}</p>
+                  </Link>
+                  <button className="update-btn" onClick={() => this.handleDelete(res._id)}>delete critic</button>
+                  </div>
+              })}
+              </div>
+            }
               </Mainbody>
             </Col>
             <Col size="md-3">
@@ -300,7 +356,7 @@ class Profile extends Component {
                 <Image cloudName="dmyiazu6p" publicId={this.state.currentuser.image}>
                   <Transformation width="150" height="150" gravity="faces" crop="fill" />
                 </Image>
-                <button onClick={this.handleShow}>Update Picture</button>
+                <button className="update-btn" onClick={this.handleShow}>Update Picture</button>
                 </div>
               </Sidebar>
             </Col>

@@ -177,6 +177,22 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  deleteCritic: function(req, res){
+    db.Critic
+    .deleteOne({ _id: req.params.id })
+    .then(dbCritic => {
+      console.log(req.params.id)
+      return db.User
+      .findOneAndUpdate({ _id: req.user._id }, { $pull: { critics: req.params.id } }, function (err, doc) {
+        if (err) {
+          console.log("Something wrong when deleting critic!");
+        }
+        console.log(doc);
+      } )
+    })
+    .then(dbCritic => res.json(dbCritic))
+    .catch(err => res.status(422).json(err));
+  },
   movieRatings: function (req, res) {
     db.User
     .findById(req.body.id)
@@ -186,19 +202,23 @@ module.exports = {
       db.User
       .find({_id: thisUser.critics.map(critics => critics.criticId)})
       .populate("ratings")
-      .then( userCritics =>
+      .then( userCritics => 
          userCritics.map(critic => 
-          critic.ratings.filter(rating => rating.imdbID === req.body.movie.imdbID)
+          critic.ratings.filter(rating => 
+            rating.imdbID === req.body.movie.imdbID)
         )
       ).then( criticRatings => {
         const thisMovie = req.body.movie
         thisMovie.currentUser = thisUser
-        thisMovie.criticRatings = criticRatings
+        
         let writeups = [];
         let score = 0;
         let viewers = 0;
         let percentage = 0;
+        console.log(criticRatings)
+       
         for (let i = 0; i < criticRatings.length; i++) {
+          if(criticRatings[i][0]!==undefined){
           if (criticRatings[i][0].rating > 2) {
             score = score += 1
             viewers += 1
@@ -209,7 +229,7 @@ module.exports = {
               name: criticRatings[i][0].username,
               rating: criticRatings[i][0].rating,
               review: criticRatings[i][0].review,
-            _id: criticRatings[i][0].criticId})
+            _id: criticRatings[i][0]._userId})
   
           }
           //  if(criticRatings[i][0].review !== undefined){
@@ -218,7 +238,7 @@ module.exports = {
           //    rating: criticRatings[i][0].rating,
           //    review: criticRatings[i][0].review})
           // }
-          else {
+          else if (criticRatings[i][0].rating < 3){
             viewers += 1;
             percentage = (score / viewers) * 100
             percentage = Math.round(percentage)
@@ -227,11 +247,14 @@ module.exports = {
               name: criticRatings[i][0].username,
               rating: criticRatings[i][0].rating,
               review: criticRatings[i][0].review,
-              _id: criticRatings[i][0].criticId
+              _id: criticRatings[i][0]._userId
             })
-          }
-  
+          } 
+          
         }
+        
+        }
+      
         thisMovie.writeups = writeups
         return thisMovie
       }).then(dbModel => res.json(dbModel))

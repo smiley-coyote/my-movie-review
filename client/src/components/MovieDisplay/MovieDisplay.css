@@ -18,7 +18,7 @@
 .movie-info {
   background-color: #ffffff;
   padding: 5px;
-  border-radius: 5px;
+  border-radius: 2px;
 
 }
 
@@ -59,11 +59,11 @@
   overflow: scroll;
   background-color: #ffffff;
   height: 200px;
-  width: 400px;
-  margin-right: 1%;
-  margin-top: 1%;
-  float: right;
-  border-radius: 5px;
+  width: 330px;
+ 
+
+  
+  border-radius: 2px;
 }
 
 .critic-review-content{
@@ -73,16 +73,15 @@
 }
 
 .my-review{
-  position: absolute;
-  width: 250px;
+  
+  width: 330px;
   height: 200px;
-  margin-left: 38%;
-  margin-right: 38%;
-  margin-top: 20%;
-  background-color: rgb(247, 247, 247);
+  text-align: center;
+
+  background-color: white;
   padding: 2%;
   overflow: scroll;
-  border-radius: 5px;
+  border-radius: 2px;
 }
 
 .critic-review-body{

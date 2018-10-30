@@ -8,7 +8,7 @@
 }
 
 .navbar {
-  background-color: rgb(173, 117, 173);
+  background-color: #8766CC;
   margin: 0;
   height: 53px;
 }
@@ -23,12 +23,13 @@
 }
 
 .navbar form {
-  margin-left: 30%;
+  margin-left: 23%;
 }
 
-.mmrdb-logo{
+.mcr-logo{
   font-size: 1.2em;
   color: gold;
+  
  
   text-shadow:
 		-1px -1px 0 #000,
@@ -38,7 +39,11 @@
 }
 
 .navbar-brand {
-  background-color: #723972;
+  background-color: #54407F;
+}
+
+.navbar-header {
+  text-align: center;
 }
 
 

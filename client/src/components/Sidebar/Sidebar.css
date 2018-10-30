@@ -1,5 +1,5 @@
 .sidebar {
-  background-color: rgb(238, 231, 252);
+  background-color: #eee7fb;
   height: auto;
   width: auto;
   border-radius: 3px;
@@ -11,7 +11,7 @@
 }
 
 .panel-heading {
-  background-color: rgb(172,119,172);
+  background-color: #8766CC;
   color: white;
 }
 

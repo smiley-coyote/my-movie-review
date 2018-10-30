@@ -1,7 +1,12 @@
 .rating-movie {
   
-  margin-bottom: 30px;
+  margin-left: 0 auto;
   
+}
+
+.your-rating-stars{
+  width: 70%;
+  margin: 0 auto;
 }
 
 .rating-movie input {
@@ -76,7 +81,8 @@
   margin-top: 10%;
 }
 
-.star-rating {
+.movie-star-rating {
+  text-align: center;
   width: 100%;
   margin: 0 auto;
 
@@ -86,9 +92,7 @@
  text-align: center;
 }
 
-.checked {
-  color: orange;
-}
+
 
 .head-text {
   font-weight: bold;
@@ -97,4 +101,24 @@
 .review-window-contents{
   width: 50%;
   margin: 0 auto;
+}
+
+.button-review-submit {
+  background-color: #8766CC;
+  color: white;
+}
+
+.button-review-submit:hover {
+  background-color: #DDCCFF;
+  color: white;
+}
+
+.button-review-submit:active {
+  background-color: #DDCCFF;
+  color: white;
+}
+
+.button-review-submit:focus {
+  background-color: #DDCCFF;
+  color: white;
 }

@@ -68,6 +68,16 @@
 
 
 .movie-img img{
-  height: 260px;
+  height: 360px;
   width: auto;
+}
+
+.movie-img{
+  height: 360px;
+  width: 260px;
+  overflow: scroll;
+}
+
+.search-content{
+  margin-top: 0;
 }

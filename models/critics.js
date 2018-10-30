@@ -3,7 +3,10 @@ const Schema = mongoose.Schema;
 
 const criticSchema = new Schema({
   username: { type: String, required: true},
-  userId: {type: String, required: true},
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  },
   criticId: {type: String, required: true}
 });
 

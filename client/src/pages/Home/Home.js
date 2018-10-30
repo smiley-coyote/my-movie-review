@@ -655,7 +655,7 @@ console.log(this.props.auth.userId)
                 </Image>
               </Link>
               <div className="text-center">
-                <Link to={"/profile"}>view profile</Link>
+                <Link to={"/profile"}>View profile</Link>
                 </div>
               </div>
             </Sidebar>

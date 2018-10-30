@@ -5,19 +5,22 @@
   height: 100%;
 }
 
-.panel-heading {
-  background-color: rgb(173, 117, 173);
-}
 
 
 .search-results{
   width: 100%;
   height: 100%;
   margin: 0 auto;
+  
 }
 
 .panel-small{
   width: 80%;
   margin: 0 auto;
 }
+
+.results-body{
+  background-color: rgb(238, 231, 252);
+}
+
 

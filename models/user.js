@@ -6,6 +6,7 @@ const User = new Schema({
   name: { type: String, required: true},
   image: { type: String, required: true},
   survey: { type: Array, of: Number},
+  watchlist: {type: Array, of: String},
   ratings: [
     {
       type: Schema.Types.ObjectId,

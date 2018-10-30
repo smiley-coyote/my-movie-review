@@ -58,5 +58,8 @@ export default {
   },
   getMovieRatings: function(data){
     return axios.post("/api/rating/all" , data)
+  },
+  deleteCritic: function(id){
+    return axios.delete("/api/critic/" + id);
   }
 };

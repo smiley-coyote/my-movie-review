@@ -220,11 +220,11 @@ class Search extends Component {
               <Col size="md-8">
                 <div className="search-content">
                   <h2>{result.Title} ({result.Year})</h2>
-                  <p>{result.Plot}</p>
-                  <p></p>
+              
+                 
                 </div>
                 <Row>
-                  <Col size="md-4">
+                  <Col size="md-3">
                     <div className="your-rating">
 
                       {result.yourRating === undefined
@@ -273,7 +273,7 @@ class Search extends Component {
                                   <span className="fa fa-star checked"></span>
                                   <span className="fa fa-star checked"></span>
                                 </p>
-                                : <p>Your Rating is not available at this time</p>
+                                : null
                       }
 
 
@@ -282,7 +282,7 @@ class Search extends Component {
                           <br />
                           {result.yourReview}</p>
                         : result.yourRating !== undefined
-                          ? <Button id={result.imdbID} name={result.Title} bsStyle="primary" bsSize="large" onClick={() => this.handleShow(result.imdbID, result.Title, result.Poster)}>
+                          ? <Button id={result.imdbID} name={result.Title} className="button-review-submit" bsSize="large" onClick={() => this.handleShow(result.imdbID, result.Title, result.Poster)}>
                             Add A Review
                 </Button>
                           : <p>Rate Movie Before Writing Review</p>

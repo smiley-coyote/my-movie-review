@@ -32,7 +32,7 @@ class Navbar extends Component {
      
         <div className="container-fluid">
           <div className="navbar-header">
-            <a className="navbar-brand" href="/home"><span className="mmrdb-logo">MMRDb</span></a>
+            <a className="navbar-brand" href="/home"><span className="mcr-logo">My Critic Review</span></a>
           </div>
           
           <ul className="nav navbar-nav">
