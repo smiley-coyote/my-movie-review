@@ -16,21 +16,21 @@ import { Link } from "react-router-dom";
 let userCritics = [];
 const openingMovies =[
   {
-    title: "Halloween",
-    id: "tt1502407",
+    title: "Bohemian Rhapsody",
+    id: "tt1727824",
+    viewers: 0,
+    score: 0,
+    percentage: 0,
+    metacritic: 50,
+    reviewed: false
+  },
+  {
+    title: "Boy Erased",
+    id: "tt7008872",
     viewers: 0,
     score: 0,
     percentage: 0,
     metacritic: 68,
-    reviewed: false
-  },
-  {
-    title: "The Old Man & the Gun",
-    id: "tt2837574",
-    viewers: 0,
-    score: 0,
-    percentage: 0,
-    metacritic: 79,
     reviewed: false
   },
   {
@@ -45,12 +45,12 @@ const openingMovies =[
 ];
 const topBoxOffice = [
   {
-    title: "Venom",
-    id: "tt1270797",
+    title: "Halloween",
+    id: "tt1502407",
     viewers: 0,
     score: 0,
     percentage: 35,
-    metacritic: 0,
+    metacritic: 66,
     reviewed: false
   },
   {
@@ -63,30 +63,30 @@ const topBoxOffice = [
     reviewed: false
   },
   {
-    title: "First Man",
-    id: "tt1213641",
+    title: "Venom",
+    id: "tt1270797",
     viewers: 0,
     score: 0,
     percentage: 0,
-    metacritic: 84,
+    metacritic: 35,
     reviewed: false
   },
   {
-    title: "Smallfoot",
-    id: "tt6182908",
+    title: "Goosebumps 2...",
+    id: "tt5664636",
     viewers: 0,
     score: 0,
     percentage: 0,
-    metacritic: 60,
+    metacritic: 53,
     reviewed: false
   },
   {
-    title: "Night School",
-    id: "tt6781982",
+    title: "Hunter Killer",
+    id: "tt1846589",
     viewers: 0,
     score: 0,
     percentage: 0,
-    metacritic: 43,
+    metacritic: 42,
     reviewed: false
   }
 ];
@@ -128,7 +128,7 @@ const popularMovies =[
     reviewed: false
   },
   {
-    title: "Jurassic World: Fallen Kingdom",
+    title: "Jurassic World: Fallen...",
     id: "tt4881806",
     viewers: 0,
     score: 0,
